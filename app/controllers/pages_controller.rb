@@ -8,7 +8,7 @@ class PagesController < ApplicationController
      @team = [
       { name: "Brenda Silva",
         github: "https://github.com/brendaamsilva",
-        linkedin: "https://www.linkedin.com/in/cristiano-pizarro/",
+        linkedin: "https://www.linkedin.com/in/brendaamsilva",
         image: "team/brenda.jpg"},
 
       { name: "Caio Figueiredo",
