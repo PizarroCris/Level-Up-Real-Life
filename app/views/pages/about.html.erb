@@ -1,0 +1,36 @@
+<h1 class="text-center mt-5">About Us</h1>
+
+<div class="card mx-auto my-4 rounded-5"
+     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
+    ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.
+  </p>
+
+  <div class="d-flex justify-content-around mt-4">
+    <% @team.each do |member| %>
+      <div class="text-center">
+        <!-- rounded avatar -->
+        <%= image_tag member[:image],
+              class: "rounded-circle mb-2",
+              style: "width: 60px; height: 60px; object-fit: cover; object-fit: cover;" %>
+
+        <p><%= member[:name] %></p>
+
+        <!-- GitHub -->
+        <% if member[:github] %>
+          <a href="<%= member[:github] %>" target="_blank" class="text-dark me-2 text-decoration-none">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        <% end %>
+
+        <!-- Linkedin -->
+        <% if member[:linkedin] %>
+          <a href="<%= member[:linkedin] %>" target="_blank" class="text-blue text-decoration-none">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
