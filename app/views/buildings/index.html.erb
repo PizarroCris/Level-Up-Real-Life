@@ -1,0 +1,21 @@
+<h1 class="text-center mt-5">My buildings</h1>
+
+<div class="container mt-4"> <!-- 👈 limits the width -->
+  <div class="row justify-content-center">
+    <% @buildings.each do |building| %>
+      <div class="col-md-4 mb-4">
+        <div class="card rounded-5"
+             style="padding: 20px; box-shadow: 0 4px 12px #666;">
+          <div class="card-body text-center">
+            <h5 class="card-title"><%= building.building_type.titleize %></h5>
+            <p class="card-text">Level <%= building.level %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <%= link_to "Add a Building", new_building_path, class: "btn btn-primary" %>
+</div>
