@@ -7,5 +7,7 @@ Rails.application.routes.draw do
 
   get "about", to: "pages#about", as: :about
 
+  get "leaderboard", to: "leaderboards#index"
+
   root to: "pages#home"
 end
