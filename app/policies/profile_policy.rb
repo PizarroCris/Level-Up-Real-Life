@@ -1,0 +1,41 @@
+class ProfilePolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      if user.admin
+        scope.all
+      else
+        scope.where(user: user)
+      end
+    end
+  end
+
+  def show?
+    true
+  end
+
+  def create?
+    user.profile.nil?
+  end
+
+  def new?
+    create?
+  end
+
+  def update?
+    owner?
+  end
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    owner?
+  end
+
+  private
+
+  def owner?
+    record.user == user || user.admin
+  end
+end
