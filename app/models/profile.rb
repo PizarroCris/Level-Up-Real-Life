@@ -7,12 +7,6 @@ class Profile < ApplicationRecord
   has_many :equipments, dependent: :destroy
   has_many :troops, through: :buildings
 
-  TROOP_STATS = {
-    archer: { attack: 15, defense: 5 },
-    cavalry: { attack: 20, defense: 10 },
-    swordsman: { attack: 10, defense: 15 }
-  }
-
   def total_attack
     base_attack + troop_attack_bonus + equipment_attack_bonus
   end
@@ -37,33 +31,33 @@ class Profile < ApplicationRecord
 
   def troop_attack_bonus
     total = 0
-    buildings.each do |building|
-      next unless building.type == "barracks"
-
-      building.troops.each do |troop|
-        total += TROOP_STATS[troop.type.to_sym][:attack] * (1 + troop.level * 0.01)
-      end
+    troops.each do |troop|
+      total += troop.attack_value
     end
     total
   end
 
   def troop_defense_bonus
     total = 0
-    buildings.each do |building|
-      next unless building.type == "barracks"
-
-      building.troops.each do |troop|
-        total += TROOP_STATS[troop.type.to_sym][:defense] * (1 + troop.level * 0.01)
-      end
+    troops.each do |troop|
+      total += troop.defense_value
     end
     total
   end
 
   def equipment_attack_bonus
-    equipments.sum(&:attack)
+    total = 0
+    equipments.each do |equipment|
+      total += equipment.attack
+    end
+    total
   end
 
   def equipment_defense_bonus
-    equipments.sum(&:defense)
+    total = 0
+    equipments.each do |equipment|
+      total += equipment.defense
+    end
+    total
   end
 end
