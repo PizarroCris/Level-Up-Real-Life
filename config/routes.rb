@@ -7,5 +7,5 @@ Rails.application.routes.draw do
 
   get "about", to: "pages#about", as: :about
 
-  root to: "devise/sessions#new"
+  root to: "pages#home"
 end
