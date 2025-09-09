@@ -1,0 +1,12 @@
+<h1 class="text-center mt-5">New Building</h1>
+<div class="card mx-auto my-4 rounded-5"
+     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+<%= simple_form_for @building do |f| %>
+  <%= f.input :building_type,
+              label: "Type",
+              collection: Building::BUILDING_TYPES.map { |t| [t.titleize, t] },
+              prompt: "Choose a building" %>
+
+  <%= f.button :submit, "Create", class: "btn btn-primary"%>
+<% end %>
+</div>
