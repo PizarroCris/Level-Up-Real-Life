@@ -1,0 +1,10 @@
+.bg-interface {
+  background-image: image-url("artwork.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: calc(100vh - 50px);
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
