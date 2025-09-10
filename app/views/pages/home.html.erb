@@ -1,3 +1,37 @@
+<div class="landing-page-container">
+  <h1>Welcome Level-Up Real Life!</h1>
+  <p>The game where your real life levels up.</p>
+  
+  <% if user_signed_in? %>
+    <%= link_to "Entrar no Jogo", user_base_path, class: "btn btn-primary" %>
+  <% else %>
+    <%= link_to "Registar", new_user_registration_path, class: "btn btn-primary" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>
+
+<!--
+<div class="base-container">
+  <% @plots.each do |plot| %>
+    <% building = @profile.buildings.find_by(plot: plot) %>
+
+    <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>"
+         style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
+
+      <% if building %>
+        <%= link_to building_path(building) do %>
+          <%= image_tag "buildings/#{building.building_type}.png" %>
+        <% end %>
+      <% else %>
+        <%= link_to new_building_path(plot_id: plot.id) do %>
+          <span>+</span>
+        <% end %>
+      <% end %>
+
+    </div>
+  <% end %>
+</div>
+
 <div class="container p-3" data-controller="inventory">
   <div class="d-flex justify-content-between">
     <div class="text-danger fs-3"><%= "LEVEL" %></div>
@@ -48,3 +82,4 @@
     </div>
   </div>
 </div>
+-->

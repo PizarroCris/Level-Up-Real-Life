@@ -1,5 +1,6 @@
 class Building < ApplicationRecord
   belongs_to :profile
+  belongs_to :plot
   has_many :troops, dependent: :destroy
 
   BUILDING_TYPES = %w[castle barracks quarry sawmill mine]

@@ -1,0 +1,29 @@
+<div class="player-hud">
+  <h1>Base de <%= @profile.username %> (Nível <%= @profile.level %>)</h1>
+  <div class="resources">
+    <span>🌲 Madeira: <%= @profile.wood %></span>
+    <span>⛰️ Pedra: <%= @profile.stone %></span>
+    <span>🔩 Metal: <%= @profile.metal %></span>
+  </div>
+</div>
+
+<div class="base-container">
+  <% @plots.each do |plot| %>
+    <% building = @buildings_by_plot_id[plot.id] %>
+    <div
+      class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>"
+      style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;"
+    >
+      <% if building %>
+        <%= link_to building_path(building) do %>
+          <%= image_tag "buildings/#{building.building_type}.png", alt: building.building_type %>
+          <div class="building-level-badge"><%= building.level %></div>
+        <% end %>
+      <% else %>
+        <%= link_to new_building_path(plot_id: plot.id) do %>
+          <span>+</span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
