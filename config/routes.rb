@@ -11,5 +11,7 @@ Rails.application.routes.draw do
 
   get "leaderboard", to: "leaderboards#index"
 
+  get "/base", to: "bases#show", as: :user_base
+
   root to: "pages#home"
 end
