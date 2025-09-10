@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   resources :profiles
 
-  resources :buildings, only: [:new, :create, :index]
+  resources :buildings, only: [:new, :create, :index] do
+    resources :troops, only: [:new, :create, :index]
+  end
 
   get "about", to: "pages#about", as: :about
 
