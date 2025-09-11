@@ -5,9 +5,11 @@ Rails.application.routes.draw do
 
   resources :profiles
 
-  resources :buildings, only: [:new, :create, :index]
+  resources :buildings, only: [:new, :create, :show]
 
   get "about", to: "pages#about", as: :about
+  
+  get "settings", to: "pages#settings"
 
   get "leaderboard", to: "leaderboards#index"
 
