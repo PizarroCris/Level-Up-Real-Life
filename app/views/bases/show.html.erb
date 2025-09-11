@@ -10,15 +10,12 @@
 <div class="base-container">
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
-    <div
-      class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>"
-      style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;"
-    >
+    <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
       <% if building %>
         <%= link_to building_path(building) do %>
           <%
             folder = building.building_type.pluralize
-            filename = "#{building.building_type}#{format('%02d', building.level)}.png" # "barrack" + "01" -> "barrack01.png"
+            filename = "#{building.building_type}#{format('%02d', building.level)}.png"
             image_path = "buildings/#{folder}/#{filename}"
           %>
           <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
@@ -31,4 +28,19 @@
       <% end %>
     </div>
   <% end %>
+</div>
+
+<div class="container p-3 fixed-bottom" data-controller="inventory">
+  
+  <%= render 'inventory_popup' %>
+  <%= render 'menu_popup' %>
+  <%= render 'shop_popup' %>
+
+  <div class="d-flex justify-content-between">
+    <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
+    <div class="d-flex gap-2">
+      <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
+      <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+    </div>
+  </div>
 </div>
