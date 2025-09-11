@@ -9,6 +9,19 @@
           <div class="card-body text-center">
             <h5 class="card-title"><%= building.building_type.titleize %></h5>
             <p class="card-text">Level <%= building.level %></p>
+
+            <% if building.building_type == "barracks" %>
+              <%= link_to "Build Details", building_troops_path(building), class: "btn btn-primary" %>
+            <% end %>
+
+            <% if building.building_type == "castle" %>
+              <%= link_to "Build Details", "", class: "btn btn-primary" %> <!-- precisa colocar o path certo -->
+            <% end %>
+
+            <% if building.building_type == "mine" %>
+              <%= link_to "Build Details", "", class: "btn btn-primary" %> <!-- precisa colocar o path certo -->
+            <% end %>
+
           </div>
         </div>
       </div>
