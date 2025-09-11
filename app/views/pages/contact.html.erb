@@ -1,0 +1,29 @@
+<h1 class="text-center mt-5">Contact Us</h1>
+
+<div class="card mx-auto my-4 rounded-5"
+     style="max-width: 800px; padding: 20px; box-shadow: 0 4px 12px #666;">
+  <p class="text-center">
+    Reach out directly to any of us:
+  </p>
+
+  <div class="d-flex flex-wrap justify-content-around mt-4">
+    <% @team.each do |member| %>
+      <div class="text-center m-3">
+        <%= image_tag member[:image],
+              class: "rounded-circle mb-2",
+              style: "width: 80px; height: 80px; object-fit: cover;" %>
+
+        <p class="fw-bold mb-1"><%= member[:name] %></p>
+
+        <% if member[:email] %>
+          <p>
+            <a href="mailto:<%= member[:email].gsub('(at)', '@') %>"
+               class="text-decoration-none text-dark">
+              <%= member[:email].gsub('(at)', '@') %>
+            </a>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
