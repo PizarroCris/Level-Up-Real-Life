@@ -1,7 +1,4 @@
 class Profile < ApplicationRecord
-  DEFAULT_ATTACK = 100
-  DEFAULT_DEFENSE = 100
-
   belongs_to :user
   has_many :buildings, dependent: :destroy
   has_many :equipments, dependent: :destroy
@@ -59,5 +56,13 @@ class Profile < ApplicationRecord
       total += equipment.defense
     end
     total
+  end
+
+  private
+
+   def speed_bonus
+    equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
+    level_bonus = self.level * 0.01
+    equipment_bonus + level_bonus
   end
 end
