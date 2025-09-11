@@ -2,7 +2,6 @@ class Troop < ApplicationRecord
   belongs_to :building
   has_one :profile, through: :building
 
-  before_validation :set_stats
   before_validation :set_stats_from_constant
 
   validates :troop_type, presence: true
