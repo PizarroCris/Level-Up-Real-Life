@@ -32,6 +32,12 @@ class BuildingsController < ApplicationController
     authorize @building
   end
 
+  def edit
+  end
+
+  def update
+  end
+
   private
 
   def ensure_profile!
