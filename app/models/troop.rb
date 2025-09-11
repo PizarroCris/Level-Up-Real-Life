@@ -3,23 +3,53 @@ class Troop < ApplicationRecord
   has_one :profile, through: :building
 
   before_validation :set_stats
+  before_validation :set_stats_from_constant
 
   validates :troop_type, presence: true
 
   TROOP_STATS = {
-    archer: { attack: 15, defense: 5 },
-    cavalry: { attack: 20, defense: 10 },
-    swordsman: { attack: 10, defense: 15 }
-  }
+    swordsman: {
+      1 => { attack: 10, defense: 15, speed: 1.2 },
+      2 => { attack: 14, defense: 21, speed: 1.3 },
+      3 => { attack: 20, defense: 30, speed: 1.4 },
+      4 => { attack: 28, defense: 42, speed: 1.5 },
+      5 => { attack: 40, defense: 60, speed: 1.6 }
+    },
+    archer: {
+      1 => { attack: 15, defense: 5,  speed: 0.9 },
+      2 => { attack: 21, defense: 7,  speed: 1.0 },
+      3 => { attack: 30, defense: 10, speed: 1.1 },
+      4 => { attack: 42, defense: 14, speed: 1.2 },
+      5 => { attack: 60, defense: 20, speed: 1.3 }
+    },
+    cavalry: {
+      1 => { attack: 20, defense: 10, speed: 0.6 },
+      2 => { attack: 28, defense: 14, speed: 0.7 },
+      3 => { attack: 40, defense: 20, speed: 0.8 },
+      4 => { attack: 56, defense: 28, speed: 0.9 },
+      5 => { attack: 80, defense: 40, speed: 1.0 }
+    }
+  }.freeze
+
+  validates :troop_type, inclusion: { in: TROOP_STATS.keys.map(&:to_s) }
+  validates :level, inclusion: { in: [1, 2, 3, 4, 5] }
+
+
+  def travel_time_for_distance(distance)
+    self.speed * distance
+  end
 
   private
 
-  def set_stats
-    return unless troop_type.present?
-    skills = TROOP_STATS[troop_type.to_sym]
-    if skills
-      self.attack = skills[:attack] * (1 + level * 0.01)
-      self.defense = skills[:defense] * (1 + level * 0.01)
+  def set_stats_from_constant
+    return unless troop_type.present? && level.present?
+
+    stats = TROOP_STATS[self.troop_type.to_sym][self.level]
+
+    if stats
+      self.attack  = stats[:attack]
+      self.defense = stats[:defense]
+      self.speed   = stats[:speed]
     end
   end
 end
