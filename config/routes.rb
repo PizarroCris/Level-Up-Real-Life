@@ -5,13 +5,18 @@ Rails.application.routes.draw do
 
   resources :profiles
 
-  resources :buildings, only: [:new, :create, :index]
+  resources :buildings, only: [:new, :create, :show] do
+    resources :troops, only: [:new, :create, :index]
+  end
 
   get "about", to: "pages#about", as: :about
 
   get "contact", to: "pages#contact", as: :contact
+  get "settings", to: "pages#settings"
 
   get "leaderboard", to: "leaderboards#index"
+
+  get "/base", to: "bases#show", as: :user_base
 
   root to: "pages#home"
 end
