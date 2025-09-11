@@ -1,21 +1,25 @@
+# app/controllers/troops_controller.rb
 class TroopsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
+  before_action :set_building, only: [:index, :new, :create]
 
   skip_after_action :verify_authorized, only: [:index, :new, :create]
   skip_after_action :verify_policy_scoped, only: [:index]
 
   def index
-    @troops = current_user.profile.troops.order(created_at: :desc)
+    # 1. Busca as tropas para exibição, com ordenação
+    @troops = @building.troops.order(created_at: :desc)
+
+    # 2. Realiza a contagem em uma nova consulta, sem a ordenação
+    @troop_counts = @building.troops.group(:troop_type).count
   end
 
   def new
-    @building = Building.find(params[:building_id])
     @troop = @building.troops.new
   end
 
   def create
-    @building = Building.find(params[:building_id])
     @troop = @building.troops.new(troop_params.merge(level: 1))
     if @troop.save
       redirect_to building_troops_path(@building)
@@ -25,6 +29,10 @@ class TroopsController < ApplicationController
   end
 
   private
+
+  def set_building
+    @building = Building.find(params[:building_id])
+  end
 
   def ensure_profile!
     return if current_user.profile.present?
