@@ -2,6 +2,7 @@ class Profile < ApplicationRecord
   belongs_to :user
   has_many :buildings, dependent: :destroy
   has_many :equipments, dependent: :destroy
+  has_many :equipment_items, through: :equipments
   has_many :troops, through: :buildings
 
   def total_attack
