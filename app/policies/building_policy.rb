@@ -16,4 +16,22 @@ class BuildingPolicy < ApplicationPolicy
   def create?
     user.present?
   end
+
+  def show?
+    owner?
+  end
+
+  def edit?
+    update?
+  end
+
+  def update?
+    owner?
+  end
+
+  private
+
+  def owner?
+    record.user == user || user.admin
+  end
 end

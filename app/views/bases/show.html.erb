@@ -10,17 +10,16 @@
 <div class="base-container">
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
-
-    <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>"
+    <div
+      class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>"
       style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;"
     >
       <% if building %>
         <%= link_to building_path(building) do %>
           <%
-            folder_name = building.building_type.pluralize
-            file_name_base = building.building_type
-            level_formatted = format('%02d', building.level)
-            image_path = "buildings/#{folder_name}/#{file_name_base}#{level_formatted}.png"
+            folder = building.building_type.pluralize
+            filename = "#{building.building_type}#{format('%02d', building.level)}.png" # "barrack" + "01" -> "barrack01.png"
+            image_path = "buildings/#{folder}/#{filename}"
           %>
           <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
           <div class="building-level-badge"><%= building.level %></div>
