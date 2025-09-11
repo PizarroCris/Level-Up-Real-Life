@@ -2,24 +2,34 @@ class BuildingsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
 
-  skip_after_action :verify_authorized,    only: [:index, :new, :create]
-  skip_after_action :verify_policy_scoped, only: [:index]
-
-  def index
-    @buildings = current_user.profile.buildings.order(created_at: :desc)
-  end
-
   def new
-    @building = Building.new
+    @plot = Plot.find(params[:plot_id])
+   
+    @building = Building.new(plot: @plot)
+
+    authorize @building
   end
 
   def create
-    @building = current_user.profile.buildings.new(building_params.merge(level: 1))
+    @building = Building.new(building_params)
+
+    @building.profile = current_user.profile
+
+    @building.level = 1
+
+    authorize @building
+
     if @building.save
-      redirect_to buildings_path, notice: "Building created."
+      redirect_to user_base_path, notice: "#{@building.building_type.capitalize} successfully built!"
     else
+      @plot = Plot.find(building_params[:plot_id])
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @building = Building.find(params[:id])
+    authorize @building
   end
 
   private
@@ -30,6 +40,6 @@ class BuildingsController < ApplicationController
   end
 
   def building_params
-    params.require(:building).permit(:building_type)
+    params.require(:building).permit(:building_type, :plot_id)
   end
 end

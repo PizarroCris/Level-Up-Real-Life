@@ -1,11 +1,19 @@
 <h1 class="text-center mt-5">New Building</h1>
+<div class="card mx-auto my-4 rounded-5"
+     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
 
-<div class="card mx-auto my-4 rounded-5" style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
   <%= simple_form_for @building do |f| %>
+    <%= f.error_notification %>
+    <%= f.input :plot_id, as: :hidden, input_html: { value: @plot.id } %>
+
     <%= f.input :building_type,
                 label: "Type",
                 collection: Building::BUILDING_TYPES.map { |t| [t.titleize, t] },
-                prompt: "Choose a building" %>
-    <%= f.button :submit, "Create", class: "btn btn-primary"%>
+                prompt: "Choose a building",
+                required: true %>
+    <%= f.full_error :building_type %>
+
+    <%= f.button :submit, "Create", class: "btn btn-primary w-100 mt-3"%> <%# Adicionei w-100 mt-3 para melhor estilo %>
   <% end %>
+  <%= link_to "Back to Base", user_base_path, class: "btn btn-secondary w-100 mt-2" %>
 </div>
