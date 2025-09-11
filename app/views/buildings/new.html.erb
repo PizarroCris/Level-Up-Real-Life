@@ -4,7 +4,7 @@
 
   <%= simple_form_for @building do |f| %>
     <%= f.error_notification %>
-    <%= f.input :plot_id, as: :hidden, input_html: { value: @plot.id } %> 
+    <%= f.input :plot_id, as: :hidden, input_html: { value: @plot.id } %>
 
     <%= f.input :building_type,
                 label: "Type",
