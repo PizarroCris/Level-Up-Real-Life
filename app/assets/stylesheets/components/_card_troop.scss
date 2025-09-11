@@ -1,3 +1,30 @@
+.col-5-in-row {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
 .card-troop {
   background-color: #E0D4B8;
+}
+
+.card-troop.disabled-troop {
+  cursor: not-allowed;
+}
+
+.card-troop.disabled-troop img {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+/* Opcional: Efeito de hover */
+.card-troop:not(.disabled-troop):hover {
+  transform: translateY(-5px); /* Efeito de elevação */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+}
+
+/* Opcional: Estilo para o botão desabilitado */
+.btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.65;
+  box-shadow: none;
 }
