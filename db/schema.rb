@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_09_034458) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_11_171816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +20,37 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_09_034458) do
     t.bigint "profile_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "plot_id", null: false
+    t.index ["plot_id"], name: "index_buildings_on_plot_id"
     t.index ["profile_id"], name: "index_buildings_on_profile_id"
+  end
+
+  create_table "equipment", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "equipment_item_id", null: false
+    t.index ["equipment_item_id"], name: "index_equipment_on_equipment_item_id"
+    t.index ["profile_id"], name: "index_equipment_on_profile_id"
+  end
+
+  create_table "equipment_items", force: :cascade do |t|
+    t.string "name"
+    t.string "equipment_type"
+    t.integer "attack"
+    t.integer "defense"
+    t.integer "speed_bonus"
+    t.integer "price_in_steps"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plots", force: :cascade do |t|
+    t.string "name"
+    t.decimal "top_percent"
+    t.decimal "left_percent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -36,6 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_09_034458) do
     t.integer "experience", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "speed_bonus", default: 0, null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -64,7 +95,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_09_034458) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "buildings", "plots"
   add_foreign_key "buildings", "profiles"
+  add_foreign_key "equipment", "equipment_items"
+  add_foreign_key "equipment", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "troops", "buildings"
 end
