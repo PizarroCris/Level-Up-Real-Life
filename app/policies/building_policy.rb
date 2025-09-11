@@ -32,6 +32,6 @@ class BuildingPolicy < ApplicationPolicy
   private
 
   def owner?
-    record.user == user || user.admin
+    record.profile.user == user || user.admin
   end
 end

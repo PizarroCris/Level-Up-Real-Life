@@ -7,7 +7,8 @@
   </div>
 </div>
 
-<div class="base-container">
+<div class="base-container" data-controller="inventory">
+
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
     <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
@@ -28,19 +29,19 @@
       <% end %>
     </div>
   <% end %>
-</div>
 
-<div class="container p-3 fixed-bottom" data-controller="inventory">
-  
   <%= render 'inventory_popup' %>
   <%= render 'menu_popup' %>
   <%= render 'shop_popup' %>
 
-  <div class="d-flex justify-content-between">
-    <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
-    <div class="d-flex gap-2">
-      <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
-      <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+  <div class="game-hud-buttons p-3">
+    <div class="d-flex justify-content-between">
+      <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
+      <div class="d-flex gap-2">
+        <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
+        <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+      </div>
     </div>
   </div>
+
 </div>
