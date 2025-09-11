@@ -34,7 +34,6 @@ class Troop < ApplicationRecord
   validates :troop_type, inclusion: { in: TROOP_STATS.keys.map(&:to_s) }
   validates :level, inclusion: { in: [1, 2, 3, 4, 5] }
 
-
   def travel_time_for_distance(distance)
     self.speed * distance
   end
