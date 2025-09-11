@@ -1,22 +1,22 @@
 <h1 class="text-center mt-5">My Troops</h1>
 
+<div class="text-center mt-4">
+  <%= link_to "Add a troop", new_building_troop_path, class: "btn btn-red rounded-3" %>
+  <%= link_to "Back", root_path, class: "btn btn-red rounded-3" %>
+</div>
+
 <div class="container mt-4">
   <div class="row justify-content-center">
     <% @troops.each do |troop| %>
       <div class="col-md-4 mb-4">
-        <div class="card rounded-5"
-             style="padding: 20px; box-shadow: 0 4px 12px #666;">
+        <div class="card rounded-5" style="padding: 20px; box-shadow: 0 4px 12px #666;">
           <div class="card-body text-center">
             <h5 class="card-title"><%= troop.troop_type.titleize %></h5>
             <p class="card-text">Level <%= troop.level %></p>
+            <p class="card-text">Attack</p><%= troop.attack %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
-</div>
-
-<div class="text-center mt-4">
-  <%= link_to "Add a troop", new_building_troop_path, class: "btn btn-primary" %>
-  <%= link_to "Back", root_path, class: "btn btn-primary" %>
 </div>
