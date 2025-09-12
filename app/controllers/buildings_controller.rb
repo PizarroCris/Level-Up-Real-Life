@@ -38,13 +38,18 @@ class BuildingsController < ApplicationController
         profile.deduct_resources!(cost)
         @building.update!(level: @building.level + 1)
       end
-      
+
       flash[:notice] = "#{@building.building_type.capitalize} was updated to level #{@building.level}!"
     else
       flash[:alert] = "You don't have enough resources to upgrade."
     end
-    
-    redirect_to root_path
+    case params[:return]
+    when "sawmill" then redirect_to building_sawmill_path(@building)
+    when "mine" then redirect_to building_mine_path(@building)
+    when "quarry" then redirect_to building_quarry_path(@building)
+    else
+      redirect_to root_path
+    end
   end
 
   private
