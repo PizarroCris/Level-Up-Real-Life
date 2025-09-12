@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_11_171816) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_12_145539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_11_171816) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "resources", force: :cascade do |t|
+    t.integer "kind", null: false
+    t.bigint "building_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id", "kind"], name: "index_resources_on_building_id_and_kind", unique: true
+    t.index ["building_id"], name: "index_resources_on_building_id"
+  end
+
   create_table "troops", force: :cascade do |t|
     t.string "troop_type"
     t.integer "level"
@@ -100,5 +109,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_11_171816) do
   add_foreign_key "equipment", "equipment_items"
   add_foreign_key "equipment", "profiles"
   add_foreign_key "profiles", "users"
+  add_foreign_key "resources", "buildings"
   add_foreign_key "troops", "buildings"
 end

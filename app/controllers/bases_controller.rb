@@ -8,5 +8,6 @@ class BasesController < ApplicationController
     @buildings_by_plot_id = @profile.buildings.includes(:plot).index_by(&:plot_id)
 
     @equipments = EquipmentItem.all
+    @buildings_by_plot_id = @profile.buildings.includes(:plot, :resources).index_by(&:plot_id)
   end
 end
