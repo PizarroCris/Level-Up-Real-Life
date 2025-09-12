@@ -8,7 +8,6 @@ Rails.application.routes.draw do
 
   resources :buildings, only: [:new, :create, :show, :edit, :update] do
     resources :troops, only: [:new, :create, :index]
-
     resource :mine,    only: [:show], controller: 'resources', defaults: { kind: 'mine' }
     resource :sawmill, only: [:show], controller: 'resources', defaults: { kind: 'sawmill' }
     resource :quarry,  only: [:show], controller: 'resources', defaults: { kind: 'quarry' }
@@ -17,6 +16,9 @@ Rails.application.routes.draw do
       patch :upgrade
     end
   end
+
+  resource :shop, only: [:show]
+  resources :shop_equipment_items, only: [:create]
 
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact
