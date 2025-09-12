@@ -17,6 +17,10 @@ class BuildingPolicy < ApplicationPolicy
     user.present?
   end
 
+  def upgrade?
+    owner?
+  end
+
   def show?
     owner?
   end

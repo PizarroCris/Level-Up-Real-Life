@@ -7,30 +7,21 @@
   </div>
 </div>
 
-<div class="base-container" data-controller="inventory">
+<div class="base-container" data-controller="building-menu">
 
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
     <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
 
       <% if building %>
-        <% if building.building_type == "barrack" %>
-          <%= link_to building_troops_path(building) do %>
-            <% folder = building.building_type.pluralize %>
-            <% filename = "#{building.building_type}#{format('%02d', building.level)}.png" %>
-            <% image_path = "buildings/#{folder}/#{filename}" %>
-            <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
-            <div class="building-level-badge"><%= building.level %></div>
-          <% end %>
-        <% else %>
-          <%= link_to building_path(building) do %>
-            <% folder = building.building_type.pluralize %>
-            <% filename = "#{building.building_type}#{format('%02d', building.level)}.png" %>
-            <% image_path = "buildings/#{folder}/#{filename}" %>
-            <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
-            <div class="building-level-badge"><%= building.level %></div>
-          <% end %>
-        <% end %>
+        <div class="building-wrapper"
+             data-action="click->building-menu#show"
+             data-building-show-url="<%= building_destination_path(building) %>"
+             data-building-upgrade-url="<%= upgrade_building_path(building) %>"
+             data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
+          <%= image_tag building.image_asset_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
+          <div class="building-level-badge"><%= building.level %></div>
+        </div>
 
       <% else %>
         <%= link_to new_building_path(plot_id: plot.id) do %>
@@ -40,6 +31,16 @@
 
     </div>
   <% end %>
+
+  <div class="building-menu" data-building-menu-target="menu">
+    <div class="d-flex align-items-center gap-3">
+      <div data-building-menu-target="upgradeFormContainer">
+        <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe, "#", method: :patch, class: "upgrade-btn" %>
+      </div>
+
+      <a href="#" data-building-menu-target="detailsLink" class="info-btn"><i class="fa-solid fa-circle-info"></i></a>
+    </div>
+  </div>
 
   <%= render 'inventory_popup' %>
   <%= render 'menu_popup' %>
