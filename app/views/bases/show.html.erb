@@ -15,7 +15,7 @@
 
       <% if building %>
         <div class="building-wrapper"
-             data-action="click->building-menu#show"
+             data-action="click->building-menu#toggle"
              data-building-show-url="<%= building_destination_path(building) %>"
              data-building-upgrade-url="<%= upgrade_building_path(building) %>"
              data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
@@ -42,16 +42,18 @@
     </div>
   </div>
 
-  <%= render 'inventory_popup' %>
-  <%= render 'menu_popup' %>
-  <%= render 'shop_popup' %>
+  <div data-controller="inventory">
+    <%= render 'inventory_popup' %>
+    <%= render 'menu_popup' %>
+    <%= render 'bases/shop_popup' %>
 
-  <div class="game-hud-buttons p-3">
-    <div class="d-flex justify-content-between">
-      <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
-      <div class="d-flex gap-2">
-        <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
-        <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+    <div class="game-hud-buttons p-3">
+      <div class="d-flex justify-content-between">
+        <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
+        <div class="d-flex gap-2">
+          <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
+          <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+        </div>
       </div>
     </div>
   </div>
