@@ -3,9 +3,9 @@
   <p>The game where your real life levels up.</p>
   
   <% if user_signed_in? %>
-    <%= link_to "Entrar no Jogo", user_base_path, class: "btn btn-primary" %>
+    <%= link_to "Entrar no Jogo", user_base_path, class: "btn btn-red " %>
   <% else %>
-    <%= link_to "Registar", new_user_registration_path, class: "btn btn-primary" %>
-    <%= link_to "Login", new_user_session_path, class: "btn btn-secondary" %>
+    <%= link_to "Registar", new_user_registration_path, class: "btn btn-red" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-red" %>
   <% end %>
 </div>
