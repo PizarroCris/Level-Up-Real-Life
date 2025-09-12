@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div class="base-container" data-controller="inventory">
+<div class="base-container" data-controller="building-menu">
 
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
@@ -62,6 +62,16 @@
       <% end %>
     </div>
   <% end %>
+
+  <div class="building-menu" data-building-menu-target="menu">
+    <div class="d-flex align-items-center gap-3">
+      <div data-building-menu-target="upgradeFormContainer">
+        <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe, "#", method: :patch, class: "upgrade-btn" %>
+      </div>
+
+      <a href="#" data-building-menu-target="detailsLink" class="info-btn"><i class="fa-solid fa-circle-info"></i></a>
+    </div>
+  </div>
 
   <%= render 'inventory_popup' %>
   <%= render 'menu_popup' %>

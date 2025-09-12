@@ -2,6 +2,10 @@ class Troop < ApplicationRecord
   belongs_to :building
   has_one :profile, through: :building
 
+  before_validation :set_stats_from_constant
+
+  validates :troop_type, presence: true
+
   TROOP_STATS = {
     swordsman: {
       1 => { attack: 10, defense: 15, speed: 1.2 },
@@ -29,8 +33,6 @@ class Troop < ApplicationRecord
   validates :troop_type, inclusion: { in: TROOP_STATS.keys.map(&:to_s) }
   validates :level, inclusion: { in: [1, 2, 3, 4, 5] }
 
-  before_validation :set_stats_from_constant
-
   def travel_time_for_distance(distance)
     self.speed * distance
   end
@@ -41,7 +43,7 @@ class Troop < ApplicationRecord
     return unless troop_type.present? && level.present?
 
     stats = TROOP_STATS[self.troop_type.to_sym][self.level]
-    
+
     if stats
       self.attack  = stats[:attack]
       self.defense = stats[:defense]
