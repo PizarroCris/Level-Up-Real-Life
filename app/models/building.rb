@@ -55,8 +55,13 @@ class Building < ApplicationRecord
 
   validates :building_type, presence: true, inclusion: { in: BUILDING_TYPES }
   validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :building_type, uniqueness: { scope: :profile_id, message: "já existe na tua base" }
+  validates :building_type, uniqueness: { scope: :profile_id, message: "already exists" }
 
+  def image_asset_path
+    folder = self.building_type.pluralize.downcase
+    filename = "#{self.building_type.downcase}#{format('%02d', self.level)}.png"
+    "buildings/#{folder}/#{filename}"
+  end
 
   def upgrade_cost
     return {} if max_level?

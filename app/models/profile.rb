@@ -17,6 +17,20 @@ class Profile < ApplicationRecord
     (total_attack * 0.7) + (total_defense * 0.3)
   end
 
+    def can_afford?(cost)
+    return false unless cost
+
+    wood >= cost[:wood] && stone >= cost[:stone] && metal >= cost[:metal]
+  end
+
+  def deduct_resources!(cost)
+    update!(
+      wood: self.wood - cost[:wood],
+      stone: self.stone - cost[:stone],
+      metal: self.metal - cost[:metal]
+    )
+  end
+
   private
 
   def base_attack
@@ -58,8 +72,6 @@ class Profile < ApplicationRecord
     end
     total
   end
-
-  private
 
    def speed_bonus
     equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
