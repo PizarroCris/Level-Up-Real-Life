@@ -1,5 +1,3 @@
-// app/javascript/controllers/building_menu_controller.js
-
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
@@ -34,8 +32,8 @@ export default class extends Controller {
 
     const containerRect = this.element.getBoundingClientRect();
     const buildingRect = buildingWrapper.getBoundingClientRect();
-    const relativeTop = buildingRect.bottom - containerRect.top -30;
-    const relativeLeft = buildingRect.left - containerRect.left;
+    const relativeTop = buildingRect.bottom - containerRect.top - 65;
+    const relativeLeft = buildingRect.left - containerRect.left + 30;
 
     this.menuTarget.style.top = `${relativeTop}px`;
     this.menuTarget.style.left = `${relativeLeft}px`;

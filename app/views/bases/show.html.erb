@@ -7,13 +7,6 @@
   </div>
 </div>
 
-<% if flash[:notice] %>
-  <div class="alert alert-success"><%= flash[:notice] %></div>
-<% end %>
-<% if flash[:alert] %>
-  <div class="alert alert-danger"><%= flash[:alert] %></div>
-<% end %>
-
 <div class="base-container" data-controller="building-menu">
 
   <% @plots.each do |plot| %>
@@ -23,7 +16,7 @@
       <% if building %>
         <div class="building-wrapper"
              data-action="click->building-menu#show"
-             data-building-show-url="<%= building_path(building) %>"
+             data-building-show-url="<%= building_destination_path(building) %>"
              data-building-upgrade-url="<%= upgrade_building_path(building) %>"
              data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
           <%= image_tag building.image_asset_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
@@ -40,10 +33,12 @@
   <% end %>
 
   <div class="building-menu" data-building-menu-target="menu">
-    <a href="#" data-building-menu-target="detailsLink" class="btn btn-info btn-sm">Detalhes</a>
-    
-    <div data-building-menu-target="upgradeFormContainer">
-      <%= button_to "Upgrade", "#", method: :patch, class: "btn btn-success btn-sm" %>
+    <div class="d-flex align-items-center gap-3">
+      <div data-building-menu-target="upgradeFormContainer">
+        <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe, "#", method: :patch, class: "upgrade-btn" %>
+      </div>
+
+      <a href="#" data-building-menu-target="detailsLink" class="info-btn"><i class="fa-solid fa-circle-info"></i></a>
     </div>
   </div>
 
