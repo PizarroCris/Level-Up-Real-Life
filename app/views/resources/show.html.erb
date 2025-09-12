@@ -5,11 +5,7 @@
 
   <div style="display:flex; gap:2rem; align-items:flex-start; margin:1rem 0;">
     <div>
-      <% folder   = @resource.kind.pluralize %>
-      <% filename = "#{@resource.kind}#{format('%02d', @resource.level)}.png" %>
-      <% image_path = "buildings/#{folder}/#{filename}" %>
-      <%= image_tag image_path, alt: "#{@resource.kind.titleize} Level #{@resource.level}", style: "max-width:260px; border-radius:12px;" %>
-
+      <%= image_tag @resource.image_asset_path, alt: "#{@resource.building.building_type.titleize} Level #{@resource.level}", style: "max-width:260px; border-radius:12px;" %>
       <div style="margin-top:.75rem;">
         <strong>Production:</strong> <%= @resource.production_per_hour %> / hour<br>
         <strong>Storage:</strong> <%= @resource.storage_capacity %>
@@ -36,9 +32,8 @@
           <% end %>
         </tbody>
       </table>
-
       <div style="margin-top:1rem;">
-        <%= link_to "Upgrade", edit_building_resource_path(@building, @resource), class: "btn btn-primary" %>
+        <%= button_to "<i class='fa-solid fa-circle-up'></i> Upgrade".html_safe, upgrade_building_path(@resource.building, return: @resource.building.building_type), method: :patch, class: "btn btn-primary" %>
       </div>
     </div>
   </div>
