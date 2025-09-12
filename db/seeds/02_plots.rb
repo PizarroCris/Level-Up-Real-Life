@@ -1,7 +1,25 @@
-# db/seeds/02_equipment_items.rb
+# Responsabilidade: Criar dados essenciais para o jogo funcionar.
 
+# --- 1. PLOTS ---
+puts "🏞️ Creating Plots..."
+plots_data = [
+  { name: "Plot 1", top_percent: 50.5, left_percent: 48.0 },
+  { name: "Plot 2", top_percent: 30.0, left_percent: 75.0 },
+  { name: "Plot 3", top_percent: 80.0, left_percent: 25.0 },
+  { name: "Plot 4", top_percent: 40.0, left_percent: 20.0 },
+  { name: "Plot 5", top_percent: 65.0, left_percent: 80.0 }
+]
+
+plots_data.each do |data|
+  Plot.find_or_create_by!(name: data[:name]) do |plot|
+    plot.top_percent = data[:top_percent]
+    plot.left_percent = data[:left_percent]
+  end
+end
+puts "✅ #{Plot.count} plots are in place."
+
+# --- 2. EQUIPMENT CATALOG ---
 puts "📚 Creating equipment item catalog..."
-EquipmentItem.destroy_all
 
 # ============================================================================
 # --- BARBARIAN SET (Attack-focused) ---
