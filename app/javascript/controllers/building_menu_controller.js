@@ -24,7 +24,10 @@ export default class extends Controller {
     this.detailsLinkTarget.href = showUrl
 
     const upgradeForm = this.upgradeFormContainerTarget.querySelector("form")
+    console.log('before');
+    console.log(upgradeUrl)
     if (upgradeForm) {
+      console.log('after')
       upgradeForm.action = upgradeUrl
     }
     
