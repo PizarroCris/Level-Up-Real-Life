@@ -10,6 +10,11 @@ class PagesController < ApplicationController
   def contact
   end
 
+  def submit_contact
+    ContactMailer.new_message(params[:first_name], params[:last_name], params[:email], params[:message]).deliver_now
+    redirect_to contact_path
+  end
+
   def about
   end
 
