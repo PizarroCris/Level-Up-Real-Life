@@ -33,7 +33,7 @@
         </tbody>
       </table>
       <div style="margin-top:1rem;">
-        <%= button_to "<i class='fa-solid fa-circle-up'></i> Upgrade".html_safe, "#", method: :patch, class: "btn btn-primary" %>
+        <%= button_to "<i class='fa-solid fa-circle-up'></i> Upgrade".html_safe, upgrade_building_path(@resource.building, return: @resource.building.building_type), method: :patch, class: "btn btn-primary" %>
       </div>
     </div>
   </div>
