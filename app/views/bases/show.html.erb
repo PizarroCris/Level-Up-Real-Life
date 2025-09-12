@@ -10,14 +10,12 @@
       <% if building %>
         <div class="building-wrapper"
              data-action="click->building-menu#show"
-             data-building-show-url="<%= building_destination_path(building) %>" <%# <- Chama o Helper da View %>
+             data-building-show-url="<%= building_destination_path(building) %>"
              data-building-upgrade-url="<%= upgrade_building_path(building) %>"
              data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
-          
           <%= image_tag building.image_asset_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
           <div class="building-level-badge"><%= building.level %></div>
         </div>
-
       <% else %>
         <%= link_to new_building_path(plot_id: plot.id) do %>
           <span>+</span>
@@ -31,13 +29,23 @@
       <div data-building-menu-target="upgradeFormContainer">
         <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe, "#", method: :patch, class: "upgrade-btn" %>
       </div>
-      <a href="#" data-building-menu-target="detailsLink" class="info-btn"><i class="fa-solid fa-circle-info"></i></a>
+      <a href="#" data-building-menu-target="detailsLink" class="info-btn">
+        <i class="fa-solid fa-circle-info"></i>
+      </a>
     </div>
   </div>
 
   <%= render 'inventory_popup' %>
   <%= render 'menu_popup' %>
   <%= render 'shop_popup' %>
-  <%= render 'bases/hud_buttons' %>
 
+  <div class="game-hud-buttons p-3">
+    <div class="d-flex justify-content-between">
+      <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
+      <div class="d-flex gap-2">
+        <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
+        <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
+      </div>
+    </div>
+  </div>
 </div>
