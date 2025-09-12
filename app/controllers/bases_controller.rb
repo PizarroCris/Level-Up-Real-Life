@@ -6,5 +6,7 @@ class BasesController < ApplicationController
     authorize @profile
     @plots = Plot.all
     @buildings_by_plot_id = @profile.buildings.includes(:plot).index_by(&:plot_id)
+
+    @equipments = EquipmentItem.all
   end
 end
