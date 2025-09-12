@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get 'resources/index'
+  get 'resources/show'
+  get 'resources/new'
+  get 'resources/create'
+  get 'resources/edit'
+  get 'resources/update'
+  get 'resources/destroy'
   devise_for :users
 
   get "up" => "rails/health#show", as: :rails_health_check
@@ -7,7 +14,8 @@ Rails.application.routes.draw do
 
   resources :buildings, only: [:new, :create, :show, :edit, :update] do
     resources :troops, only: [:new, :create, :index]
-    
+    resources :resources
+
     member do
       patch :upgrade
     end
