@@ -1,8 +1,8 @@
-<div class="player-hud">
+<div class="player-hud text-center mt-3">
   <h1><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
-  <div class="resources">
-    <span>🌲 Wood: <%= @profile.wood %></span>
-    <span>⛰️ Stone: <%= @profile.stone %></span>
-    <span>🔩 Metal: <%= @profile.metal %></span>
+  <div id="resources" class="resources">
+    <span class="p-3">🌲 <%= @profile.wood %></span>
+    <span class="p-3">⛰️ <%= @profile.stone %></span>
+    <span class="p-3">🔩 <%= @profile.metal %></span>
   </div>
 </div>
