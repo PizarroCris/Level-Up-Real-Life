@@ -1,0 +1,45 @@
+<div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+  <p style="margin: 12px 0;"><%= link_to "← Back to Base", user_base_path %></p>
+
+  <h1 style="margin: 0 0 12px;"><%= @resource.kind.titleize %> (Level <%= @resource.level %>)</h1>
+
+  <div style="display:flex; gap:2rem; align-items:flex-start; margin:1rem 0;">
+    <div>
+      <% folder   = @resource.kind.pluralize %>
+      <% filename = "#{@resource.kind}#{format('%02d', @resource.level)}.png" %>
+      <% image_path = "buildings/#{folder}/#{filename}" %>
+      <%= image_tag image_path, alt: "#{@resource.kind.titleize} Level #{@resource.level}", style: "max-width:260px; border-radius:12px;" %>
+
+      <div style="margin-top:.75rem;">
+        <strong>Production:</strong> <%= @resource.production_per_hour %> / hour<br>
+        <strong>Storage:</strong> <%= @resource.storage_capacity %>
+      </div>
+    </div>
+
+    <div style="flex:1;">
+      <table style="width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px;">
+        <thead>
+          <tr style="background:#0d6efd; color:white;">
+            <th style="text-align:left; padding:.6rem;">Level</th>
+            <th style="text-align:left; padding:.6rem;">Production / Hour</th>
+            <th style="text-align:left; padding:.6rem;">Storage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @resource.levels_list.each do |lvl| %>
+            <% highlight = (lvl == @resource.level) %>
+            <tr style="<%= 'background:#eef5ff; font-weight:600;' if highlight %>">
+              <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= lvl %></td>
+              <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= Resource::PRODUCTION_BY_LEVEL[lvl] %></td>
+              <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= Resource::STORAGE_BY_LEVEL[lvl] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div style="margin-top:1rem;">
+        <%= link_to "Upgrade", edit_building_resource_path(@building, @resource), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

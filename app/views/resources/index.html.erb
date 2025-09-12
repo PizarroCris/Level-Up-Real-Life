@@ -1,0 +1,27 @@
+<h1>
+  <%= @building.building_type.titleize %> (Level <%= @building.level %>) –
+  <%= params[:kind].present? ? params[:kind].titleize : "All Resources" %>
+</h1>
+
+<nav style="margin-bottom: 1rem;">
+  <%= link_to "All", building_resources_path(@building) %> |
+  <%= link_to "Mines", building_resources_path(@building, kind: :mine) %> |
+  <%= link_to "Sawmills", building_resources_path(@building, kind: :sawmill) %> |
+  <%= link_to "Quarries", building_resources_path(@building, kind: :quarry) %>
+</nav>
+
+<ul>
+  <% @resources.each do |resource| %>
+    <li>
+      <strong><%= resource.kind.titleize %></strong>
+      – Level <%= resource.level %>
+      – <%= resource.production_per_hour %> per hour
+      [<%= link_to "Show", building_resource_path(@building, resource) %>]
+      [<%= link_to "Edit", edit_building_resource_path(@building, resource) %>]
+      [<%= link_to "Delete", building_resource_path(@building, resource),
+                    data: { turbo_method: :delete, turbo_confirm: "Delete #{resource.kind}?" } %>]
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "New Resource", new_building_resource_path(@building), class: "btn btn-primary" %>
