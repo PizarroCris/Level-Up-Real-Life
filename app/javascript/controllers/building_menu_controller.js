@@ -1,4 +1,3 @@
-// app/javascript/controllers/building_menu_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
@@ -16,7 +15,6 @@ export default class extends Controller {
   }
 
   show(event) {
-    // ... (seu código show, sem a linha do classList.add("is-visible"))
     event.stopPropagation()
 
     const buildingWrapper = event.currentTarget
@@ -46,8 +44,8 @@ export default class extends Controller {
   }
 
   toggle(event) {
-    this.show(event) // Executa a lógica de posicionamento do menu
-    this.menuTarget.classList.toggle("is-visible") // Alterna a visibilidade
+    this.show(event)
+    this.menuTarget.classList.toggle("is-visible")
   }
 
   hideOnClick(event) {
