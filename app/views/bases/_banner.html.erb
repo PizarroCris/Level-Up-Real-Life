@@ -1,8 +1,10 @@
-<div class="player-hud">
-  <h1><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
-  <div class="resources">
-    <span>🌲 Wood: <%= @profile.wood %></span>
-    <span>⛰️ Stone: <%= @profile.stone %></span>
-    <span>🔩 Metal: <%= @profile.metal %></span>
+<div class=" p-3 mb-5 player-hud">
+  <div class="container d-flex align-items-center justify-content-center">
+    <h1 class="text-center border-end pe-3"><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
+    <div class="resources ps-3">
+      <span> <%= image_tag "resources/wood.png", class: "resources-img"%> <%= @profile.wood %></span>
+      <span> <%= image_tag "resources/stone.png", class: "resources-img"%> <%= @profile.stone %></span>
+      <span> <%= image_tag "resources/metal.png", class: "resources-img"%> <%= @profile.metal %></span>
+    </div>
   </div>
 </div>
