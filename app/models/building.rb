@@ -2,6 +2,15 @@ class Building < ApplicationRecord
   belongs_to :profile
   belongs_to :plot
   has_many :troops, dependent: :destroy
+  has_many :resources, dependent: :destroy
+
+  BUILDING_TO_RESOURCE_MAP = {
+    "mine"    => :metal,
+    "sawmill" => :wood,
+    "quarry"  => :stone
+  }.freeze
+
+  after_create :create_resource_if_needed
 
   MAX_LEVEL = 5
 
@@ -13,7 +22,6 @@ class Building < ApplicationRecord
       4 => { cost: { wood: 1500, stone: 1200, metal: 750 } },
       5 => { cost: {} }
     },
-
     'sawmill' => {
       creation_cost: { wood: 0, stone: 40, metal: 10 },
       1 => { cost: { wood: 0, stone: 80, metal: 25 } },
@@ -22,7 +30,6 @@ class Building < ApplicationRecord
       4 => { cost: { wood: 0, stone: 900, metal: 350 } },
       5 => { cost: {} }
     },
-
     'quarry' => {
       creation_cost: { wood: 50, stone: 0, metal: 20 },
       1 => { cost: { wood: 100, stone: 0, metal: 40 } },
@@ -31,7 +38,6 @@ class Building < ApplicationRecord
       4 => { cost: { wood: 1100, stone: 0, metal: 450 } },
       5 => { cost: {} }
     },
-
     'mine' => {
       creation_cost: { wood: 60, stone: 60, metal: 0 },
       1 => { cost: { wood: 120, stone: 120, metal: 0 } },
@@ -40,7 +46,6 @@ class Building < ApplicationRecord
       4 => { cost: { wood: 1400, stone: 1400, metal: 0 } },
       5 => { cost: {} }
     },
-
     'barrack' => {
       creation_cost: { wood: 100, stone: 80, metal: 40 },
       1 => { cost: { wood: 200, stone: 160, metal: 80 } },
@@ -78,5 +83,15 @@ class Building < ApplicationRecord
 
   def self.creation_cost_for(building_type)
     BUILDING_STATS.dig(building_type, :creation_cost)
+  end
+
+  private
+
+  def create_resource_if_needed
+    building_kind_string = self.building_type.downcase
+    if BUILDING_TO_RESOURCE_MAP.key?(building_kind_string)
+      resource_kind = BUILDING_TO_RESOURCE_MAP[building_kind_string]
+      self.resources.create!(kind: resource_kind)
+    end
   end
 end
