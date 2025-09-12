@@ -128,3 +128,23 @@ html, body {
   color: #fff;
   cursor: pointer;
 }
+
+.building-menu {
+  display: none; 
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.building-menu.is-visible {
+  display: block;
+}
+
+.building-menu a, .building-menu form {
+  display: block;
+  margin-bottom: 5px;
+}
