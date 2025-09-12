@@ -28,7 +28,7 @@
         <tbody>
           <% @resource.levels_list.each do |lvl| %>
             <% highlight = (lvl == @resource.level) %>
-            <tr style="<%= 'background:#eef5ff; font-weight:600;' if highlight %>">
+            <tr style="background:<%= highlight ? '#eef5ff' : 'white' %>; <%= 'font-weight:600;' if highlight %>">
               <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= lvl %></td>
               <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= Resource::PRODUCTION_BY_LEVEL[lvl] %></td>
               <td style="padding:.55rem; border-bottom:1px solid #e5e7eb;"><%= Resource::STORAGE_BY_LEVEL[lvl] %></td>
