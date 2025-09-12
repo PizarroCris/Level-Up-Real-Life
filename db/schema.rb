@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_11_230706) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_12_145539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,7 +72,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_11_230706) do
 
   create_table "resources", force: :cascade do |t|
     t.integer "kind", null: false
-    t.integer "level", default: 1, null: false
     t.bigint "building_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
