@@ -2,6 +2,7 @@ class Building < ApplicationRecord
   belongs_to :profile
   belongs_to :plot
   has_many :troops, dependent: :destroy
+  has_many :resources, dependent: :destroy
 
   MAX_LEVEL = 5
 
