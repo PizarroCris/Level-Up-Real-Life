@@ -1,21 +1,32 @@
 .hud-container {
-  position: relative; 
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: 60%;
+  height: 100px;
+  z-index: 100;
+  pointer-events: none;
 }
 
 .hud-bar {
-  width: 100%;
-  display: block; 
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  object-fit: cover;   
+  z-index: -1;
 }
 
 .game-hud-buttons {
   position: absolute; 
   top: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
+  width: 70%;
   height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   padding: 0 20px;
+  pointer-events: auto;
 }

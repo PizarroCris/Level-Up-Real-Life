@@ -1,8 +1,4 @@
-<%= render "shared/flashes" %>
-
 <div class="base-container" data-controller="building-menu">
-  <%= render 'bases/banner' %>
-
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
     <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
@@ -17,29 +13,10 @@
         </div>
       <% else %>
         <%= link_to new_building_path(plot_id: plot.id) do %>
-          <span><i class="fa-solid fa-circle-plus"></i></i></span>
+          <span><i class="fa-solid fa-circle-plus"></i></span>
         <% end %>
       <% end %>
-
     </div>
   <% end %>
-
-  <div class="building-menu" data-building-menu-target="menu">
-    <div class="d-flex align-items-center gap-3">
-      <div data-building-menu-target="upgradeFormContainer">
-        <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe, "#", method: :patch, class: "upgrade-btn" %>
-      </div>
-      <a href="#" data-building-menu-target="detailsLink" class="info-btn">
-        <i class="fa-solid fa-circle-info"></i>
-      </a>
-    </div>
-  </div>
-
-  <div data-controller="inventory">
-    <%= render 'inventory_popup' %>
-    <%= render 'menu_popup' %>
-    <%= render 'bases/shop_popup' %>
-  </div>
+  <%= render 'bases/building_menu_popup' %>
 </div>
-
-<%= render 'bases/hud' %>
