@@ -1,12 +1,11 @@
 <div class="hud-container">
   <%= image_tag "hud/hud-bar.png", class: "hud-bar" %>
+
   <div class="game-hud-buttons">
-    <div class="d-flex justify-content-end align-items-center h-100">
-      <div class="d-flex gap-2">
-        <%= link_to "Inventory", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showInventory" } %>
-        <%= link_to "Menu", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showMenu" } %>
-        <%= link_to "Shop", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showShop" } %>
-      </div>
+    <div class="d-flex gap-2">
+      <%= link_to "Inventory", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showInventory" } %>
+      <%= link_to "Menu", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showMenu" } %>
+      <%= link_to "Shop", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showShop" } %>
     </div>
   </div>
 </div>
