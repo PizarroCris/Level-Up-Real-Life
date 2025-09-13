@@ -1,5 +1,5 @@
 <h1 class="text-center mt-5">New Building</h1>
-<div class="card mx-auto my-4 rounded-5"
+<div class="card card-box mx-auto my-4 rounded-5"
      style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
 
   <%= simple_form_for @building do |f| %>
@@ -13,7 +13,7 @@
                 required: true %>
     <%= f.full_error :building_type %>
 
-    <%= f.button :submit, "Create", class: "btn btn-red  w-100 mt-3"%> <%# Adicionei w-100 mt-3 para melhor estilo %>
+    <%= f.button :submit, "Create", class: "btn btn-red w-100 mt-3"%>
   <% end %>
   <%= link_to "Back to Base", user_base_path, class: "btn btn-secondary w-100 mt-2" %>
 </div>
