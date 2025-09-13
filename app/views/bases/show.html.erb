@@ -1,13 +1,11 @@
-<%= render 'bases/banner' %>
-
 <%= render "shared/flashes" %>
 
 <div class="base-container" data-controller="building-menu">
+  <%= render 'bases/banner' %>
 
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
-    <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
-
+    <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
       <% if building %>
         <div class="building-wrapper"
              data-action="click->building-menu#toggle"
@@ -19,7 +17,7 @@
         </div>
       <% else %>
         <%= link_to new_building_path(plot_id: plot.id) do %>
-          <span>+</span>
+          <span><i class="fa-solid fa-circle-plus"></i></i></span>
         <% end %>
       <% end %>
 
@@ -41,15 +39,7 @@
     <%= render 'inventory_popup' %>
     <%= render 'menu_popup' %>
     <%= render 'bases/shop_popup' %>
-
-    <div class="game-hud-buttons p-4">
-      <div class="d-flex justify-content-between">
-        <%= link_to "Inventory", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showInventory" } %>
-        <div class="d-flex gap-2">
-          <%= link_to "Menu", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showMenu" } %>
-          <%= link_to "Shop", "#", class: "btn btn-red rounded-3", data: { action: "click->inventory#showShop" } %>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
+
+<%= render 'bases/hud' %>

@@ -15,9 +15,9 @@ if Rails.env.development?
   test_user.profile.update!(
     username: 'PlayerOne', # Podes definir um username personalizado aqui
     level: 1,
-    wood: 5000,
-    stone: 5000,
-    metal: 2500
+    wood: 50000,
+    stone: 50000,
+    metal: 50000
   )
   
   # ... (o resto do teu código para criar edifícios continua igual) ...
