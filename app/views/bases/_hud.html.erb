@@ -1,0 +1,14 @@
+<div class="hud-container">
+  <%= image_tag "hud/hud-bar.png", class: "hud-bar" %>
+    <div class="d-flex gap-2">
+      <%= link_to "#", data: { action: "click->inventory#showInventory" } do %>
+        <%= image_tag "hud/inventory.png", alt: "Inventory", class: "hud-button-icon" %>
+      <% end %>
+      <%= link_to "#", data: { action: "click->inventory#showMenu" } do %>
+        <%= image_tag "hud/menu.png", alt: "Inventory", class: "hud-button-icon" %>
+      <% end %>
+      <%= link_to "#", data: { action: "click->inventory#showShop" } do %>
+        <%= image_tag "hud/shop.png", alt: "Inventory", class: "hud-button-icon" %>
+      <% end %>
+    </div>
+</div>

@@ -1,4 +1,3 @@
-// app/javascript/controllers/inventory_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
@@ -25,10 +24,8 @@ export default class extends Controller {
     this.shopPopupTarget.classList.add("d-block")
   }
 
-  // NOVO MÉTODO: Esconde apenas o pop-up que contém o botão de fechar.
   hidePopup(event) {
     event.preventDefault()
-    // Encontra o elemento pai com o data-inventory-target e adiciona a classe para esconder
     const popup = event.currentTarget.closest('[data-inventory-target]');
     if (popup) {
       popup.classList.add("d-none");
