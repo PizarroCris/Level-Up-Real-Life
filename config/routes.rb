@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :shop, only: [:show]
+  resources :guilds
+  
+  resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
 
   get "about", to: "pages#about", as: :about
