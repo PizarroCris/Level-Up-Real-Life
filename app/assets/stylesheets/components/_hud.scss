@@ -1,32 +1,25 @@
 .hud-container {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 60%;
-  height: 100px;
+  bottom: -5px;
+  right: 40px;
   z-index: 100;
-  pointer-events: none;
 }
 
 .hud-bar {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 70%;
+  top: -10px;
+  right: -240px;
+  width: 800px;
   height: 100%;
   object-fit: cover;   
   z-index: -1;
 }
 
-.game-hud-buttons {
-  position: absolute; 
-  top: 0;
-  right: 0;
-  width: 70%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 20px;
-  pointer-events: auto;
+.hud-button-icon {
+  width: 100px;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }
