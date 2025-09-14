@@ -1,0 +1,9 @@
+<h1 class="text-center mt-5">Guilds</h1>
+
+<div class="text-center my-3">
+  <%= link_to "Create a New Guild", new_guild_path, class: "btn btn-red" %>
+</div>
+
+<% @guilds.each do |guild| %>
+  <p><%= guild.name %></p>
+<% end %>

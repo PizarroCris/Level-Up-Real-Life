@@ -1,5 +1,7 @@
 class Profile < ApplicationRecord
   belongs_to :user
+  belongs_to :guild, optional: true
+  
   has_many :buildings, dependent: :destroy
   has_many :equipments, dependent: :destroy
   has_many :equipment_items, through: :equipments
