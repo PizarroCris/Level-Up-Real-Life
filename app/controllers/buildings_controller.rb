@@ -58,11 +58,6 @@ class BuildingsController < ApplicationController
     @building = Building.find(params[:id])
   end
 
-  def ensure_profile!
-    return if current_user.profile.present?
-    current_user.create_profile!(username: current_user.email.split("@").first)
-  end
-
   def building_params
     params.require(:building).permit(:building_type, :plot_id)
   end

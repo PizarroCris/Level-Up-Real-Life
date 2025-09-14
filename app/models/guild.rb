@@ -6,7 +6,7 @@ class Guild < ApplicationRecord
   validates :name,
           presence: true,
           uniqueness: { case_sensitive: false },
-          length: { in: 4..12 }
+          length: { in: 4..20 }
   validates :tag, 
           presence: true, 
           uniqueness: { case_sensitive: false },
