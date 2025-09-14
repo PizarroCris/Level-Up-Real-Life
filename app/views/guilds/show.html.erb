@@ -12,14 +12,14 @@
     </div>
     
     <hr>
-    
+
     <div class="guild-actions">
       <%= button_to "Leave Guild", leave_guild_path(@guild), method: :delete, class: "btn btn-red" %>
     </div>
   </div>
-  
+
   <div class="guild-details-panel">
-    
+
     <div class="guild-members-list">
       <h3>Members (<%= @guild.profiles.count %>)</h3>
       <table class="members-table">
@@ -36,16 +36,22 @@
               <td><%= membership.profile.username %></td>
               <td><%= membership.role.capitalize %></td>
               <td><%= membership.profile.level %></td>
+
+              <% if @guild.leader.user == current_user %>
+                <td>
+                  <% unless membership.role == "leader" %>
+                    <%= button_to "Kick", guild_membership_path(@guild, membership), method: :delete, class: "btn btn-red btn-sm" %>
+                  <% end %>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-    
     <div class="guild-news-board">
       <h3>Guild News</h3>
       <p>Ainda sem notícias.</p>
     </div>
-    
   </div>
 </div>
