@@ -9,7 +9,7 @@
 
 .navbar-lewagon {
   justify-content: space-between;
-  background: rgb(0, 0, 0);
+  background: #7B3F00;
   color: #fff;
 }
 
@@ -18,7 +18,9 @@
 }
 
 .navbar-lewagon .navbar-brand img {
-  width: 50px;
+  width: 38px;
+  border-radius: 10px;
+  margin-left: 10px;
 }
 
 .nav-link {
