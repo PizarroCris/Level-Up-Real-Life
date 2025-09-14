@@ -1,23 +1,26 @@
-<%= render "bases/banner" %>
-<div class="base-container" data-controller="building-menu">
-  <% @plots.each do |plot| %>
-    <% building = @buildings_by_plot_id[plot.id] %>
-    <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
-      <% if building %>
-        <div class="building-wrapper"
-             data-action="click->building-menu#toggle"
-             data-building-show-url="<%= building_destination_path(building) %>"
-             data-building-upgrade-url="<%= upgrade_building_path(building) %>"
-             data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
-          <%= image_tag building.image_asset_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
-          <div class="building-level-badge"><%= building.level %></div>
-        </div>
-      <% else %>
-        <%= link_to new_building_path(plot_id: plot.id) do %>
-          <span><i class="fa-solid fa-circle-plus"></i></span>
+<div class="game-screen">
+  <%= render "bases/banner" %>
+  <div class="base-container" data-controller="building-menu">
+    <%= image_tag 'artwork.png', class: 'terrain-image' %>
+    <% @plots.each do |plot| %>
+      <% building = @buildings_by_plot_id[plot.id] %>
+      <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
+        <% if building %>
+          <div class="building-wrapper"
+               data-action="click->building-menu#toggle"
+               data-building-show-url="<%= building_destination_path(building) %>"
+               data-building-upgrade-url="<%= upgrade_building_path(building) %>"
+               data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
+            <%= image_tag building.image_asset_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
+            <div class="building-level-badge"><%= building.level %></div>
+          </div>
+        <% else %>
+          <%= link_to new_building_path(plot.id) do %>
+            <span><i class="fa-solid fa-circle-plus"></i></span>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
-  <% end %>
-  <%= render 'bases/building_menu_popup' %>
+      </div>
+    <% end %>
+    <%= render 'bases/building_menu_popup' %>
+  </div>
 </div>
