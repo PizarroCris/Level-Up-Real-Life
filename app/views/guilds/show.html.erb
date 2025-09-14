@@ -1,0 +1,51 @@
+<div class="guild-show-container">
+  <div class="guild-info-panel">
+    <h1 class="guild-title"><%= @guild.name %></h1>
+    <span class="guild-tag"><%= @guild.tag %></span>
+
+    <div class="info-row">
+      <strong>Leader:</strong> <%= @guild.leader.username %>
+    </div>
+
+    <div class="info-row">
+      <strong>Members:</strong> <%= @guild.profiles.count %> / <%= @guild.max_members %>
+    </div>
+    
+    <hr>
+    
+    <div class="guild-actions">
+      <%= button_to "Leave Guild", leave_guild_path(@guild), method: :delete, class: "btn btn-red" %>
+    </div>
+  </div>
+  
+  <div class="guild-details-panel">
+    
+    <div class="guild-members-list">
+      <h3>Members (<%= @guild.profiles.count %>)</h3>
+      <table class="members-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @guild.guild_memberships.includes(:profile).each do |membership| %>
+            <tr style="border-bottom: 1px solid #dee2e6;">
+              <td><%= membership.profile.username %></td>
+              <td><%= membership.role.capitalize %></td>
+              <td><%= membership.profile.level %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="guild-news-board">
+      <h3>Guild News</h3>
+      <p>Ainda sem notícias.</p>
+    </div>
+    
+  </div>
+</div>
