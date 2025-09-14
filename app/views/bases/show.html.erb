@@ -1,3 +1,4 @@
+<%= render "bases/banner" %>
 <div class="base-container" data-controller="building-menu">
   <% @plots.each do |plot| %>
     <% building = @buildings_by_plot_id[plot.id] %>
