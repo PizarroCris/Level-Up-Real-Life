@@ -4,11 +4,11 @@
 puts "🏞️ Creating Plots with pixel coordinates..."
 # As coordenadas são em pixels, baseadas numa imagem de 1280x720
 plots_data = [
-  { name: "Plot 1", pos_x: 640, pos_y: 360 }, # Centro exato
-  { name: "Plot 2", pos_x: 960, pos_y: 250 }, # Canto superior direito
-  { name: "Plot 3", pos_x: 320, pos_y: 500 }, # Canto inferior esquerdo
-  { name: "Plot 4", pos_x: 250, pos_y: 200 }, # Canto superior esquerdo
-  { name: "Plot 5", pos_x: 1050, pos_y: 550 } # Canto inferior direito
+  { name: "Plot 1", pos_x: 617, pos_y: 259 }, # Centro exato
+  { name: "Plot 2", pos_x: 886, pos_y: 332 }, # Canto superior direito
+  { name: "Plot 3", pos_x: 457, pos_y: 404 }, # Canto inferior esquerdo
+  { name: "Plot 4", pos_x: 503, pos_y: 224 }, # Canto superior esquerdo
+  { name: "Plot 5", pos_x: 661, pos_y: 460 } # Canto inferior direito
 ]
 
 plots_data.each do |data|
