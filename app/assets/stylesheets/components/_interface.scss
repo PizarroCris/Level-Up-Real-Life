@@ -9,26 +9,35 @@ html, body {
 }
 
 .game-screen {
-  height: calc(100vh - 50px);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.player-hud {
-  flex-shrink: 0;
+  position: relative;
+  height: calc(100vh - 30px);
 }
 
 .base-container {
-  flex-grow: 1;
-  min-height: 0;
-
-
-  position: relative;
-  width: 100%;
+  position: absolute;
+  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
   max-width: 1500px;
-  margin: 1px auto;
   aspect-ratio: 16 / 9;
+}
+
+.player-hud {
+  position: relative;
+  z-index: 10;
+}
+
+.map-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 720px;
+  transform-origin: top left;
+
+  transition: transform 0.2s ease-in-out;
 }
 
 .terrain-image {
@@ -37,19 +46,19 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  pointer-events: none;
   z-index: 1;
 }
 
 .plot-area {
   position: absolute;
-  width: 6%;
-  height: auto;
-  aspect-ratio: 1 / 1;
+  width: 77px;
+  height: 77px;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
   z-index: 2;
+
+  transition: transform 0.2s ease-in-out;
 
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
@@ -57,6 +66,7 @@ html, body {
 }
 
 .empty-plot {
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,4 +188,9 @@ html, body {
 
 .fa-circle-info {
   font-size: 20px;
+}
+
+.hud-button-icon,
+.building-wrapper img {
+  user-select: none;
 }
