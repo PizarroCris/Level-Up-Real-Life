@@ -1,19 +1,22 @@
-<h1 class="text-center mt-5">New Building</h1>
-<div class="card card-box mx-auto my-4 rounded-5"
-     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
-
-  <%= simple_form_for @building do |f| %>
-    <%= f.error_notification %>
-    <%= f.input :plot_id, as: :hidden, input_html: { value: @plot.id } %>
-
-    <%= f.input :building_type,
-                label: "Type",
-                collection: Building::BUILDING_TYPES.map { |t| [t.titleize, t] },
-                prompt: "Choose a building",
-                required: true %>
-    <%= f.full_error :building_type %>
-
-    <%= f.button :submit, "Create", class: "btn btn-red w-100 mt-3"%>
-  <% end %>
-  <%= link_to "Back to Base", user_base_path, class: "btn btn-secondary w-100 mt-2" %>
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">New Building</p>
+</div>
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+      style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, user_base_path, class: "close-btn" %>
+    </div>
+    <%= simple_form_for @building do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :plot_id, as: :hidden, input_html: { value: @plot.id } %>
+      <%= f.input :building_type,
+                  label: "Type",
+                  collection: Building::BUILDING_TYPES.map { |t| [t.titleize, t] },
+                  prompt: "Choose a building",
+                  required: true %>
+      <%= f.full_error :building_type %>
+      <%= f.button :submit, "Create", class: "btn btn-red w-100 mt-3"%>
+    <% end %>
+  </div>
 </div>
