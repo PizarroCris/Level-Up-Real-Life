@@ -31,18 +31,34 @@ class GuildsController < ApplicationController
 
   def join
     @guild = Guild.find(params[:id])
-
+    
     authorize @guild, :join?
-
+    
     if @guild.full?
       redirect_to @guild, alert: "This guild has reached its member limit."
     else
-      GuildMembership.create(guild: @guild, profile: current_user.profile, role: :member)
 
+      GuildMembership.create!(
+        guild: @guild,
+        profile: current_user.profile,
+        role: :member
+      )
+
+      current_user.profile.update!(guild: @guild)
+      
       redirect_to @guild, notice: "You've successfully joined the guild!"
     end
-  rescue Pundit::NotAuthorizedError
-    redirect_to guilds_path, alert: "You already belong to a guild and cannot join another."
+    rescue Pundit::NotAuthorizedError
+      redirect_to guilds_path, alert: "You already belong to a guild and cannot join another."
+  end
+
+  def leave
+    @guild = Guild.find(params[:id])
+    authorize @guild, :leave?
+    
+    current_user.profile.update(guild: nil)
+    
+    redirect_to guilds_path, notice: "You have left the guild."
   end
 
   private

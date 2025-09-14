@@ -25,6 +25,10 @@ class GuildPolicy < ApplicationPolicy
     user.profile.guild_membership.nil?
   end
 
+  def leave?
+    user.profile.guild_membership.present?
+  end
+
   def update?
     owner?
   end

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :guilds do
     member do
       post :join
+      delete :leave
     end
   end
   
