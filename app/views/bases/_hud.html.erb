@@ -1,8 +1,12 @@
 <div class="hud-container">
   <%= image_tag "hud/hud-bar.png", class: "hud-bar" %>
-    <div class="d-flex align-items-center gap-2">
+    <div class="d-flex gap-2">
+
+      <%= link_to "#", class: "hud-button" do %>
+        <%= image_tag "hud/map.png", alt: "Map", class: "hud-button-icon" %>
+      <% end %>
       
-      <%= link_to "guilds_path", class: "hud-button" do %>
+      <%= link_to guilds_path, class: "hud-button" do %>
         <%= image_tag "hud/guild.png", alt: "Guild", class: "hud-button-icon" %>
       <% end %>
 

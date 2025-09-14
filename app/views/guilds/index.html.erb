@@ -4,6 +4,18 @@
   <%= link_to "Create a New Guild", new_guild_path, class: "btn btn-red" %>
 </div>
 
-<% @guilds.each do |guild| %>
-  <p><%= guild.name %></p>
-<% end %>
+
+<div style="flex:1;">
+  <table style="width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px;">
+    <thead>
+      <tr style="background:#0d6efd; color:white;">
+        <th style="text-align:left; padding:.6rem;">Guild Name</th>
+        <th style="text-align:left; padding:.6rem;">Guild Tag</th>
+        <th style="text-align:left; padding:.6rem;">Members</th>
+      </tr>
+    </thead>
+
+  <% @guilds.each do |guild| %>
+    <p><%= guild.name %></p>
+  <% end %>
+</div>
