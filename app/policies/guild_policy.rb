@@ -22,9 +22,8 @@ class GuildPolicy < ApplicationPolicy
   end
 
   def join?
-    user.profile.guild_id.nil?
+    user.profile.guild_membership.nil?
   end
-
 
   def update?
     owner?
