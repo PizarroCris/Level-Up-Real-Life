@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_14_040052) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_14_041226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_14_040052) do
     t.integer "price_in_steps"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "guild_memberships", force: :cascade do |t|
+    t.bigint "guild_id", null: false
+    t.bigint "profile_id", null: false
+    t.integer "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guild_id"], name: "index_guild_memberships_on_guild_id"
+    t.index ["profile_id"], name: "index_guild_memberships_on_profile_id"
   end
 
   create_table "guilds", force: :cascade do |t|
@@ -120,6 +130,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_14_040052) do
   add_foreign_key "buildings", "profiles"
   add_foreign_key "equipment", "equipment_items"
   add_foreign_key "equipment", "profiles"
+  add_foreign_key "guild_memberships", "guilds"
+  add_foreign_key "guild_memberships", "profiles"
   add_foreign_key "guilds", "profiles", column: "leader_id"
   add_foreign_key "profiles", "users"
   add_foreign_key "resources", "buildings"

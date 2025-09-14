@@ -22,19 +22,23 @@ class GuildsController < ApplicationController
     authorize @guild
 
     if @guild.save
+      GuildMembership.create(guild: @guild, profile: current_user.profile, role: :leader)
       redirect_to @guild, notice: "Guild created successfully."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def join    
+  def join
+    @guild = Guild.find(params[:id])
+
     authorize @guild, :join?
-    
+
     if @guild.full?
       redirect_to @guild, alert: "This guild has reached its member limit."
     else
-      current_user.update(guild: @guild)
+      GuildMembership.create(guild: @guild, profile: current_user.profile, role: :member)
+
       redirect_to @guild, notice: "You've successfully joined the guild!"
     end
   rescue Pundit::NotAuthorizedError
