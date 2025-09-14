@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :guilds
+  resources :guilds do
+    member do
+      post :join
+    end
+  end
   
   resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
