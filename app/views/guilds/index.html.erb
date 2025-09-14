@@ -1,26 +1,50 @@
 <h1 class="text-center mt-5">Guilds</h1>
 
-<div class="text-center my-3">
-  <%= link_to "Create a New Guild", new_guild_path, class: "btn btn-red" %>
-</div>
+<div class="guilds-layout-container" data-controller="guilds-preview">
+  <div class="guild-preview-container">
+    <div data-guilds-preview-target="defaultContent">
+      <h3 style="margin-bottom: 8px;">Guilds</h3>
+      <p style="margin-bottom: 12px; font-size: 14px; color: #666;">Select a guild from the list to see more details and join.</p>
+    </div>
+    
+    <div data-guilds-preview-target="guildContent" style="display: none;">
+      <h3 data-guilds-preview-target="name" class="preview-text" style="font-size: 24px; margin-bottom: 8px;"></h3>
+      <p data-guilds-preview-target="tag" class="preview-text" style="font-size: 18px; margin-bottom: 8px;"></p>
+      <p data-guilds-preview-target="members" class="preview-text" style="font-size: 16px; margin-bottom: 16px;"></p>
+      <hr style="margin: 16px 0;">
+    </div>
+    
+    <div data-guilds-preview-target="actionButtons">
+      <%= button_to "Join Guild", "#", method: :post, form_class: "join-form", class: "btn btn-red mb-3", data: { guilds_preview_target: "joinButton" }, style: "display: none;" %>
+      <h5 class="mt-5">You can create your own guild!</h5>
+      <%= link_to "Create a New Guild", new_guild_path, class: "btn btn-red", data: { guilds_preview_target: "createButton" } %>
+    </div>
+  </div>
 
-<div style="flex:1;">
-  <table style="width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px;">
-    <thead>
-      <tr style="background:#0d6efd; color:white;">
-        <th style="text-align:left; padding:.6rem;">Guild Name</th>
-        <th style="text-align:left; padding:.6rem;">Guild Tag</th>
-        <th style="text-align:left; padding:.6rem;">Members</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @guilds.each do |guild| %>
-        <tr style="border-bottom: 1px solid #dee2e6;">
-          <td style="padding:.6rem;"><%= guild.name %></td>
-          <td style="padding:.6rem;"><%= guild.tag %></td>
-          <td style="padding:.6rem;"><%= "#{guild.profiles.count}/#{guild.max_members}" %></td>
+  <div class="guilds-table-wrapper">
+    <table class="guilds-table">
+      <thead>
+        <tr>
+          <th>Guild Name</th>
+          <th>Guild Tag</th>
+          <th>Members</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @guilds.each do |guild| %>
+          <tr class="guild-row"
+              data-guild-name="<%= guild.name %>"
+              data-guild-tag="<%= guild.tag %>"
+              data-guild-members="<%= "#{guild.profiles.count}/#{guild.max_members}" %>"
+              data-guild-id="<%= guild.id %>"
+              data-action="click->guilds-preview#show">
+            <td><%= guild.name %></td>
+            <td><%= guild.tag %></td>
+            <td><%= "#{guild.profiles.count}/#{guild.max_members}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+     <%= paginate @guilds, class: "btn btn-red" %>
+  </div>
 </div>

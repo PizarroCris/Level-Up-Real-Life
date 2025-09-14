@@ -4,7 +4,7 @@ class GuildsController < ApplicationController
   before_action :set_guild, only: %i[show edit update join destroy]
 
   def index
-     @guilds = policy_scope(Guild)
+    @guilds = policy_scope(Guild).page(params[:page]).per(10)
   end
 
   def show
