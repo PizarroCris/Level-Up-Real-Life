@@ -6,7 +6,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    owner?
   end
 
   def create?
