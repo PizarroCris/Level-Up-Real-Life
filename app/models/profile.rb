@@ -39,6 +39,14 @@ class Profile < ApplicationRecord
     )
   end
 
+  def total_morale
+    self.troops.reload.sum(&:morale)
+  end
+
+  def can_fight?
+    self.troops.any? && self.total_morale > 0
+  end
+
   private
 
   def base_attack
