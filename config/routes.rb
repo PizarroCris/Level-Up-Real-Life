@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   resources :equipment_items, only: [] do
     resources :equipments, only: [:create]
   end
+ 
+  resources :map
 
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact
