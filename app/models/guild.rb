@@ -2,6 +2,7 @@ class Guild < ApplicationRecord
   belongs_to :leader, class_name: 'Profile'
   has_many :guild_memberships
   has_many :profiles, through: :guild_memberships
+  has_many :guild_messages, dependent: :destroy
 
   before_validation :set_default_max_members, on: :create
 

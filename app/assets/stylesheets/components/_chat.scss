@@ -55,7 +55,6 @@
   border-radius: 15px;
   max-width: 100%;
   margin-bottom: 5px;
-  p { margin: 0; }
 }
 
 .chat-message.mine {
@@ -68,4 +67,34 @@
   align-self: flex-end;
   background-color: #CCC9C9;
   color: black;
+}
+
+.guild-chat-container {
+  position: fixed;
+  bottom: 144px;
+  right: 10px;
+  width: 350px;
+  transform: translateZ(0);
+  background-image: image_url('brown-paper.png');
+  z-index: 1000;
+}
+
+.guild-chat-container .chat-header {
+  cursor: pointer;
+  background-color: #E0D4B8;
+}
+
+.guild-chat-container .chat-header .chat-message {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.guild-chat-container.is-collapsed {
+  .chat-body {
+    display: none;
+  }
+}
+
+.guild-chat-container .chat-body {
+  padding: 10px;
 }
