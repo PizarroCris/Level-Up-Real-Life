@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'global_messages/create'
   devise_for :users
 
   root to: "pages#home"
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
     resources :guild_memberships, only: [:destroy], as: :memberships
   end
   
+  resources :global_messages, only: [:create]
   resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
 
