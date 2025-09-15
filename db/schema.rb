@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_14_041226) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_14_181442) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,10 +69,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_14_041226) do
 
   create_table "plots", force: :cascade do |t|
     t.string "name"
-    t.decimal "top_percent"
-    t.decimal "left_percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "pos_x"
+    t.integer "pos_y"
   end
 
   create_table "profiles", force: :cascade do |t|
