@@ -1,0 +1,22 @@
+<div class="guild-chat-container" data-controller="chat">
+  <div class="chat-header" data-action="click->chat#toggle">
+    <div id="guild_chat_<%= guild.id %>_preview">
+    <div id="d-flex align-items-center chat_preview">
+      <p class="">Guild Chat</p>
+    </div>
+    </div>
+  </div>
+  <div class="chat-body" data-chat-target="body">
+    <div id="guild_messages_<%= guild.id %>" class="chat-box">
+      <% guild.guild_messages.order(created_at: :desc).limit(50).each do |message| %>
+        <%= render 'shared/guild_message', message: message %>
+      <% end %>
+    </div>
+    <%= form_with model: [guild, GuildMessage.new], id: "new_guild_message_#{guild.id}", class: "chat-form" do |f| %>
+      <%= f.text_field :content, autocomplete: "off", class: "chat-input" %>
+      <%= f.submit "Send", class: "btn btn-red chat-submit" %>
+    <% end %>
+  </div>
+
+</div>
+<%= turbo_stream_from "guild_chat_#{guild.id}" %>

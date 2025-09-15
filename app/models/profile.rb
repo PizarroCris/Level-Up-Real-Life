@@ -1,6 +1,7 @@
 class Profile < ApplicationRecord
   belongs_to :user
-
+  belongs_to :guild, optional: true
+  
   has_one :guild_membership
   has_one :guild, through: :guild_membership
   

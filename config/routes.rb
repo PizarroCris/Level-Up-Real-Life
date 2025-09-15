@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :guilds do
+    resources :guild_messages, only: [:create]
     member do
       post :join
       delete :leave
