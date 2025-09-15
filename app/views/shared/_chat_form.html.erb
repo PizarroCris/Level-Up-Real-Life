@@ -1,0 +1,4 @@
+<%= form_with model: GlobalMessage.new, id: "new_global_message", class: "chat-form" do |f| %>
+  <%= f.text_field :content, autocomplete: "off", class: "chat-input" %>
+  <%= f.submit "Send", class: "chat-submit btn btn-red" %>
+<% end %>

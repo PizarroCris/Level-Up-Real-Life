@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_14_181442) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_15_001154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,6 +43,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_14_181442) do
     t.integer "price_in_steps"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "global_messages", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_global_messages_on_profile_id"
   end
 
   create_table "guild_memberships", force: :cascade do |t|
@@ -130,6 +138,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_14_181442) do
   add_foreign_key "buildings", "profiles"
   add_foreign_key "equipment", "equipment_items"
   add_foreign_key "equipment", "profiles"
+  add_foreign_key "global_messages", "profiles"
   add_foreign_key "guild_memberships", "guilds"
   add_foreign_key "guild_memberships", "profiles"
   add_foreign_key "guilds", "profiles", column: "leader_id"
