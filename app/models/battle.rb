@@ -4,7 +4,6 @@ class Battle < ApplicationRecord
   belongs_to :winner, class_name: 'Profile'
 
   validates :battle_log, presence: true
-
   validate :winner_must_be_a_participant
 
   private
