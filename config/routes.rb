@@ -28,8 +28,11 @@ Rails.application.routes.draw do
   end
 
   resources :global_messages, only: [:create]
-  resources :shop, only: [:show]
-  resources :shop_equipment_items, only: [:create]
+
+  resources :equipment_items, only: [] do
+    resources :equipments, only: [:create]
+  end
+ 
   resources :map
 
   get "about", to: "pages#about", as: :about
@@ -38,4 +41,5 @@ Rails.application.routes.draw do
   get "settings", to: "pages#settings"
   get "leaderboard", to: "leaderboards#index"
   get "/base", to: "bases#show", as: :user_base
+  get "inventory", to: "pages#inventory", as: :user_inventory
 end
