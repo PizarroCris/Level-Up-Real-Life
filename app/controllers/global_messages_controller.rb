@@ -5,7 +5,7 @@ class GlobalMessagesController < ApplicationController
     @global_message = GlobalMessage.new(message_params)
     @global_message.profile = current_user.profile
     authorize @global_message
-    
+
     respond_to do |format|
       if @global_message.save
         format.turbo_stream
