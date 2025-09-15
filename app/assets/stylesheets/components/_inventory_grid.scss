@@ -1,0 +1,51 @@
+.inventory-wrapper {
+  max-width: 900px;   /* control how wide the grid can grow */
+  margin: 0 auto;     /* centers it horizontally */
+  padding: 0 16px;    /* some breathing room left/right */
+}
+
+/* The grid itself */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Make each <li> look like a card */
+.inventory-grid > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 140px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  padding: 8px;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.inventory-grid > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+/* Item images inside inventory */
+.inventory-grid img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+.font-inventory {
+  font-size: 14px;
+}
+
+.image-inventory {
+  object-fit: contain !important;
+}
