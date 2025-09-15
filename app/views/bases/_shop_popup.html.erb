@@ -18,16 +18,26 @@
                 <p>Cost: </p>
                 <span><i class="fa-solid fa-shoe-prints"></i> <%= equipment.price_in_steps %></span>
               </div>
-              <%= button_to "Buy", '#', class:"btn btn-red rounded-3" %>
+              <%= button_to "Buy", "", class:"btn btn-red rounded-3" %>
             </div>
           <% end %>
         </div>
       </div>
     <% end %>
-  </div>
 
-  <div class="navigation-buttons">
+  </div>
+  <div class="navigation-buttons mt-3">
     <button class="btn btn-red rounded-3" data-action="click->shop#previousPage" data-shop-target="previousButton">Voltar</button>
     <button class="btn btn-red rounded-3" data-action="click->shop#nextPage" data-shop-target="nextButton">Próximo</button>
   </div>
+
+  <div class="shop-pages-container" data-shop-target="pagesContainer">
+    </div>
+  <hr>
+  <div class="buy-steps-section text-center mt-4">
+    <h4>Steps</h4>
+    <p>1.000 steps US$5.00</p>
+    <%= button_to "Buy", create_checkout_session_shop_index_path, class: "btn btn-red", data: { turbo: false } %>
+  </div>
+
 </div>

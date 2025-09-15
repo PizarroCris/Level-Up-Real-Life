@@ -27,8 +27,12 @@ Rails.application.routes.draw do
     resources :guild_memberships, only: [:destroy], as: :memberships
   end
 
+  resources :shop, only: [:show] do
+    post :buy_equipment, on: :member
+    post :create_checkout_session, on: :collection
+  end
+
   resources :global_messages, only: [:create]
-  resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
   resources :map
 
@@ -38,4 +42,6 @@ Rails.application.routes.draw do
   get "settings", to: "pages#settings"
   get "leaderboard", to: "leaderboards#index"
   get "/base", to: "bases#show", as: :user_base
+
+  post '/webhooks', to: 'webhooks#receive'
 end
