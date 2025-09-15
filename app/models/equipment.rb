@@ -1,4 +1,3 @@
-# app/models/equipment.rb
 class Equipment < ApplicationRecord
   belongs_to :profile
   belongs_to :equipment_item
