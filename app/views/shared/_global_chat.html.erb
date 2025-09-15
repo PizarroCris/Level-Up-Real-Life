@@ -10,7 +10,7 @@
         <%= render 'shared/global_message', message: message %>
       <% end %>
     </div>
-    <%= render "shared/chat_form" %>
+    <%= render "shared/global_chat_form" %>
   </div>
 </div>
 <%= turbo_stream_from "global_chat" %>
