@@ -1,9 +1,9 @@
 class MapController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
+  skip_after_action :verify_authorized, only: [:show]
 
   def show
-    authorize Profile
     @profiles = policy_scope(Profile)
   end
 
