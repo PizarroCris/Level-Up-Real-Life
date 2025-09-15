@@ -4,34 +4,60 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-
-
   background-image: image-url('background.png');
   background-size: cover;
 }
 
-.base-container {
+.game-screen {
   position: relative;
-  width: 100%;
+  height: calc(100vh - 30px);
+}
+
+.base-container {
+  position: absolute;
+  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
   max-width: 1500px;
-  margin: 1px auto;
-
   aspect-ratio: 16 / 9;
+}
 
-  background-image: image-url('artwork.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+.player-hud {
+  position: relative;
+  z-index: 10;
+}
+
+.map-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 720px;
+  transform-origin: top left;
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.terrain-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .plot-area {
   position: absolute;
-  width: 6%;
-  height: auto;
-  aspect-ratio: 1 / 1;
+  width: 77px;
+  height: 77px;
   transform: translate(-50%, -50%);
-
   cursor: pointer;
+  z-index: 2;
+
   transition: transform 0.2s ease-in-out;
 
   &:hover {
@@ -40,6 +66,7 @@ html, body {
 }
 
 .empty-plot {
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,7 +134,7 @@ html, body {
 }
 
 .building-menu {
-  display: none; 
+  display: none;
   position: absolute;
   background-color: #E0D4B8;
   border: 1px solid #ccc;
@@ -130,7 +157,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 30px;
   height: 30px;
 }
@@ -162,4 +188,9 @@ html, body {
 
 .fa-circle-info {
   font-size: 20px;
+}
+
+.hud-button-icon,
+.building-wrapper img {
+  user-select: none;
 }

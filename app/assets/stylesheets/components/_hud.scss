@@ -1,33 +1,37 @@
 .hud-container {
   position: fixed;
-  bottom: -5px;
-  right: 40px;
+  bottom: -260px;
+  right: -571px;
   z-index: 100;
+  pointer-events: none;
 }
 
 .hud-bar {
+  display: block;
+  height: 550px; 
+  width: auto;
+}
+
+.hud-buttons-wrapper {
   position: absolute;
-  top: 7px;
-  right: -686px;
-  width: 1233px;
-  height: 211%;
-  object-fit: cover;   
-  z-index: -1;
+  pointer-events: auto;
+  bottom: 284px;
+  right: 576px;
+  display: flex;
+  align-items: center;
 }
 
 .hud-button {
-  display: flex;
-  align-items: center; 
-  justify-content: center;
-  line-height: 0 !important;
-  padding: 0;
+  display: block;
+  height: 80px;
+  width: auto;
 }
 
 .hud-button-icon {
-  width: 100px;
-  transition: transform 0.2s ease-in-out;
   display: block;
-
+  height: 100%;
+  width: auto;
+  transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }

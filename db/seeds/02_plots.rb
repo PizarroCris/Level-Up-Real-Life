@@ -1,19 +1,20 @@
 # Responsabilidade: Criar dados essenciais para o jogo funcionar.
 
 # --- 1. PLOTS ---
-puts "🏞️ Creating Plots..."
+puts "🏞️ Creating Plots with pixel coordinates..."
+# As coordenadas são em pixels, baseadas numa imagem de 1280x720
 plots_data = [
-  { name: "Plot 1", top_percent: 44.5, left_percent: 48.0 },
-  { name: "Plot 2", top_percent: 37.0, left_percent: 40.0 },
-  { name: "Plot 3", top_percent: 51.0, left_percent: 69.5 },
-  { name: "Plot 4", top_percent: 66.0, left_percent: 52.0 },
-  { name: "Plot 5", top_percent: 60.0, left_percent: 37.0 }
+  { name: "Plot 1", pos_x: 617, pos_y: 259 }, # Centro exato
+  { name: "Plot 2", pos_x: 886, pos_y: 332 }, # Canto superior direito
+  { name: "Plot 3", pos_x: 457, pos_y: 404 }, # Canto inferior esquerdo
+  { name: "Plot 4", pos_x: 503, pos_y: 224 }, # Canto superior esquerdo
+  { name: "Plot 5", pos_x: 661, pos_y: 460 } # Canto inferior direito
 ]
 
 plots_data.each do |data|
   Plot.find_or_create_by!(name: data[:name]) do |plot|
-    plot.top_percent = data[:top_percent]
-    plot.left_percent = data[:left_percent]
+    plot.pos_x = data[:pos_x]
+    plot.pos_y = data[:pos_y]
   end
 end
 puts "✅ #{Plot.count} plots are in place."
