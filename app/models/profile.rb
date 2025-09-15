@@ -1,10 +1,13 @@
 class Profile < ApplicationRecord
+  DEFAULT_ATTACK = 100
+  DEFAULT_DEFENSE = 100
+  
   belongs_to :user
   belongs_to :guild, optional: true
-  
+
   has_one :guild_membership
   has_one :guild, through: :guild_membership
-  
+
   has_many :buildings, dependent: :destroy
   has_many :equipments, dependent: :destroy
   has_many :equipment_items, through: :equipments
