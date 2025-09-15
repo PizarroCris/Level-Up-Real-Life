@@ -20,9 +20,9 @@
           <% item = eq.equipment_item %>
           <li>
             <% if item.image_path.present? %>
-              <%= image_tag item.image_path, alt: item.name %>
+              <%= image_tag item.image_path, alt: item.name, class: "image-inventory" %>
             <% end %>
-            <strong><%= item.name %></strong>
+            <strong class="font-inventory"><%= item.name %></strong>
             <div class="small text-muted">
               <i class="fa-solid fa-hand-fist"></i> <%= item.attack %>
               &nbsp;|&nbsp;
