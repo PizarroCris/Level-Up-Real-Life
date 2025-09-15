@@ -22,6 +22,9 @@
         <%= render 'menu_popup' %>
         <%= render 'bases/shop_popup' %>
         <%= render 'bases/hud' %>
+        <% if user_signed_in? %>
+          <%= render 'shared/global_chat' %>
+        <% end %>
       </div>
     <% end %>
   </body>

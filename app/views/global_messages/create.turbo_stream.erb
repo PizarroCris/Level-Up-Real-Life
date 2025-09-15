@@ -1,0 +1,6 @@
+<%= turbo_stream.prepend "global_messages" do %>
+  <%= render "shared/global_message", message: @global_message %>
+<% end %>
+<%= turbo_stream.replace "new_global_message" do %>
+  <%= render "shared/chat_form" %>
+<% end %>
