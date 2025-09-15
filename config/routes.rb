@@ -17,7 +17,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :shop, only: [:show]
+  resources :guilds do
+    member do
+      post :join
+      delete :leave
+    end
+    resources :guild_memberships, only: [:destroy], as: :memberships
+  end
+  
+  resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
 
   get "about", to: "pages#about", as: :about

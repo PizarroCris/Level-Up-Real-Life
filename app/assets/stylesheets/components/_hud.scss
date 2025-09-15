@@ -7,17 +7,26 @@
 
 .hud-bar {
   position: absolute;
-  top: -10px;
-  right: -240px;
-  width: 800px;
-  height: 100%;
+  top: 7px;
+  right: -686px;
+  width: 1233px;
+  height: 211%;
   object-fit: cover;   
   z-index: -1;
+}
+
+.hud-button {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  line-height: 0 !important;
+  padding: 0;
 }
 
 .hud-button-icon {
   width: 100px;
   transition: transform 0.2s ease-in-out;
+  display: block;
 
   &:hover {
     transform: scale(1.1);
