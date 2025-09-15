@@ -1,26 +1,39 @@
-<h1 class="text-center my-4">Inventory</h1>
-<div class="text-center mt-4">
-  <%= link_to "Back", root_path, class: "btn btn-red rounded-3" %>
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Inventory</p>
 </div>
 
-<div class="inventory-wrapper mt-4 card card-box rounded-5 p-3">
-  <ul class="inventory-grid">
-    <% current_user.profile.equipments.includes(:equipment_item).each do |eq| %>
-      <% item = eq.equipment_item %>
-      <li>
-        <% if item.image_path.present? %>
-          <%= image_tag item.image_path, alt: item.name %>
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+       style="max-width: 900px; padding: 20px; box-shadow: 0 4px 12px #666;">
+
+    <!-- Close button -->
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
+                  user_base_path,
+                  class: "close-btn" %>
+    </div>
+
+    <!-- Inventory Grid -->
+    <div class="inventory-wrapper mt-3">
+      <ul class="inventory-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px">
+        <% current_user.profile.equipments.includes(:equipment_item).each do |eq| %>
+          <% item = eq.equipment_item %>
+          <li>
+            <% if item.image_path.present? %>
+              <%= image_tag item.image_path, alt: item.name %>
+            <% end %>
+            <strong><%= item.name %></strong>
+            <div class="small text-muted">
+              <i class="fa-solid fa-hand-fist"></i> <%= item.attack %>
+              &nbsp;|&nbsp;
+              <i class="fa-solid fa-shield-halved"></i> <%= item.defense %>
+              <% if item.speed_bonus.to_i.nonzero? %>
+                &nbsp;|&nbsp;<i class="fa-solid fa-person-running"></i> +<%= item.speed_bonus %>
+              <% end %>
+            </div>
+          </li>
         <% end %>
-        <strong><%= item.name %></strong>
-        <div class="small text-muted">
-          <i class="fa-solid fa-hand-fist"></i> <%= item.attack %>
-          &nbsp;|&nbsp;
-          <i class="fa-solid fa-shield-halved"></i> <%= item.defense %>
-          <% if item.speed_bonus.to_i.nonzero? %>
-            &nbsp;|&nbsp;<i class="fa-solid fa-person-running"></i> +<%= item.speed_bonus %>
-          <% end %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+      </ul>
+    </div>
+  </div>
 </div>
