@@ -1,0 +1,26 @@
+<h1 class="text-center my-4">Inventory</h1>
+<div class="text-center mt-4">
+  <%= link_to "Back", root_path, class: "btn btn-red rounded-3" %>
+</div>
+
+<div class="inventory-wrapper mt-4 card card-box rounded-5 p-3">
+  <ul class="inventory-grid">
+    <% current_user.profile.equipments.includes(:equipment_item).each do |eq| %>
+      <% item = eq.equipment_item %>
+      <li>
+        <% if item.image_path.present? %>
+          <%= image_tag item.image_path, alt: item.name %>
+        <% end %>
+        <strong><%= item.name %></strong>
+        <div class="small text-muted">
+          <i class="fa-solid fa-hand-fist"></i> <%= item.attack %>
+          &nbsp;|&nbsp;
+          <i class="fa-solid fa-shield-halved"></i> <%= item.defense %>
+          <% if item.speed_bonus.to_i.nonzero? %>
+            &nbsp;|&nbsp;<i class="fa-solid fa-person-running"></i> +<%= item.speed_bonus %>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

@@ -79,7 +79,7 @@ EquipmentItem.create!([
 # ============================================================================
 puts "Creating Special Accessory..."
 EquipmentItem.create!(
-  name: "Amulet of the Fitness",
+  name: "Fitness Amulet",
   equipment_type: "accessory",
   attack: 0,
   defense: 0,
