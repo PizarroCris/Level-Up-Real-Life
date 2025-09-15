@@ -1,0 +1,13 @@
+.container-close {
+  display: relative;
+}
+
+.close-btn {
+  color: #8B0000;
+  text-decoration: none;
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-size: 24px;
+  z-index: 3;
+}

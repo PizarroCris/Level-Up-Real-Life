@@ -20,4 +20,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     user_base_path
   end
+
+  def ensure_profile!
+    return if current_user.profile.present?
+    current_user.create_profile!(username: current_user.email.split("@").first)
+  end
 end

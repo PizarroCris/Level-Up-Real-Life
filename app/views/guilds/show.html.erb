@@ -1,0 +1,58 @@
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Guild</p>
+</div>
+<div class="container">
+  <div class="guild-show-container mt-5 card card-box mx-auto rounded-5" style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <div class="guild-info-panel">
+      <h1 class="guild-title text-center mt-2"><%= @guild.name %></h1>
+      <h5 class="guild-tag text-center"><%= @guild.tag %></h5>
+
+      <div class="info-row">
+        <strong>Leader:</strong> <%= @guild.leader.username %>
+      </div>
+
+      <div class="info-row">
+        <strong>Members:</strong> <%= @guild.profiles.count %> / <%= @guild.max_members %>
+      </div>
+      
+      <hr>
+
+    <div class="guild-details-panel">
+      <div class="guild-members-list">
+        <h3>Members (<%= @guild.profiles.count %>)</h3>
+        <table class="members-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @guild.guild_memberships.includes(:profile).each do |membership| %>
+              <tr style="border-bottom: 1px solid #dee2e6;">
+                <td><%= membership.profile.username %></td>
+                <td><%= membership.role.capitalize %></td>
+                <td><%= membership.profile.level %></td>
+
+                <% if @guild.leader.user == current_user %>
+                  <td>
+                    <% unless membership.role == "leader" %>
+                      <%= button_to "Kick", guild_membership_path(@guild, membership), method: :delete, class: "btn btn-red btn-sm" %>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="guild-news-board">
+      </div>
+      <div class="guild-actions d-flex justify-content-end">
+        <%= button_to "Leave Guild", leave_guild_path(@guild), method: :delete, class: "btn btn-red" %>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
