@@ -1,0 +1,4 @@
+<%= form_with model: [guild, GuildMessage.new], id: "new_guild_message_#{guild.id}", class: "chat-form" do |f| %>
+  <%= f.text_field :content, autocomplete: "off", class: "chat-input" %>
+  <%= f.submit "Send", class: "chat-submit btn btn-red" %>
+<% end %>

@@ -1,5 +1,45 @@
-<div class="d-none shop-popup" data-inventory-target="shopPopup">
+<div class="d-none shop-popup" data-inventory-target="shopPopup" data-controller="shop">
   <span class="close" data-action="click->inventory#hidePopup">&times;</span>
-  <h2 class="text-center">Shop</h2>
-  <p>Shop content.</p>
+  <h3 class="text-center">Shop</h3>
+
+  <div class="shop-pages-container" data-shop-target="pagesContainer">
+    <% @equipments.each_slice(3).with_index do |page_items, index| %>
+      <div class="shop-page <%= 'active' if index == 0 %>" data-shop-target="page">
+        <div class="equipment-grid">
+          <% page_items.each do |equipment| %>
+            <div class="equipment-card">
+              <%= image_tag equipment.image_path, alt: equipment.name, class: "equipment-image" %>
+              <h5><%= equipment.name %></h5>
+              <div class="d-flex gap-3">
+                <span><i class="fa-solid fa-hand-fist"></i> <%= equipment.attack %></span>
+                <span><i class="fa-solid fa-shield-halved"></i> <%= equipment.defense %></span>
+                </div>
+              <div class="cost d-flex gap-3">
+                <p>Cost: </p>
+                <span><i class="fa-solid fa-shoe-prints"></i> <%= equipment.price_in_steps %></span>
+              </div>
+              <%= simple_form_for [equipment, Equipment.new], url: equipment_item_equipments_path(equipment) do |f| %>
+                <%= f.submit "Buy", class:"btn btn-red rounded-3" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+  <div class="navigation-buttons mt-3">
+    <button class="btn btn-red rounded-3" data-action="click->shop#previousPage" data-shop-target="previousButton">Voltar</button>
+    <button class="btn btn-red rounded-3" data-action="click->shop#nextPage" data-shop-target="nextButton">Próximo</button>
+  </div>
+
+  <div class="shop-pages-container" data-shop-target="pagesContainer">
+    </div>
+  <hr>
+  <div class="buy-steps-section text-center mt-4">
+    <h4>Steps</h4>
+    <p>1.000 steps US$5.00</p>
+    <%= button_to "Buy", create_checkout_session_shop_index_path, class: "btn btn-red", data: { turbo: false } %>
+  </div>
+
 </div>

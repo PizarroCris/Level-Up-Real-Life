@@ -1,0 +1,7 @@
+<%= turbo_stream.prepend "guild_messages_#{@guild.id}" do %>
+  <%= render "shared/guild_message", message: @guild_message %>
+<% end %>
+
+<%= turbo_stream.replace "new_guild_message_#{@guild.id}" do %>
+  <%= render "shared/guild_chat_form", guild: @guild %>
+<% end %>

@@ -6,5 +6,8 @@ class BasesController < ApplicationController
     authorize @profile
     @plots = Plot.all
     @buildings_by_plot_id = @profile.buildings.includes(:plot).index_by(&:plot_id)
+    @guild = current_user.profile.guild
+    @equipments = EquipmentItem.all
+    @buildings_by_plot_id = @profile.buildings.includes(:plot, :resources).index_by(&:plot_id)
   end
 end

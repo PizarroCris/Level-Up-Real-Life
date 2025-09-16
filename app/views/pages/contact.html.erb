@@ -1,28 +1,38 @@
-<h1 class="text-center mt-5">Contact Us</h1>
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Contact Us</p>
+</div>
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <p class="my-4">
+      Have a question or feedback? Send us a message!
+    </p>
 
-<div class="card mx-auto my-4 rounded-5"
-     style="max-width: 800px; padding: 20px; box-shadow: 0 4px 12px #666;">
-  <p class="text-center">
-    Reach out directly to any of us:
-  </p>
+    <%= form_with url: contact_path, method: :post, local: true do |f| %>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">First name</label>
+          <%= f.text_field :first_name, required: true, class: "form-control", placeholder: "Jane" %>
+        </div>
 
-  <div class="d-flex flex-wrap justify-content-around mt-4">
-    <% @team.each do |member| %>
-      <div class="text-center m-3">
-        <%= image_tag member[:image],
-              class: "rounded-circle mb-2",
-              style: "width: 80px; height: 80px; object-fit: cover;" %>
+        <div class="col-md-6">
+          <label class="form-label">Last name</label>
+          <%= f.text_field :last_name, required: true, class: "form-control", placeholder: "Doe" %>
+        </div>
 
-        <p class="fw-bold mb-1"><%= member[:name] %></p>
+        <div class="col-12">
+          <label class="form-label">Email</label>
+          <%= f.email_field :email, required: true, class: "form-control", placeholder: "you@example.com" %>
+        </div>
 
-        <% if member[:email] %>
-          <p>
-            <a href="mailto:<%= member[:email].gsub('(at)', '@') %>"
-               class="text-decoration-none text-dark">
-              <%= member[:email].gsub('(at)', '@') %>
-            </a>
-          </p>
-        <% end %>
+        <div class="col-12">
+          <label class="form-label">Message</label>
+          <%= f.text_area :message, required: true, rows: 5, class: "form-control", placeholder: "How can we help?" %>
+        </div>
+
+        <div class="col-12 d-flex justify-content-end mt-2">
+          <%= f.submit "Send Message", class: "btn btn-red px-4" %>
+        </div>
       </div>
     <% end %>
   </div>

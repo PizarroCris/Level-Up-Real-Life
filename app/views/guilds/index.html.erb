@@ -1,0 +1,48 @@
+<div class="guilds-layout-container mt-5" data-controller="guilds-preview">
+  <div class="guild-preview-container">
+ 
+    <div data-guilds-preview-target="defaultContent">
+      <p style="margin-bottom: 12px; font-size: 14px; color: #666;">Select a guild from the list to see more details and join.</p>
+    </div>
+    
+    <div data-guilds-preview-target="guildContent" style="display: none;">
+      <h3 data-guilds-preview-target="name" class="preview-text" style="font-size: 24px; margin-bottom: 8px;"></h3>
+      <p data-guilds-preview-target="tag" class="preview-text" style="font-size: 18px; margin-bottom: 8px;"></p>
+      <p data-guilds-preview-target="members" class="preview-text" style="font-size: 16px; margin-bottom: 16px;"></p>
+      <hr style="margin: 16px 0;">
+    </div>
+    
+    <div data-guilds-preview-target="actionButtons">
+      <%= button_to "Join Guild", "#", method: :post, form_class: "join-form", class: "btn btn-red mb-3", data: { guilds_preview_target: "joinButton" }, style: "display: none;" %>
+      <h5 class="mt-5">You can create your own guild!</h5>
+      <%= link_to "Create a New Guild", new_guild_path, class: "btn btn-red", data: { guilds_preview_target: "createButton" } %>
+    </div>
+  </div>
+
+  <div class="guilds-table-wrapper">
+    <table class="guilds-table">
+      <thead>
+        <tr>
+          <th>Guild Name</th>
+          <th>Guild Tag</th>
+          <th>Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @guilds.each do |guild| %>
+          <tr class="guild-row"
+              data-guild-name="<%= guild.name %>"
+              data-guild-tag="<%= guild.tag %>"
+              data-guild-members="<%= "#{guild.profiles.count}/#{guild.max_members}" %>"
+              data-guild-id="<%= guild.id %>"
+              data-action="click->guilds-preview#show">
+            <td><%= guild.name %></td>
+            <td><%= guild.tag %></td>
+            <td><%= "#{guild.profiles.count}/#{guild.max_members}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+     <%= paginate @guilds, class: "btn btn-red" %>
+  </div>
+</div>

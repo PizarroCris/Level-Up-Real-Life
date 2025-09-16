@@ -1,0 +1,22 @@
+<h1 class="text-center mt-5">New Guild</h1>
+
+<div class="card card-box mx-auto my-4 rounded-5"
+     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+
+  <%= simple_form_for @guild do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors.full_messages.to_sentence %>
+
+    <div class="form-inputs">
+      <%= f.input :name %>
+      <%= f.input :tag, hint: "3-5 uppercase letters or numbers (e.g., HERO, K12)." %>
+      <%= f.input :description, as: :text %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, "Create Guild", class: "btn btn-red w-100 mt-3" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Back to Base", user_base_path, class: "btn btn-secondary w-100 mt-2" %>
+</div>

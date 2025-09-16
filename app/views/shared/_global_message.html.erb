@@ -1,0 +1,17 @@
+<%= turbo_frame_tag message do %>
+  <% if message.profile == current_user.profile %>
+    <% message_class = "mine" %>
+  <% else %>
+    <% message_class = "theirs" %>
+  <% end %>
+
+  <div class="chat-message <%= message_class %>">
+  <% if message_class == "mine" %>
+    <strong><em>You:</em></strong>
+    <p><%= message.content %></p>
+  <% else %>
+    <strong><em><%= message.profile.username %>:</em></strong>
+    <p><%= message.content %></p>
+  <% end %>
+  </div>
+<% end %>

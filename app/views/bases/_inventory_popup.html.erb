@@ -11,6 +11,11 @@
     </div>
     <div class="border">
       <div><p>Equips</p></div>
+      <ul>
+        <% current_user.profile.equipment_items.each do |item| %>
+        <li> <%= item.name %></li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
