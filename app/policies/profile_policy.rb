@@ -29,6 +29,10 @@ class ProfilePolicy < ApplicationPolicy
     owner?
   end
 
+  def inventory
+    owner?
+  end
+
   private
 
   def owner?
