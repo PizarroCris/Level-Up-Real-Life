@@ -48,7 +48,11 @@ Rails.application.routes.draw do
       post :attack
     end
   end
+<<<<<<< HEAD
+ 
+=======
 
+>>>>>>> master
   resources :map
 
   get "about", to: "pages#about", as: :about

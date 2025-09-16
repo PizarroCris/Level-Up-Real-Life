@@ -1,30 +1,21 @@
-<div class="map-container" data-controller="map-scaler">
-  <div class="map-content" data-map-scaler-target="content">
-    <%= image_tag 'map/world_map.png', class: 'terrain-image' %>
-
-    <% @profiles_with_castles.each do |profile| %>
-      <% castle = profile.buildings.find_by(building_type: 'castle') %>
-      <% if castle %>
-        <div class="map-plot" style="top: <%= profile.map_plot.pos_y %>px; left: <%= profile.map_plot.pos_x %>px;">
-          <%= link_to user_path(profile.user) do %>
-            <%= image_tag "buildings/castles/castle#{format('%02d', castle.level)}.png", alt: "Castelo de #{profile.username}" %>
-          <% end %>
-        </div>
-      <% end %>
-    <% end %>
-
-    <% @monsters.each do |monster| %>
-      <div class="map-monster" style="top: <%= monster.pos_y %>px; left: <%= monster.pos_x %>px;">
-        <%= button_to attack_world_monster_path(monster), method: :post, class: "monster-attack-button" do %>
-          <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name %>
-          <span class="monster-hp">HP: <%= monster.hp %></span>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% @available_plots.each do |plot| %>
-      <div class="map-plot map-plot--available" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
-      </div>
-    <% end %>
+<h1 class="text-center my-4" style="color: white; text-shadow: 2px 2px 4px black;">World Map</h1>
+<div class="map-ui-wrapper" 
+     data-controller="map-panning"
+     data-map-panning-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
+     data-map-panning-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
+  <% if current_user.profile.map_plot %>
+    <button class="btn btn-primary center-on-castle-btn" data-action="click->map-panning#centerOnMyCastle">
+      <i class="fa-solid fa-crosshairs"></i> Go to My Castle
+    </button>
+  <% end %>
+  <div class="map-viewport" 
+       data-action="mousedown->map-panning#startDrag 
+                    mousemove->map-panning#drag 
+                    mouseup->map-panning#stopDrag 
+                    mouseleave->map-panning#stopDrag">
+    <div class="map-world" data-map-panning-target="world">
+      <%= render partial: 'maps/castle', collection: @castles %>
+      <%= render partial: 'maps/monster', collection: @monsters %>
+    </div>
   </div>
 </div>

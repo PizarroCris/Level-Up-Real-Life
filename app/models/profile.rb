@@ -51,13 +51,15 @@ class Profile < ApplicationRecord
   end
 
   def max_troops_for_attack
-    castle = self.buildings.find_by(building_type: 'castle')
+    castle = buildings.find_by(building_type: 'castle')
+
     return 0 unless castle
     Building::BUILDING_STATS.dig('castle', castle.level, :max_troops_for_attack) || 0
   end
 
   def unlocked_troops
-    barracks = self.buildings.where(building_type: 'barrack')
+    barracks = buildings.where(building_type: 'barrack')
+
     return Troop.none if barracks.empty?
     max_barracks_level = barracks.maximum(:level)
     troops.where("troops.level <= ?", max_barracks_level)
