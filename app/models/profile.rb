@@ -50,7 +50,6 @@ class Profile < ApplicationRecord
     castle = buildings.find_by(building_type: 'castle')
 
     return 0 unless castle
-
     Building::BUILDING_STATS.dig('castle', castle.level, :max_troops_for_attack) || 0
   end
 
@@ -58,7 +57,6 @@ class Profile < ApplicationRecord
     barracks = buildings.where(building_type: 'barrack')
 
     return Troop.none if barracks.empty?
-
     max_barracks_level = barracks.maximum(:level)
     troops.where("troops.level <= ?", max_barracks_level)
   end
@@ -68,8 +66,6 @@ class Profile < ApplicationRecord
     level_bonus = level * 0.01
     equipment_bonus + level_bonus
   end
-
-  private
 
   def troop_attack_bonus
     troops.sum(&:attack)
