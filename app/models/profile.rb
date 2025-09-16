@@ -1,7 +1,7 @@
 class Profile < ApplicationRecord
   DEFAULT_ATTACK = 100
   DEFAULT_DEFENSE = 100
-  
+
   belongs_to :user
 
   has_one :guild_membership
@@ -42,6 +42,22 @@ class Profile < ApplicationRecord
     level_bonus = self.level * 0.01
     equipment_bonus + level_bonus
   end
+
+  def can_buy?(equipment_item)
+    return false unless equipment_item&.price_in_steps
+    steps.to_i >= equipment_item.price_in_steps.to_i
+  end
+
+  def spend_steps!(amount)
+    amount = amount.to_i
+    raise ArgumentError, "amount must be positive" if amount <= 0
+
+    with_lock do
+      raise "Not enough steps" if steps < amount
+      update!(steps: steps - amount)
+    end
+  end
+
 
   private
 
