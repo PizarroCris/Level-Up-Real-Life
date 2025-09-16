@@ -1,0 +1,100 @@
+.global-chat-container {
+  position: fixed;
+  bottom: 97px;
+  right: 10px;
+  width: 350px;
+  background-image: image_url('brown-paper.png');
+  z-index: 1000;
+}
+
+.chat-header {
+  width: 100%;
+  padding: 1px;
+  cursor: pointer;
+  background-image: image_url("old-paper.png");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+}
+
+.chat-header .chat-message {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.global-chat-container.is-collapsed {
+  .chat-body {
+    display: none;
+  }
+}
+
+.chat-body {
+  padding: 0px 10px 10px 10px;
+}
+
+.chat-box {
+  height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 10px;
+}
+
+.chat-form {
+  display: flex;
+}
+
+.chat-input {
+  background-color: #E0D4B8;
+  flex-grow: 1;
+  border: 0px;
+}
+
+.chat-message {
+  padding: 8px 12px;
+  border-radius: 15px;
+  max-width: 100%;
+  margin-bottom: 5px;
+}
+
+.chat-message.mine {
+  align-self: flex-start;
+  background-color: #9C9F84;
+  color: black;
+}
+
+.chat-message.theirs {
+  align-self: flex-end;
+  background-color: #CCC9C9;
+  color: black;
+}
+
+.guild-chat-container {
+  position: fixed;
+  bottom: 144px;
+  right: 10px;
+  width: 350px;
+  transform: translateZ(0);
+  background-image: image_url('brown-paper.png');
+  z-index: 1000;
+}
+
+.guild-chat-container .chat-header {
+  cursor: pointer;
+  background-color: #E0D4B8;
+}
+
+.guild-chat-container .chat-header .chat-message {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.guild-chat-container.is-collapsed {
+  .chat-body {
+    display: none;
+  }
+}
+
+.guild-chat-container .chat-body {
+  padding: 10px;
+}

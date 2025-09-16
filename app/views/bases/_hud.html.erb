@@ -1,0 +1,46 @@
+<div class="hud-container">
+  <%= image_tag "hud/hud-bar.png", class: "hud-bar" %>
+
+  <div class="hud-buttons-wrapper d-flex">
+
+    <%= link_to(
+          image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
+          map_path(current_user.profile),
+          class: "hud-button", draggable: false
+        ) %>
+
+    <% if current_user.profile.guild.nil? %>
+      <%= link_to(
+            image_tag("hud/guild.png", alt: "Guilds", class: "hud-button-icon", draggable: false),
+            guilds_path,
+            class: "hud-button", draggable: false
+          ) %>
+    <% else %>
+      <%= link_to(
+            image_tag("hud/guild.png", alt: "My Guild", class: "hud-button-icon", draggable: false),
+            guild_path(current_user.profile.guild),
+            class: "hud-button", draggable: false
+          ) %>
+    <% end %>
+
+    <%= link_to(
+          image_tag("hud/inventory.png", alt: "Inventory", class: "hud-button-icon", draggable: false),
+          user_inventory_path,
+          class: "hud-button", draggable: false
+        ) %>
+
+    <%= link_to(
+          image_tag("hud/menu.png", alt: "Menu", class: "hud-button-icon", draggable: false),
+          "#",
+          class: "hud-button",
+          data: { action: "click->inventory#showMenu" }, draggable: false
+        ) %>
+
+    <%= link_to(
+          image_tag("hud/shop.png", alt: "Shop", class: "hud-button-icon", draggable: false),
+          "#",
+          class: "hud-button",
+          data: { action: "click->inventory#showShop" }, draggable: false
+        ) %>
+  </div>
+</div>

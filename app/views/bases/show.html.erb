@@ -1,58 +1,36 @@
-<div class="player-hud">
-  <h1><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
-  <div class="resources">
-    <span>🌲 Wood: <%= @profile.wood %></span>
-    <span>⛰️ Stone: <%= @profile.stone %></span>
-    <span>🔩 Metal: <%= @profile.metal %></span>
-  </div>
-</div>
-
-<div class="base-container" data-controller="inventory">
-
-  <% @plots.each do |plot| %>
-    <% building = @buildings_by_plot_id[plot.id] %>
-    <div class="plot-area <%= building ? 'building-plot' : 'empty-plot' %>" style="top: <%= plot.top_percent %>%; left: <%= plot.left_percent %>%;">
-
-      <% if building %>
-        <% if building.building_type == "barrack" %>
-          <%= link_to building_troops_path(building) do %>
-            <% folder = building.building_type.pluralize %>
-            <% filename = "#{building.building_type}#{format('%02d', building.level)}.png" %>
-            <% image_path = "buildings/#{folder}/#{filename}" %>
-            <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
-            <div class="building-level-badge"><%= building.level %></div>
+<div class="game-screen">
+  <%= render "bases/banner" %>
+  <div class="spacer"></div>
+  <div class="base-container" data-controller="map-scaler building-menu">
+    <div class="map-content" data-map-scaler-target="content">
+      <%= image_tag 'artwork.png', class: 'terrain-image', draggable: false %>
+      <% @plots.each do |plot| %>
+        <% building = @buildings_by_plot_id[plot.id] %>
+        <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
+          <% if building %>
+            <div class="building-wrapper"
+                 data-action="click->building-menu#toggle"
+                 data-building-show-url="<%= building_destination_path(building) %>"
+                 data-building-upgrade-url="<%= upgrade_building_path(building) %>"
+                 data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
+              
+              <%= image_tag building.image_asset_path,
+                            alt: "#{building.building_type.capitalize} Level #{building.level}",
+                            draggable: false %>      
+              <div class="building-level-badge"><%= building.level %></div>
+            </div>
+          <% else %>
+            <%= link_to new_building_path(plot_id: plot.id) do %>
+              <span><i class="fa-solid fa-circle-plus"></i></span>
+            <% end %>
           <% end %>
-        <% else %>
-          <%= link_to building_path(building) do %>
-            <% folder = building.building_type.pluralize %>
-            <% filename = "#{building.building_type}#{format('%02d', building.level)}.png" %>
-            <% image_path = "buildings/#{folder}/#{filename}" %>
-            <%= image_tag image_path, alt: "#{building.building_type.capitalize} Level #{building.level}" %>
-            <div class="building-level-badge"><%= building.level %></div>
-          <% end %>
-        <% end %>
-
-      <% else %>
-        <%= link_to new_building_path(plot_id: plot.id) do %>
-          <span>+</span>
-        <% end %>
+        </div>
       <% end %>
-
     </div>
-  <% end %>
-
-  <%= render 'inventory_popup' %>
-  <%= render 'menu_popup' %>
-  <%= render 'shop_popup' %>
-
-  <div class="game-hud-buttons p-3">
-    <div class="d-flex justify-content-between">
-      <%= link_to "Inventory", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showInventory" } %>
-      <div class="d-flex gap-2">
-        <%= link_to "Menu", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showMenu" } %>
-        <%= link_to "Shop", "#", class: "btn btn-primary rounded-5", data: { action: "click->inventory#showShop" } %>
-      </div>
-    </div>
+    <%= render 'bases/building_menu_popup' %>
   </div>
-
+  <div class="spacer"></div>
 </div>
+<% if @guild %>
+  <%= render 'shared/guild_chat', guild: @guild %>
+<% end %>

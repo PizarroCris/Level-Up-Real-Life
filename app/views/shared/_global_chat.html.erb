@@ -1,0 +1,16 @@
+<div class="global-chat-container" data-controller="chat">
+  <div class="chat-header" data-action="click->chat#toggle">
+    <div id="d-flex align-items-center chat_preview">
+      <p class="">Global Chat</p>
+    </div>
+  </div>
+  <div class="chat-body" data-chat-target="body">
+    <div id="global_messages" class="chat-box">
+      <% GlobalMessage.order(created_at: :desc).limit(50).each do |message| %>
+        <%= render 'shared/global_message', message: message %>
+      <% end %>
+    </div>
+    <%= render "shared/global_chat_form" %>
+  </div>
+</div>
+<%= turbo_stream_from "global_chat" %>

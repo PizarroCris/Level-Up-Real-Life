@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <%= render 'application/favicon' %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/navbar" %>
-  <%= render "shared/flashes" %>
+   <body>
+    <%= render "shared/navbar" %>
+    <%= render "shared/flashes" %>
 
     <%= yield %>
+
+    <% if controller_name == 'bases' && action_name == 'show' %>
+      <div data-controller="inventory">
+        <%= render 'inventory_popup' %>
+        <%= render 'menu_popup' %>
+        <%= render 'bases/shop_popup' %>
+        <%= render 'bases/hud' %>
+        <% if user_signed_in? %>
+          <%= render 'shared/global_chat' %>
+        <% end %>
+      </div>
+    <% end %>
   </body>
 </html>
