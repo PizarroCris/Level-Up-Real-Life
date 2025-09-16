@@ -1,4 +1,4 @@
-class BattleSimulator
+class BattleSimulatorService
   def initialize(attacking_army, defender_profile)
     @attacking_army = attacking_army
     @defender_army = defender_profile.troops
