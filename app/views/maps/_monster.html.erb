@@ -1,0 +1,5 @@
+<div class="map-item monster-plot" style="left: <%= monster.pos_x %>px; top: <%= monster.pos_y %>px;">
+  <%= button_to attack_world_monster_path(monster), method: :post, class: "monster-attack-button" do %>
+    <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name, draggable: false %>
+  <% end %>
+</div>

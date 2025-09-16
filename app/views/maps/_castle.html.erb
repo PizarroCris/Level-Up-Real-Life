@@ -1,0 +1,5 @@
+<div class="map-item castle-plot" style="left: <%= castle.profile.map_plot.pos_x %>px; top: <%= castle.profile.map_plot.pos_y %>px;">
+  <%= link_to profile_path(castle.profile), class: "monster-attack-button" do %>
+    <%= image_tag castle.image_asset_path, alt: "Castle of #{castle.profile.username}", draggable: false %>
+  <% end %>
+</div>
