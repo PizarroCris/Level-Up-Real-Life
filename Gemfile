@@ -55,8 +55,8 @@ gem 'kaminari'
 gem 'faker'
 gem 'stripe'
 
-
 group :development, :test do
+  gem 'whenever', require: false
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]

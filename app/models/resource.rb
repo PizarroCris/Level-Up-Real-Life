@@ -5,7 +5,7 @@ class Resource < ApplicationRecord
   delegate :level, to: :building
 
   PRODUCTION_BY_LEVEL = {
-    1 => 40,   2 => 120,  3 => 250,  4 => 420,
+    1 => 40,   2 => 120,   3 => 250,   4 => 420,
     5 => 630
   }.freeze
 
@@ -15,11 +15,11 @@ class Resource < ApplicationRecord
   }.freeze
 
   def production_per_hour
-    PRODUCTION_BY_LEVEL[level] || PRODUCTION_BY_LEVEL.values.last
+    PRODUCTION_BY_LEVEL[level] || 0
   end
 
   def storage_capacity
-    STORAGE_BY_LEVEL[level] || STORAGE_BY_LEVEL.values.last
+    STORAGE_BY_LEVEL[level] || 0
   end
 
   def levels_list
@@ -30,7 +30,6 @@ class Resource < ApplicationRecord
     building_type = self.building.building_type.downcase
     folder = building_type.pluralize
     filename = "#{building_type}#{format('%02d', self.level)}.png"
-    
     "buildings/#{folder}/#{filename}"
   end
 end

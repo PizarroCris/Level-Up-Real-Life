@@ -54,37 +54,20 @@ class BuildingsController < ApplicationController
 
   def collect_resources
     authorize @building
-
     resource = @building.resources.first
     unless resource
-      return redirect_to user_base_path
+      return redirect_to building_path(@building), alert: "Este edifício não produz recursos."
     end
-
-    last_collected_at = resource.last_collected_at || Time.now
-    time_elapsed_in_hours = (Time.now - last_collected_at) / 3600.0
-
-    production_rate = @building.production_per_hour
-    produced_amount = (production_rate * time_elapsed_in_hours).floor
-
-    max_storage = @building.storage_capacity
-    current_resource_quantity = resource.quantity
-
-    new_quantity = [current_resource_quantity + produced_amount, max_storage].min
-    collected_amount = new_quantity - current_resource_quantity
-
+    collected_amount = resource.quantity
     if collected_amount > 0
-      # Use uma transação para garantir que ambas as operações sejam salvas
       ActiveRecord::Base.transaction do
-        # 1. Adicionar os recursos ao perfil do usuário
         profile = current_user.profile
-        resource_kind = resource.kind # "wood", "stone", "metal"
-        profile.increment!(resource_kind, collected_amount)
-        # 2. Resetar a quantidade de recurso acumulada para zero
+        profile.increment!(resource.kind, collected_amount)
         resource.update!(quantity: 0, last_collected_at: Time.now)
       end
-      redirect_to root_path, notice: "You collected #{collected_amount} of #{resource.kind}."
+      redirect_to root_path, notice: "Você coletou #{collected_amount} de #{resource.kind}."
     else
-      redirect_to root_path, alert: "None resources to collect."
+      redirect_to root_path, alert: "Nenhum recurso para coletar."
     end
   end
 
