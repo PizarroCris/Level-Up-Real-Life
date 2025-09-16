@@ -7,9 +7,9 @@ class EquipmentsController < ApplicationController
     authorize equipment
 
     if profile.can_buy?(item)
-      profile.spend_steps!(item.price_in_steps) 
+      profile.spend_steps!(item.price_in_steps)
       equipment.save!
-      redirect_to root_path, notice: "Purchased #{item.name}!"
+      redirect_to user_inventory_path, notice: "Purchased #{item.name}!"
     else
       redirect_to root_path, alert: "Not enough steps."
     end
