@@ -1,19 +1,56 @@
-
-<div class="header-card d-flex justify-content-center">
-  <p class="card-border mt-5">Maps</p>
-</div>
-<div class="container">
-  <div class="card card-box mx-auto mt-5 rounded-5" style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
-    <div class="container-close">
-      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, user_base_path, class: "close-btn" %>
+<div class="game-screen">
+  <%= render "bases/banner" %>
+  <div class="spacer"></div>
+  <div class="base-container" data-controller="map-scaler building-menu">
+    <div class="map-content" data-map-scaler-target="content">
+      <%= image_tag 'artwork.png', class: 'terrain-image', draggable: false %>
+      <% @plots.each do |plot| %>
+        <% building = @buildings_by_plot_id[plot.id] %>
+        <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
+          <% if building %>
+            <div class="building-wrapper"
+                 data-action="click->building-menu#toggle"
+                 data-building-show-url="<%= building_destination_path(building) %>"
+                 data-building-upgrade-url="<%= upgrade_building_path(building) %>"
+                 data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
+              
+              <%= image_tag building.image_asset_path,
+                            alt: "#{building.building_type.capitalize} Level #{building.level}",
+                            draggable: false %>      
+              <div class="building-level-badge"><%= building.level %></div>
+            </div>
+          <% else %>
+            <%= link_to new_building_path(plot_id: plot.id) do %>
+              <span><i class="fa-solid fa-circle-plus"></i></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-        <% @profiles.each do | profile | %>
-          <div class="profile-entry m-2">
-            <%= profile.username %>
-            <i class="fa-solid fa-hand-fist"></i> <%= profile.attack %>
-            <i class="fa-solid fa-shield-halved"></i> <%= profile.defense %>
-            <%= link_to "attack", "" %>
-          </div>
-        <% end %>
+    <%= render 'bases/building_menu_popup' %>
   </div>
+  <div class="spacer"></div>
 </div>
+<% if @guild %>
+  <%= render 'shared/guild_chat', guild: @guild %>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+<!--
+<% @profiles.each do | profile | %>
+  <div class="profile-entry m-2">
+    <%= profile.username %>
+    <i class="fa-solid fa-hand-fist"></i> <%= profile.attack %>
+    <i class="fa-solid fa-shield-halved"></i> <%= profile.defense %>
+    <%= link_to "attack", "" %>
+  </div>
+<% end %>
+-->
