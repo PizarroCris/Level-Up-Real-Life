@@ -1,4 +1,4 @@
-class WorldMonsterPolicy < ApplicationPolicy
+class MapPlotPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
