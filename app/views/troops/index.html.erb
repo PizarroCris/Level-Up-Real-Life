@@ -1,4 +1,6 @@
-<h1 class="text-center mt-5">My Troops</h1>
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">My Troops</p>
+</div>
 
 <div class="text-center mt-4">
   <%= link_to "Back", root_path, class: "btn btn-red rounded-3" %>
@@ -15,7 +17,7 @@
                data-troop-card-level-value="<%= level %>"
                data-troop-card-barrack-level-value="<%= @barrack_level %>">
             <div class="card-body text-center">
-              <% troop_folder = troop_type.to_s.pluralize %>
+              <% troop_folder = troop_type.to_s %>
               <% image_path = "troops/#{troop_folder}/#{troop_type}#{level}.png" %>
               <div class="img-troop">
                 <%= image_tag image_path, class: "w-100", data: { "troop-card-target": "image" } %>
