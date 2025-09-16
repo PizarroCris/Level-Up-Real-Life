@@ -18,7 +18,9 @@
                 <p>Cost: </p>
                 <span><i class="fa-solid fa-shoe-prints"></i> <%= equipment.price_in_steps %></span>
               </div>
-              <%= button_to "Buy", '#', class:"btn btn-red rounded-3" %>
+              <%= simple_form_for [equipment, Equipment.new], url: equipment_item_equipments_path(equipment) do |f| %>
+                <%= f.submit "Buy", class:"btn btn-red rounded-3" %>
+              <% end %>
             </div>
           <% end %>
         </div>
