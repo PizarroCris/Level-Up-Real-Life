@@ -1,0 +1,26 @@
+
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Reports</p>
+</div>
+
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+        style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, user_base_path, class: "close-btn" %>
+    </div>
+    <div class="list-group mt-3">
+      <% @battles.each do |battle| %>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            <strong>
+              Battle:
+            </strong>
+            <%= battle.attacker.username %> vs. <%= battle.defender.username %>
+          </span>
+          <%= link_to "Click to View <i class='fa-solid fa-square-up-right'></i>".html_safe, battle_path(battle), class: "icon-open btn-red" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

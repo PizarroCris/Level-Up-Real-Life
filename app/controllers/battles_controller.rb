@@ -3,6 +3,10 @@ class BattlesController < ApplicationController
   before_action :ensure_profile!
   before_action :set_battle, only: [:show]
 
+  def index
+    @battles = policy_scope(Battle).order(created_at: :desc)
+  end
+
   def show
     authorize @battle
   end
