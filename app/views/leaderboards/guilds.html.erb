@@ -1,45 +1,42 @@
 <div class="header-card d-flex justify-content-center">
-  <p class="card-border mt-5">Leaderboard</p>
+  <p class="card-border mt-5">Guild Leaderboard</p>
 </div>
 
 <div class="container">
   <div class="card card-box mx-auto mt-5 rounded-5"
        style="max-width: 900px; padding: 20px; box-shadow: 0 4px 12px #666;">
 
-    <!-- Close button -->
     <div class="container-close">
       <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
                   user_base_path,
                   class: "close-btn" %>
     </div>
 
-    <!-- Table Leaderboard -->
     <div class="table-responsive mt-4">
-      <table class="table table-sm align-middle">
+      <table class="table table-sm align-middle leaderboard-table">
         <thead>
           <tr>
             <th style="width:60px;" class="ps-3">#</th>
-            <th>Player</th>
+            <th>Guild</th>
+            <th>Tag</th>
+            <th class="text-end">Members</th>
             <th class="text-end pe-3">Wins</th>
           </tr>
         </thead>
         <tbody>
-          <% @profiles.each_with_index do |profile, idx| %>
-            <tr class="<%= 'fw-bold' if idx.zero? %>">
-            
+          <% @guilds.each_with_index do |guild, idx| %>
+            <tr>
               <td class="ps-3"><%= idx + 1 %></td>
-
-              <td>
-                <%= profile.username || "Player ##{profile.id}" %>
-              </td>
-
-              <td class="text-end pe-3"><%= profile.read_attribute(:wins_count) %></td>
+              <td><%= guild.name %></td>
+              <td><code><%= guild.tag %></code></td>
+              <td class="text-end"><%= guild.read_attribute(:members_count) %></td>
+              <td class="text-end pe-3"><%= guild.read_attribute(:wins_count) %></td>
             </tr>
           <% end %>
 
-          <% if @profiles.empty? %>
+          <% if @guilds.empty? %>
             <tr>
-              <td colspan="3" class="text-center text-muted">No battles decided yet.</td>
+              <td colspan="5" class="text-center text-muted">No guild wins yet.</td>
             </tr>
           <% end %>
         </tbody>
