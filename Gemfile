@@ -53,6 +53,7 @@ gem "sassc-rails"
 gem "pundit"
 gem 'kaminari'
 gem 'faker'
+gem 'stripe'
 
 
 group :development, :test do
