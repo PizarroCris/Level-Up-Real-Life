@@ -1,0 +1,46 @@
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Guild Leaderboard</p>
+</div>
+
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+       style="max-width: 900px; padding: 20px; box-shadow: 0 4px 12px #666;">
+
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
+                  user_base_path,
+                  class: "close-btn" %>
+    </div>
+
+    <div class="table-responsive mt-4">
+      <table class="table table-sm align-middle leaderboard-table">
+        <thead>
+          <tr>
+            <th style="width:60px;" class="ps-3">#</th>
+            <th>Guild</th>
+            <th>Tag</th>
+            <th class="text-end">Members</th>
+            <th class="text-end pe-3">Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @guilds.each_with_index do |guild, idx| %>
+            <tr>
+              <td class="ps-3"><%= idx + 1 %></td>
+              <td><%= guild.name %></td>
+              <td><code><%= guild.tag %></code></td>
+              <td class="text-end"><%= guild.read_attribute(:members_count) %></td>
+              <td class="text-end pe-3"><%= guild.read_attribute(:wins_count) %></td>
+            </tr>
+          <% end %>
+
+          <% if @guilds.empty? %>
+            <tr>
+              <td colspan="5" class="text-center text-muted">No guild wins yet.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

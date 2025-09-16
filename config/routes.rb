@@ -42,13 +42,13 @@ Rails.application.routes.draw do
   end
 
   get '/world_map', to: 'maps#index', as: 'world_map'
-  
+
   resources :world_monsters, only: [:index] do
     member do
       post :attack
     end
   end
- 
+
   resources :map
 
   get "about", to: "pages#about", as: :about
@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   post "contact", to: "pages#submit_contact"
   get "settings", to: "pages#settings"
   get "leaderboard", to: "leaderboards#index"
+  get "leaderboard/guilds", to: "leaderboards#guilds", as: :guild_leaderboard
   get "/base", to: "bases#show", as: :user_base
 
   post '/webhooks', to: 'webhooks#receive'
