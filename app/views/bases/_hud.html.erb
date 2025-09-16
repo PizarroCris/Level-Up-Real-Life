@@ -4,14 +4,14 @@
   <div class="hud-buttons-wrapper d-flex">
     
     <%= link_to(
-          image_tag("hud/reports.png", alt: "Reports", class: "hud-button-icon", draggable: false),
-          battles_path(current_user.profile),
-          class: "hud-reports", draggable: false
+      image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
+          map_path(current_user.profile),
+          class: "hud-button", draggable: false
         ) %>
 
     <%= link_to(
-          image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
-          map_path(current_user.profile),
+          image_tag("hud/reports.png", alt: "Reports", class: "hud-button-icon", draggable: false),
+          battles_path(current_user.profile),
           class: "hud-button", draggable: false
         ) %>
 
