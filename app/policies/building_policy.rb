@@ -33,6 +33,10 @@ class BuildingPolicy < ApplicationPolicy
     owner?
   end
 
+  def collect_resources?
+    owner?
+  end
+
   private
 
   def owner?

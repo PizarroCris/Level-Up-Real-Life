@@ -1,7 +1,7 @@
 class BuildingsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
-  before_action :set_building, only: [:show, :upgrade]
+  before_action :set_building, only: [:show, :upgrade, :collect_resources]
 
   def new
     @plot = Plot.find(params[:plot_id])
@@ -26,7 +26,7 @@ class BuildingsController < ApplicationController
   def show
     authorize @building
   end
-  
+
   def upgrade
     authorize @building
 
@@ -49,6 +49,44 @@ class BuildingsController < ApplicationController
     when "quarry" then redirect_to building_quarry_path(@building)
     else
       redirect_to root_path
+    end
+  end
+
+  def collect_resources
+    authorize @building
+
+    resource = @building.resources.first
+    unless resource
+      return redirect_to user_base_path, alert: "Este edifício não produz recursos."
+    end
+
+    last_collected_at = resource.last_collected_at || Time.now
+    time_elapsed_in_hours = (Time.now - last_collected_at) / 3600.0
+
+    production_rate = @building.production_per_hour
+    produced_amount = (production_rate * time_elapsed_in_hours).floor
+
+    max_storage = @building.storage_capacity
+    current_resource_quantity = resource.quantity
+
+    new_quantity = [current_resource_quantity + produced_amount, max_storage].min
+    collected_amount = new_quantity - current_resource_quantity
+
+    if collected_amount > 0
+      # Use uma transação para garantir que ambas as operações sejam salvas
+      ActiveRecord::Base.transaction do
+        # 1. Adicionar os recursos ao perfil do usuário
+        profile = current_user.profile
+        resource_kind = resource.kind # Ex: "wood", "stone", "metal"
+        profile.increment!(resource_kind, collected_amount)
+
+        # 2. Resetar a quantidade de recurso acumulada para zero
+        resource.update!(quantity: 0, last_collected_at: Time.now)
+      end
+
+      redirect_to building_path(@building), notice: "Você coletou #{collected_amount} de #{resource.kind}."
+    else
+      redirect_to building_path(@building), alert: "Nenhum recurso para coletar ou armazenamento cheio."
     end
   end
 

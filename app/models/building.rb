@@ -58,6 +58,15 @@ class Building < ApplicationRecord
 
   BUILDING_TYPES = BUILDING_STATS.keys.freeze
 
+  # Regra de produção de recursos por level
+  PRODUCTION_AND_STORAGE_DATA = {
+    1 => { production: 40, storage: 2100 },
+    2 => { production: 120, storage: 6300 },
+    3 => { production: 250, storage: 12600 },
+    4 => { production: 420, storage: 20900 },
+    5 => { production: 630, storage: 31300 }
+  }.freeze
+
   validates :building_type, presence: true, inclusion: { in: BUILDING_TYPES }
   validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :building_type, uniqueness: { scope: :profile_id, message: "already exists" }
@@ -79,6 +88,16 @@ class Building < ApplicationRecord
 
   def level_up!
     self.increment!(:level) unless max_level?
+  end
+
+  # Calculo da produção por hora
+  def production_per_hour
+    PRODUCTION_AND_STORAGE_DATA.dig(self.level, :production) || 0
+  end
+
+  # Calculo de capacidade de armazenamento
+  def storage_capacity
+    PRODUCTION_AND_STORAGE_DATA.dig(self.level, :storage) || 0
   end
 
   def self.creation_cost_for(building_type)

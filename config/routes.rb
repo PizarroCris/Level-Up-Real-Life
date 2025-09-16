@@ -8,13 +8,14 @@ Rails.application.routes.draw do
   resources :profiles
 
   resources :buildings, only: [:new, :create, :show, :edit, :update] do
-    resources :troops, only: [:new, :create, :index]
-    resource :mine,    only: [:show], controller: 'resources', defaults: { kind: 'mine' }
-    resource :sawmill, only: [:show], controller: 'resources', defaults: { kind: 'sawmill' }
-    resource :quarry,  only: [:show], controller: 'resources', defaults: { kind: 'quarry' }
+  resources :troops, only: [:new, :create, :index]
+  resource :mine,    only: [:show], controller: 'resources', defaults: { kind: 'mine' }
+  resource :sawmill, only: [:show], controller: 'resources', defaults: { kind: 'sawmill' }
+  resource :quarry,  only: [:show], controller: 'resources', defaults: { kind: 'quarry' }
 
     member do
       patch :upgrade
+      post :collect_resources
     end
   end
 
@@ -42,13 +43,13 @@ Rails.application.routes.draw do
   end
 
   get '/world_map', to: 'maps#index', as: 'world_map'
-  
+
   resources :world_monsters, only: [:index] do
     member do
       post :attack
     end
   end
- 
+
   resources :map
 
   get "about", to: "pages#about", as: :about

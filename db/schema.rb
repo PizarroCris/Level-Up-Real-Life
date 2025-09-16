@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_16_095844) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_16_190225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -136,6 +136,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_16_095844) do
     t.bigint "building_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 0
+    t.datetime "last_collected_at"
     t.index ["building_id", "kind"], name: "index_resources_on_building_id_and_kind", unique: true
     t.index ["building_id"], name: "index_resources_on_building_id"
   end
