@@ -37,7 +37,74 @@ class Profile < ApplicationRecord
     )
   end
 
-  def speed_bonus
+  def total_morale
+    self.troops.reload.sum(&:morale)
+  end
+
+  def can_fight?
+    self.troops.any? && self.total_morale > 0
+  end
+
+  def max_troops_for_attack
+    castle = self.buildings.find_by(building_type: 'castle')
+
+    return 0 unless castle
+
+    Building::BUILDING_STATS.dig('castle', castle.level, :max_troops_for_attack) || 0
+  end
+
+  def unlocked_troops
+    barracks = self.buildings.where(building_type: 'barrack')
+
+    return Troop.none if barracks.empty?
+
+    max_barracks_level = barracks.maximum(:level)
+    self.troops.where("troops.level <= ?", max_barracks_level)
+  end
+
+  private
+
+  def base_attack
+    attack
+  end
+
+  def base_defense
+    defense
+  end
+
+  def troop_attack_bonus
+    total = 0
+    troops.each do |troop|
+      total += troop.attack_value
+    end
+    total
+  end
+
+  def troop_defense_bonus
+    total = 0
+    troops.each do |troop|
+      total += troop.defense_value
+    end
+    total
+  end
+
+  def equipment_attack_bonus
+    total = 0
+    equipments.each do |equipment|
+      total += equipment.attack
+    end
+    total
+  end
+
+  def equipment_defense_bonus
+    total = 0
+    equipments.each do |equipment|
+      total += equipment.defense
+    end
+    total
+  end
+
+   def speed_bonus
     equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
     level_bonus = self.level * 0.01
     equipment_bonus + level_bonus

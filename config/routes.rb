@@ -29,6 +29,8 @@ Rails.application.routes.draw do
 
   resources :global_messages, only: [:create]
 
+  resources :battles, only: [:new, :create, :show]
+
   resources :equipment_items, only: [] do
     resources :equipments, only: [:create]
   end

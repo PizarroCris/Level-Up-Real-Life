@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Battle Report</h1>
+
+  <% if @battle.winner == current_user.profile %>
+    <div class="alert alert-success">
+      <p>Congratulations, you are victorious!</p>
+    </div>
+  <% else %>
+    <div class="alert alert-danger">
+      <p>You have been defeated.</p>
+    </div>
+  <% end %>
+
+  <h2>Battle Log:</h2>
+  <div class="card p-3">
+    <% if @battle.battle_log.present? %>
+      <pre><%= @battle.battle_log %></pre>
+    <% else %>
+      <p>No log available.</p>
+    <% end %>
+  </div>
+
+  <%= link_to "Back to Base", user_base_path, class: "btn btn-primary mt-3" %>
+</div>
