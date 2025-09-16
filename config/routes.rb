@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :global_messages, only: [:create]
   resources :shop, only: [:show]
   resources :shop_equipment_items, only: [:create]
+  resources :battles, only: [:new, :create, :show]
 
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact

@@ -47,6 +47,14 @@ class Profile < ApplicationRecord
     self.troops.any? && self.total_morale > 0
   end
 
+    def max_troops_for_attack
+      castle = self.buildings.find_by(building_type: 'castle')
+
+      return 0 unless castle
+
+      Building::BUILDING_STATS.dig('castle', castle.level, :max_troops_for_attack) || 0
+    end
+
   private
 
   def base_attack

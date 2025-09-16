@@ -1,0 +1,38 @@
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Prepare Attack</p>
+</div>
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+      style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, user_base_path, class: "close-btn" %>
+    </div>
+    <div class="text-center mb-4">
+      <h5>You are attacking: <strong><%= @defender.username %></strong></h5>
+    </div>
+    <%= simple_form_for @battle do |f| %>
+      <%= f.hidden_field :defender_id, value: @defender.id %>
+
+      <div class="form-inputs">
+        <h5>Select your troops:</h5>
+        <% @attacker_troops.each do |troop_type, troops| %>
+          <fieldset class="mb-3">
+            <legend class="fs-6"><%= troop_type.titleize %> (<%= troops.count %> available)</legend>
+            <% troops.each do |troop| %>
+              <div class="form-check form-check-inline">
+                <%= check_box_tag "battle[troop_ids][]", troop.id, false, id: "troop_#{troop.id}", class: 'form-check-input' %>
+                <label class="form-check-label" for="troop_<%= troop.id %>">
+                  Lvl <%= troop.level %>
+                </label>
+              </div>
+            <% end %>
+          </fieldset>
+        <% end %>
+      </div>
+      <div class="form-actions mt-4">
+        <%= f.button :submit, "Launch Attack!", class: "btn btn-danger w-100" %>
+      </div>
+    <% end %>
+    <%= link_to "Cancel", user_base_path, class: "btn btn-secondary w-100 mt-2" %>
+  </div>
+</div>
