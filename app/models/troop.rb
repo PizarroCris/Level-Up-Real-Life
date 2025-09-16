@@ -41,6 +41,11 @@ class Troop < ApplicationRecord
     TROOP_STATS.dig(self.troop_type.to_sym, self.level, :morale) || 0
   end
 
+  def image_asset_path
+    type = self.troop_type.downcase
+    "troops/#{type}/#{type}#{self.level}.png"
+  end
+
   private
 
   def set_stats_from_constant
