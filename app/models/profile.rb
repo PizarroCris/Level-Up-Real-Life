@@ -4,7 +4,10 @@ class Profile < ApplicationRecord
 
   belongs_to :user
 
-  has_one :guild_membership
+  belongs_to :user
+  belongs_to :map_plot, optional: true
+  
+  has_one :guild_membership, dependent: :destroy
   has_one :guild, through: :guild_membership
 
   has_many :buildings, dependent: :destroy
@@ -13,11 +16,11 @@ class Profile < ApplicationRecord
   has_many :troops, through: :buildings
 
   def total_attack
-    self.attack + troop_attack_bonus + equipment_attack_bonus
+    DEFAULT_ATTACK + troop_attack_bonus + equipment_attack_bonus
   end
 
   def total_defense
-    self.defense + troop_defense_bonus + equipment_defense_bonus
+    DEFAULT_DEFENSE + troop_defense_bonus + equipment_defense_bonus
   end
 
   def balance_power
@@ -38,28 +41,38 @@ class Profile < ApplicationRecord
   end
 
   def total_morale
-    self.troops.reload.sum(&:morale)
+    troops.sum(&:morale)
   end
 
   def can_fight?
-    self.troops.any? && self.total_morale > 0
+    troops.any? && total_morale > 0
   end
 
   def max_troops_for_attack
     castle = self.buildings.find_by(building_type: 'castle')
-
     return 0 unless castle
-
     Building::BUILDING_STATS.dig('castle', castle.level, :max_troops_for_attack) || 0
   end
 
   def unlocked_troops
     barracks = self.buildings.where(building_type: 'barrack')
-
     return Troop.none if barracks.empty?
-
     max_barracks_level = barracks.maximum(:level)
-    self.troops.where("troops.level <= ?", max_barracks_level)
+    troops.where("troops.level <= ?", max_barracks_level)
+  end
+
+  def can_buy?(equipment_item)
+    return false unless equipment_item&.price_in_steps
+    steps.to_i >= equipment_item.price_in_steps.to_i
+  end
+
+  def spend_steps!(amount)
+    amount = amount.to_i
+    raise ArgumentError, "amount must be positive" if amount <= 0
+    with_lock do
+      raise "Not enough steps" if steps < amount
+      update!(steps: steps - amount)
+    end
   end
 
   private
@@ -72,75 +85,25 @@ class Profile < ApplicationRecord
     defense
   end
 
-  def troop_attack_bonus
-    total = 0
-    troops.each do |troop|
-      total += troop.attack_value
-    end
-    total
-  end
-
-  def troop_defense_bonus
-    total = 0
-    troops.each do |troop|
-      total += troop.defense_value
-    end
-    total
-  end
-
-  def equipment_attack_bonus
-    total = 0
-    equipments.each do |equipment|
-      total += equipment.attack
-    end
-    total
-  end
-
-  def equipment_defense_bonus
-    total = 0
-    equipments.each do |equipment|
-      total += equipment.defense
-    end
-    total
-  end
-
-   def speed_bonus
+  def speed_bonus
     equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
     level_bonus = self.level * 0.01
     equipment_bonus + level_bonus
   end
 
-  def can_buy?(equipment_item)
-    return false unless equipment_item&.price_in_steps
-    steps.to_i >= equipment_item.price_in_steps.to_i
-  end
-
-  def spend_steps!(amount)
-    amount = amount.to_i
-    raise ArgumentError, "amount must be positive" if amount <= 0
-
-    with_lock do
-      raise "Not enough steps" if steps < amount
-      update!(steps: steps - amount)
-    end
-  end
-
-
-  private
-
   def troop_attack_bonus
-    troops.sum(&:attack_value)
+    troops.sum(&:attack)
   end
 
   def troop_defense_bonus
-    troops.sum(&:defense_value)
+    troops.sum(&:defense)
   end
 
   def equipment_attack_bonus
-    equipments.sum(:attack)
+    equipment_items.sum(&:attack)
   end
 
   def equipment_defense_bonus
-    equipments.sum(:defense)
+    equipment_items.sum(&:defense)
   end
 end

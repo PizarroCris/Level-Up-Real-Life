@@ -1,7 +1,7 @@
 class BattlePolicy < ApplicationPolicy
-  class Scope < ApplicationPolicy::Scope
+  class Scope < Scope
     def resolve
-      scope.all
+      scope.where(attacker: user.profile).or(scope.where(defender: user.profile))
     end
   end
 

@@ -1,7 +1,7 @@
 class ProfilePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      scope.where.not(map_plot: nil)
     end
   end
 

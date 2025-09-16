@@ -10,24 +10,35 @@ class BattleSimulatorService
   end
 
   def call
-    @battle_log << "A battle begins between #{@attacker.username} and #{@defender.username}!"
-    while @attacking_army.any? && @defender_army.any?
-      perform_attack_round(@attacking_army, @defender_army, @attacker, @defender)
+    @battle_log << "Rivalry erupts! The army of **#{@attacker.username}** marches against **#{@defender.username}'s** defenses!"
 
+    round_number = 1
+    while @attacking_army.any? && @defender_army.any?
+      @battle_log << "\n--- Round ##{round_number} ---"
+
+      perform_attack_round(@attacking_army, @defender_army, @attacker, @defender)
       sleep(0.01)
       
       @defender_army = @defender_army.select(&:persisted?)
 
+      @battle_log << "**#{@attacker.username}'s** vanguard strikes with a combined power of **#{attack_power_attacker}**! **#{@defender.username}'s** defenses are overwhelmed, suffering **#{losses_defender} casualties**!"
+
       break if @defender_army.empty?
 
       perform_attack_round(@defender_army, @attacking_army, @defender, @attacker)
-      
+
+      @battle_log << "In response, **#{@defender.username}'s** troops counter-attack with cunning, inflicting **#{damage_to_attacker}** damage and eliminating **#{losses_attacker} soldiers** from the attacking army!"
       sleep(0.01)
 
       @attacking_army = @attacking_army.select(&:persisted?)
+
+      round_number += 1
     end
 
     determine_final_winner
+
+    @battle_log << "\n--- End of Battle ---"
+    @battle_log << "The battlefield is now silent. Victor: **#{@winner.username}**!"
 
     return { winner: @winner, log: @battle_log.join("\n") }
   end
