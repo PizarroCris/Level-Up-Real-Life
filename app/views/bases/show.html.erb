@@ -1,12 +1,9 @@
 <div class="game-screen">
-  <div class="base-container"
-       data-controller="map-scaler building-menu"
-       data-map-scaler-original-width-value="1280"
-       data-map-scaler-original-height-value="720">
-
+  <%= render "bases/banner" %>
+  <div class="spacer"></div>
+  <div class="base-container" data-controller="map-scaler building-menu">
     <div class="map-content" data-map-scaler-target="content">
       <%= image_tag 'artwork.png', class: 'terrain-image', draggable: false %>
-      
       <% @plots.each do |plot| %>
         <% building = @buildings_by_plot_id[plot.id] %>
         <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
@@ -32,8 +29,8 @@
     </div>
     <%= render 'bases/building_menu_popup' %>
   </div>
+  <div class="spacer"></div>
 </div>
-<%= render "bases/banner" %>
 <% if @guild %>
   <%= render 'shared/guild_chat', guild: @guild %>
 <% end %>
