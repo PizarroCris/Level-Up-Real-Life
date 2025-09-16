@@ -1,30 +1,31 @@
-<div class="map-container" data-controller="map-scaler">
-  <div class="map-content" data-map-scaler-target="content">
-    <%= image_tag 'map/world_map.png', class: 'terrain-image' %>
+<div class="bg-map">
+  <%= image_tag "world_map.png", class: "bg-map" %>
+  <div class="map-container" data-controller="map-scaler">
+    <div class="map-content" data-map-scaler-target="content">
+      <% @profiles_with_castles.each do |profile| %>
+        <% castle = profile.buildings.find_by(building_type: 'castle') %>
+        <% if castle %>
+          <div class="map-plot" style="top: <%= profile.map_plot.pos_y %>px; left: <%= profile.map_plot.pos_x %>px;">
+            <%= link_to user_path(profile.user) do %>
+              <%= image_tag "buildings/castles/castle#{format('%02d', castle.level)}.png", alt: "Castelo de #{profile.username}" %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
 
-    <% @profiles_with_castles.each do |profile| %>
-      <% castle = profile.buildings.find_by(building_type: 'castle') %>
-      <% if castle %>
-        <div class="map-plot" style="top: <%= profile.map_plot.pos_y %>px; left: <%= profile.map_plot.pos_x %>px;">
-          <%= link_to user_path(profile.user) do %>
-            <%= image_tag "buildings/castles/castle#{format('%02d', castle.level)}.png", alt: "Castelo de #{profile.username}" %>
+      <% @monsters.each do |monster| %>
+        <div class="map-monster" style="top: <%= monster.pos_y %>px; left: <%= monster.pos_x %>px;">
+          <%= button_to attack_world_monster_path(monster), method: :post, class: "monster-attack-button" do %>
+            <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name %>
+            <span class="monster-hp">HP: <%= monster.hp %></span>
           <% end %>
         </div>
       <% end %>
-    <% end %>
 
-    <% @monsters.each do |monster| %>
-      <div class="map-monster" style="top: <%= monster.pos_y %>px; left: <%= monster.pos_x %>px;">
-        <%= button_to attack_world_monster_path(monster), method: :post, class: "monster-attack-button" do %>
-          <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name %>
-          <span class="monster-hp">HP: <%= monster.hp %></span>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% @available_plots.each do |plot| %>
-      <div class="map-plot map-plot--available" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
-      </div>
-    <% end %>
+      <% @available_plots.each do |plot| %>
+        <div class="map-plot map-plot--available" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
