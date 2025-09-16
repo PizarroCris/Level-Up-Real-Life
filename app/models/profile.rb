@@ -3,7 +3,6 @@ class Profile < ApplicationRecord
   DEFAULT_DEFENSE = 100
   
   belongs_to :user
-  belongs_to :guild, optional: true
 
   has_one :guild_membership
   has_one :guild, through: :guild_membership
@@ -14,20 +13,19 @@ class Profile < ApplicationRecord
   has_many :troops, through: :buildings
 
   def total_attack
-    base_attack + troop_attack_bonus + equipment_attack_bonus
+    self.attack + troop_attack_bonus + equipment_attack_bonus
   end
 
   def total_defense
-    base_defense + troop_defense_bonus + equipment_defense_bonus
+    self.defense + troop_defense_bonus + equipment_defense_bonus
   end
 
   def balance_power
     (total_attack * 0.7) + (total_defense * 0.3)
   end
 
-    def can_afford?(cost)
+  def can_afford?(cost)
     return false unless cost
-
     wood >= cost[:wood] && stone >= cost[:stone] && metal >= cost[:metal]
   end
 
@@ -110,5 +108,23 @@ class Profile < ApplicationRecord
     equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
     level_bonus = self.level * 0.01
     equipment_bonus + level_bonus
+  end
+
+  private
+
+  def troop_attack_bonus
+    troops.sum(&:attack_value)
+  end
+
+  def troop_defense_bonus
+    troops.sum(&:defense_value)
+  end
+
+  def equipment_attack_bonus
+    equipments.sum(:attack)
+  end
+
+  def equipment_defense_bonus
+    equipments.sum(:defense)
   end
 end
