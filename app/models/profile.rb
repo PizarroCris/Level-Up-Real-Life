@@ -4,7 +4,10 @@ class Profile < ApplicationRecord
 
   belongs_to :user
 
-  has_one :guild_membership
+  belongs_to :user
+  belongs_to :map_plot, optional: true
+  
+  has_one :guild_membership, dependent: :destroy
   has_one :guild, through: :guild_membership
 
   has_many :buildings, dependent: :destroy
@@ -13,11 +16,11 @@ class Profile < ApplicationRecord
   has_many :troops, through: :buildings
 
   def total_attack
-    self.attack + troop_attack_bonus + equipment_attack_bonus
+    DEFAULT_ATTACK + troop_attack_bonus + equipment_attack_bonus
   end
 
   def total_defense
-    self.defense + troop_defense_bonus + equipment_defense_bonus
+    DEFAULT_DEFENSE + troop_defense_bonus + equipment_defense_bonus
   end
 
   def balance_power
@@ -38,11 +41,11 @@ class Profile < ApplicationRecord
   end
 
   def total_morale
-    self.troops.reload.sum(&:morale)
+    troops.sum(&:morale)
   end
 
   def can_fight?
-    self.troops.any? && self.total_morale > 0
+    troops.any? && total_morale > 0
   end
 
   def max_troops_for_attack
@@ -55,7 +58,7 @@ class Profile < ApplicationRecord
     barracks = self.buildings.where(building_type: 'barrack')
     return Troop.none if barracks.empty?
     max_barracks_level = barracks.maximum(:level)
-    self.troops.where("troops.level <= ?", max_barracks_level)
+    troops.where("troops.level <= ?", max_barracks_level)
   end
 
   def can_buy?(equipment_item)
@@ -89,18 +92,18 @@ class Profile < ApplicationRecord
   end
 
   def troop_attack_bonus
-    troops.sum(&:attack_value)
+    troops.sum(&:attack)
   end
 
   def troop_defense_bonus
-    troops.sum(&:defense_value)
+    troops.sum(&:defense)
   end
 
   def equipment_attack_bonus
-    equipments.sum(:attack)
+    equipment_items.sum(&:attack)
   end
 
   def equipment_defense_bonus
-    equipments.sum(:defense)
+    equipment_items.sum(&:defense)
   end
 end

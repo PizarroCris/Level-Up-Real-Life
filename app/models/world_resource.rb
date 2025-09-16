@@ -1,0 +1,2 @@
+class WorldResource < ApplicationRecord
+end

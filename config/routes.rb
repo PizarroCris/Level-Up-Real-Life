@@ -41,6 +41,14 @@ Rails.application.routes.draw do
     resources :equipments, only: [:create]
   end
 
+  get '/world_map', to: 'maps#index', as: 'world_map'
+  
+  resources :world_monsters, only: [:index] do
+    member do
+      post :attack
+    end
+  end
+ 
   resources :map
 
   get "about", to: "pages#about", as: :about
