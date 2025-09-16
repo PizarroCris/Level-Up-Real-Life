@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_16_090038) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_16_095844) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -97,6 +97,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_16_090038) do
     t.index ["tag"], name: "index_guilds_on_tag", unique: true
   end
 
+  create_table "map_plots", force: :cascade do |t|
+    t.integer "pos_x"
+    t.integer "pos_y"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "plots", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -119,6 +126,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_16_090038) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "speed_bonus", default: 0, null: false
+    t.bigint "map_plot_id", null: false
+    t.index ["map_plot_id"], name: "index_profiles_on_map_plot_id"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
@@ -188,6 +197,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_16_090038) do
   add_foreign_key "guild_messages", "guilds"
   add_foreign_key "guild_messages", "profiles"
   add_foreign_key "guilds", "profiles", column: "leader_id"
+  add_foreign_key "profiles", "map_plots"
   add_foreign_key "profiles", "users"
   add_foreign_key "resources", "buildings"
   add_foreign_key "troops", "buildings"

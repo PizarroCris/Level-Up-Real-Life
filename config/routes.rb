@@ -34,6 +34,14 @@ Rails.application.routes.draw do
   resources :equipment_items, only: [] do
     resources :equipments, only: [:create]
   end
+
+  get '/world_map', to: 'maps#index', as: 'world_map'
+  
+  resources :world_monsters, only: [:index] do
+    member do
+      post :attack
+    end
+  end
  
   resources :map
 
