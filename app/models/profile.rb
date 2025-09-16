@@ -4,7 +4,7 @@ class Profile < ApplicationRecord
 
   belongs_to :user
   belongs_to :map_plot, optional: true
-  
+
   has_one :guild_membership, dependent: :destroy
   has_one :guild, through: :guild_membership
 
@@ -12,6 +12,10 @@ class Profile < ApplicationRecord
   has_many :equipments, dependent: :destroy
   has_many :equipment_items, through: :equipments
   has_many :troops, through: :buildings
+
+  has_many :attacking_battles, class_name: 'Battle', foreign_key: :attacker_id, dependent: :nullify
+  has_many :defending_battles, class_name: 'Battle', foreign_key: :defender_id, dependent: :nullify
+  has_many :won_battles,       class_name: 'Battle', foreign_key: :winner_id,   dependent: :nullify
 
   def total_attack
     DEFAULT_ATTACK + troop_attack_bonus + equipment_attack_bonus
@@ -61,9 +65,33 @@ class Profile < ApplicationRecord
     troops.where("troops.level <= ?", max_barracks_level)
   end
 
+  def can_buy?(equipment_item)
+    return false unless equipment_item&.price_in_steps
+    steps.to_i >= equipment_item.price_in_steps.to_i
+  end
+
+  def spend_steps!(amount)
+    amount = amount.to_i
+    raise ArgumentError, "amount must be positive" if amount <= 0
+    with_lock do
+      raise "Not enough steps" if steps < amount
+      update!(steps: steps - amount)
+    end
+  end
+
+  private
+
+  def base_attack
+    attack
+  end
+
+  def base_defense
+    defense
+  end
+
   def speed_bonus
-    equipment_bonus = equipments.sum(:speed_bonus) / 100.0
-    level_bonus = level * 0.01
+    equipment_bonus = self.equipments.sum(:speed_bonus) / 100.0
+    level_bonus = self.level * 0.01
     equipment_bonus + level_bonus
   end
 
