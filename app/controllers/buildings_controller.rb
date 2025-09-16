@@ -84,9 +84,9 @@ class BuildingsController < ApplicationController
         resource.update!(quantity: 0, last_collected_at: Time.now)
       end
 
-      redirect_to building_path(@building), notice: "Você coletou #{collected_amount} de #{resource.kind}."
+      redirect_to root_path, notice: "You collected #{collected_amount} of #{resource.kind}."
     else
-      redirect_to building_path(@building), alert: "Nenhum recurso para coletar ou armazenamento cheio."
+      redirect_to root_path, alert: "None resources to collect."
     end
   end
 
