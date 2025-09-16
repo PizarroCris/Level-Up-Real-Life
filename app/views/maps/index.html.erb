@@ -1,15 +1,23 @@
-<%# Adiciona a classe 'map-page' ao body para o fundo repetido %>
 <% content_for :body_class, "map-page" %>
 
-<div class="map-viewport" 
+<h1 class="text-center my-4" style="color: white; text-shadow: 2px 2px 4px black;">World Map</h1>
+<div class="map-ui-wrapper" 
      data-controller="map-panning"
-     data-action="mousedown->map-panning#startDrag 
-                  mousemove->map-panning#drag 
-                  mouseup->map-panning#stopDrag 
-                  mouseleave->map-panning#stopDrag">
-
-  <div class="map-world" data-map-panning-target="world">
-    <%= render partial: 'maps/castle', collection: @castles %>
-    <%= render partial: 'maps/monster', collection: @monsters %>
+     data-map-panning-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
+     data-map-panning-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
+  <% if current_user.profile.map_plot %>
+    <button class="btn btn-primary center-on-castle-btn" data-action="click->map-panning#centerOnMyCastle">
+      <i class="fa-solid fa-crosshairs"></i> Go to My Castle
+    </button>
+  <% end %>
+  <div class="map-viewport" 
+       data-action="mousedown->map-panning#startDrag 
+                    mousemove->map-panning#drag 
+                    mouseup->map-panning#stopDrag 
+                    mouseleave->map-panning#stopDrag">
+    <div class="map-world" data-map-panning-target="world">
+      <%= render partial: 'maps/castle', collection: @castles %>
+      <%= render partial: 'maps/monster', collection: @monsters %>
+    </div>
   </div>
 </div>

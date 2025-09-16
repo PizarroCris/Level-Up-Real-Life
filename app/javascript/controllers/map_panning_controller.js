@@ -2,6 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["world"]
+  
+  static values = {
+    myCastleX: Number,
+    myCastleY: Number
+  }
 
   connect() {
     this.isDragging = false
@@ -54,5 +59,28 @@ export default class extends Controller {
   stopDrag() {
     this.isDragging = false
     this.element.style.cursor = 'grab'
+  }
+
+  centerOnMyCastle() {
+    if (!this.hasMyCastleXValue || !this.hasMyCastleYValue) return
+
+    const viewportWidth = this.element.offsetWidth
+    const viewportHeight = this.element.offsetHeight
+
+    let targetX = (viewportWidth / 2) - this.myCastleXValue
+    let targetY = (viewportHeight / 2) - this.myCastleYValue
+
+    const mapWidth = this.worldTarget.offsetWidth
+    const minLeft = viewportWidth - mapWidth
+    const maxLeft = 0
+    const mapHeight = this.worldTarget.offsetHeight
+    const minTop = viewportHeight - mapHeight
+    const maxTop = 0
+
+    targetX = Math.max(minLeft, Math.min(targetX, maxLeft))
+    targetY = Math.max(minTop, Math.min(targetY, maxTop))
+
+    this.worldTarget.style.left = `${targetX}px`
+    this.worldTarget.style.top = `${targetY}px`
   }
 }
