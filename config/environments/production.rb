@@ -52,6 +52,9 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
+  # Adicione o domínio do seu Heroku aos hosts permitidos
+  config.hosts << "level-up-in-real-life-da3d5202596a.herokuapp.com"
+
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
