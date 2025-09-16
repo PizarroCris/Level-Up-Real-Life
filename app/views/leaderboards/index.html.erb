@@ -1,5 +1,49 @@
-<h1 class="text-center mt-5">Leaderboard</h1>
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Leaderboard</p>
+</div>
 
-<div class="card mx-auto my-4 rounded-5"
-  style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+       style="max-width: 900px; padding: 20px; box-shadow: 0 4px 12px #666;">
+
+    <!-- Close button -->
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
+                  user_base_path,
+                  class: "close-btn" %>
+    </div>
+
+    <!-- Table Leaderboard -->
+    <div class="table-responsive mt-4">
+      <table class="table table-sm align-middle">
+        <thead>
+          <tr>
+            <th style="width:60px;" class="ps-3">#</th>
+            <th>Player</th>
+            <th class="text-end pe-3">Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @profiles.each_with_index do |profile, idx| %>
+            <tr class="<%= 'fw-bold' if idx.zero? %>">
+            
+              <td class="ps-3"><%= idx + 1 %></td>
+
+              <td>
+                <%= profile.username || "Player ##{profile.id}" %>
+              </td>
+
+              <td class="text-end pe-3"><%= profile.read_attribute(:wins_count) %></td>
+            </tr>
+          <% end %>
+
+          <% if @profiles.empty? %>
+            <tr>
+              <td colspan="3" class="text-center text-muted">No battles decided yet.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
