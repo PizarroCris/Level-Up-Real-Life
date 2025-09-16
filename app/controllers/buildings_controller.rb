@@ -16,7 +16,7 @@ class BuildingsController < ApplicationController
     authorize @building
 
     if @building.save
-      redirect_to user_base_path, notice: "#{@building.building_type.capitalize} foi construído com sucesso!"
+      redirect_to user_base_path, notice: "#{@building.building_type.capitalize} Success!"
     else
       @plot = @building.plot
       render :new, status: :unprocessable_entity
@@ -57,7 +57,7 @@ class BuildingsController < ApplicationController
 
     resource = @building.resources.first
     unless resource
-      return redirect_to user_base_path, alert: "Este edifício não produz recursos."
+      return redirect_to user_base_path
     end
 
     last_collected_at = resource.last_collected_at || Time.now
@@ -77,13 +77,11 @@ class BuildingsController < ApplicationController
       ActiveRecord::Base.transaction do
         # 1. Adicionar os recursos ao perfil do usuário
         profile = current_user.profile
-        resource_kind = resource.kind # Ex: "wood", "stone", "metal"
+        resource_kind = resource.kind # "wood", "stone", "metal"
         profile.increment!(resource_kind, collected_amount)
-
         # 2. Resetar a quantidade de recurso acumulada para zero
         resource.update!(quantity: 0, last_collected_at: Time.now)
       end
-
       redirect_to root_path, notice: "You collected #{collected_amount} of #{resource.kind}."
     else
       redirect_to root_path, alert: "None resources to collect."
