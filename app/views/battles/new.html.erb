@@ -12,23 +12,20 @@
     </div>
     <%= simple_form_for @battle do |f| %>
       <%= f.hidden_field :defender_id, value: @defender.id %>
-
       <div class="form-inputs">
-        <h5>Select your troops:</h5>
-        <% @attacker_troops.each do |troop_type, troops| %>
-          <fieldset class="mb-3">
-            <legend class="fs-6"><%= troop_type.titleize %> (<%= troops.count %> available)</legend>
-            <% troops.each do |troop| %>
-              <div class="form-check form-check-inline">
-                <%= check_box_tag "battle[troop_ids][]", troop.id, false, id: "troop_#{troop.id}", class: 'form-check-input' %>
-                <label class="form-check-label" for="troop_<%= troop.id %>">
-                  Lvl <%= troop.level %>
-                </label>
-              </div>
-            <% end %>
-          </fieldset>
-        <% end %>
+  <h5>Select your troops:</h5>
+  <% @attacker_troops_grouped.each do |(type, level), troops| %>
+    <div class="d-flex align-items-center mb-3 p-2 rounded" data-controller="slider">
+      <%= image_tag troops.first.image_asset_path, style: "width: 50px; height: 50px; margin-right: 15px;" %>
+      <div class="flex-grow-1">
+        <strong><%= type.titleize %></strong> (Level <%= level %>)
+        <small class="d-block">Available: <%= troops.count %></small>
       </div>
+      <%= range_field_tag "battle[troops][#{type}_#{level}]", 0, min: 0, max: troops.count,step: 1,class: "form-range mx-3",data: { action: "input->slider#update", slider_target: "input" } %>
+      <span class="badge bg-secondary" style="width: 50px;" data-slider-target="output">0</span>
+    </div>
+  <% end %>
+</div>
       <div class="form-actions mt-4">
         <%= f.button :submit, "Launch Attack!", class: "btn btn-danger w-100" %>
       </div>

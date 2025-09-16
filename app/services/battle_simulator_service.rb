@@ -1,24 +1,30 @@
 class BattleSimulatorService
   def initialize(attacking_army, defender_profile)
-    @attacking_army = attacking_army
-    @defender_army = defender_profile.troops
+    @attacking_army = attacking_army.to_a
+    @defender_army = defender_profile.troops.to_a
 
     @attacker = attacking_army.first.profile
     @defender = defender_profile
-    
+
     @battle_log = []
   end
 
   def call
     @battle_log << "A battle begins between #{@attacker.username} and #{@defender.username}!"
-
-    while @attacking_army.reload.any? && @defender_army.reload.any?
-      
+    while @attacking_army.any? && @defender_army.any?
       perform_attack_round(@attacking_army, @defender_army, @attacker, @defender)
+
+      sleep(0.01)
       
-      break if @defender_army.reload.empty?
+      @defender_army = @defender_army.select(&:persisted?)
+
+      break if @defender_army.empty?
 
       perform_attack_round(@defender_army, @attacking_army, @defender, @attacker)
+      
+      sleep(0.01)
+
+      @attacking_army = @attacking_army.select(&:persisted?)
     end
 
     determine_final_winner
@@ -31,14 +37,15 @@ class BattleSimulatorService
   def perform_attack_round(current_attacker_army, current_defender_army, attacker_profile, defender_profile)
     attack_power = current_attacker_army.sum(&:attack)
     defense_power = current_defender_army.sum(&:defense)
-    damage = (attack_power - defense_power).max(0)
-    
+    damage = [attack_power - defense_power, 0].max
+
     losses = calculate_losses(current_defender_army, damage)
 
     @battle_log << "#{attacker_profile.username}'s army attacks with #{attack_power} power, dealing #{damage} damage!"
     @battle_log << "#{defender_profile.username}'s army suffers #{losses} casualties."
 
-    current_defender_army.order(:level).limit(losses).destroy_all
+    troops_to_destroy = current_defender_army.sort_by(&:level).first(losses)
+    troops_to_destroy.each(&:destroy)
   end
 
   def calculate_losses(army, total_damage)
@@ -53,7 +60,7 @@ class BattleSimulatorService
   end
 
   def determine_final_winner
-    if @attacking_army.reload.any?
+    if @attacking_army.any?
       @winner = @attacker
       @battle_log << "#{@attacker.username} is victorious!"
     else
