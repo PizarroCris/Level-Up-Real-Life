@@ -18,6 +18,10 @@ class PagesController < ApplicationController
   def about
   end
 
+  def inventory
+    @equipments = current_user.profile.equipments
+  end
+
   private
 
   def set_team

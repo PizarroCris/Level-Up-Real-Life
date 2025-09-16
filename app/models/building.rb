@@ -15,12 +15,12 @@ class Building < ApplicationRecord
   MAX_LEVEL = 5
 
   BUILDING_STATS = {
-    'castle' => {
-      1 => { cost: { wood: 100, stone: 80, metal: 50 } },
-      2 => { cost: { wood: 250, stone: 200, metal: 120 } },
-      3 => { cost: { wood: 600, stone: 550, metal: 300 } },
-      4 => { cost: { wood: 1500, stone: 1200, metal: 750 } },
-      5 => { cost: {} }
+ 'castle' => {
+      1 => { cost: { wood: 100, stone: 80, metal: 50 }, max_troops_for_attack: 250 },
+      2 => { cost: { wood: 250, stone: 200, metal: 120 }, max_troops_for_attack: 500 },
+      3 => { cost: { wood: 600, stone: 550, metal: 300 }, max_troops_for_attack: 1000 },
+      4 => { cost: { wood: 1500, stone: 1200, metal: 750 }, max_troops_for_attack: 2500 },
+      5 => { cost: {}, max_troops_for_attack: 5000 }
     },
     'sawmill' => {
       creation_cost: { wood: 0, stone: 40, metal: 10 },

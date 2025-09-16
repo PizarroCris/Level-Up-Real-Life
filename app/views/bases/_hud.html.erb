@@ -25,9 +25,8 @@
 
     <%= link_to(
           image_tag("hud/inventory.png", alt: "Inventory", class: "hud-button-icon", draggable: false),
-          "#",
-          class: "hud-button",
-          data: { action: "click->inventory#showInventory" }, draggable: false
+          user_inventory_path,
+          class: "hud-button", draggable: false
         ) %>
 
     <%= link_to(
