@@ -1,33 +1,37 @@
 class WebhooksController < ApplicationController
+  skip_before_action :authenticate_user!, raise: false
   skip_before_action :verify_authenticity_token
+  skip_after_action :verify_authorized
 
   def receive
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
+
     begin
       event = Stripe::Webhook.construct_event(
         payload, sig_header, ENV['STRIPE_WEBHOOK_SECRET']
       )
     rescue JSON::ParserError => e
-      # Payload inválido
-      render json: { error: e.message }, status: 400
+      render json: { error: "JSON inválido: #{e.message}" }, status: 400
       return
     rescue Stripe::SignatureVerificationError => e
-      # Assinatura inválida
-      render json: { error: e.message }, status: 400
+      render json: { error: "Assinatura inválida: #{e.message}" }, status: 400
       return
     end
 
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
+      user = User.find_by(id: session['client_reference_id'])
 
-      user_id = session['client_reference_id']
-      user = User.find(user_id)
-      # Adiciona os passos ao perfil do usuário
-      user.profile.steps += 1000 # 1000 passos para cada compra, por exemplo
-      user.profile.save
+      if user && user.profile.present?
+        user.profile.steps += 1000
+        user.profile.save
+      else
+        Rails.logger.error("Webhook Error: User or profile not found for ID #{session['client_reference_id']}")
+      end
     end
-    render json: { message: 'Success' }, status: :ok
+
+    render json: { message: 'Webhook processado com sucesso' }, status: :ok
   end
 end
