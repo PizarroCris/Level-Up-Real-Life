@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   resources :global_messages, only: [:create]
   resources :shop_equipment_items, only: [:create]
 
-  resources :battles, only: [:new, :create, :show]
+  resources :battles, only: %i[index show new create]
 
   resources :equipment_items, only: [] do
     resources :equipments, only: [:create]

@@ -1,6 +1,19 @@
-<div class="container">
-  <h1>Battle Report</h1>
+<div class="header-card d-flex justify-content-center">
+  <% if @battle.attacker == current_user.profile %>
+    <p class="card-border mt-5">Attack</p>
+  <% elsif @battle.attacker != current_user.profile %>
+    <p class="card-border mt-5">Defense</p>
+  <% else %>
+    <p class="card-border mt-5">Reports</p>
+  <% end %>
+</div>
 
+<div class="container">
+  <div class="card card-box mx-auto mt-5 rounded-5"
+        style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, battles_path(current_user.profile), class: "close-btn" %>
+    </div>
   <% if @battle.winner == current_user.profile %>
     <div class="alert alert-success">
       <p>Congratulations, you are victorious!</p>
@@ -12,13 +25,11 @@
   <% end %>
 
   <h2>Battle Log:</h2>
-  <div class="card p-3">
+  <div class="card log-box rounded-4 p-3">
     <% if @battle.battle_log.present? %>
-      <pre><%= @battle.battle_log %></pre>
+      <%= simple_format(@battle.battle_log) %>
     <% else %>
-      <p>No log available.</p>
+      <p>No log available for this battle.</p>
     <% end %>
   </div>
-
-  <%= link_to "Back to Base", user_base_path, class: "btn btn-primary mt-3" %>
 </div>
