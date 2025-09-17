@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 
     member do
       patch :upgrade
-      post :collect_resources
     end
   end
 

@@ -1,11 +1,16 @@
-<div class="player-hud">
+<div class="player-hud"
+     data-controller="real-time-resources"
+     data-wood-rate="<%= @profile.buildings.find_by(building_type: 'sawmill')&.resources&.first&.production_per_hour || 0 %>"
+     data-stone-rate="<%= @profile.buildings.find_by(building_type: 'quarry')&.resources&.first&.production_per_hour || 0 %>"
+     data-metal-rate="<%= @profile.buildings.find_by(building_type: 'mine')&.resources&.first&.production_per_hour || 0 %>">
+
   <div class="container d-flex align-items-center justify-content-center">
     <h1 class="text-center border-end pe-3"><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
     <div class="resources ps-3">
-      <span> <%= image_tag "resources/wood.png", class: "resources-img"%> <%= @profile.wood %></span>
-      <span> <%= image_tag "resources/stone.png", class: "resources-img"%> <%= @profile.stone %></span>
-      <span> <%= image_tag "resources/metal.png", class: "resources-img"%> <%= @profile.metal %></span>
-      <span> <%= image_tag "resources/steps.png", class: "resources-img"%> <%= @profile.steps %></span>
+      <span> <%= image_tag "resources/wood.png", class: "resources-img"%> <span data-real-time-resources-target="wood"><%= @profile.wood %></span></span>
+      <span> <%= image_tag "resources/stone.png", class: "resources-img"%> <span data-real-time-resources-target="stone"><%= @profile.stone %></span></span>
+      <span> <%= image_tag "resources/metal.png", class: "resources-img"%> <span data-real-time-resources-target="metal"><%= @profile.metal %></span></span>
+      <span> <%= image_tag "resources/steps.png", class: "resources-img"%> <span data-real-time-resources-target="steps"><%= @profile.steps %></span></span>
     </div>
   </div>
 </div>

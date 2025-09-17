@@ -32,15 +32,6 @@ export default class extends Controller {
 
     this.upgradeFormContainerTarget.style.display = canUpgrade ? 'block' : 'none'
 
-    // Lógica para exibir/esconder o botão de coleta
-    if (collectUrl) {
-      this.collectButtonTarget.classList.remove("d-none")
-      this.collectButtonTarget.href = collectUrl
-    } else {
-      this.collectButtonTarget.classList.add("d-none")
-      this.collectButtonTarget.href = "#"
-    }
-
     // Posicionamento do menu
     const containerRect = this.element.getBoundingClientRect();
     const buildingRect = buildingWrapper.getBoundingClientRect();

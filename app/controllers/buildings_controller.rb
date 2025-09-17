@@ -52,25 +52,6 @@ class BuildingsController < ApplicationController
     end
   end
 
-  def collect_resources
-    authorize @building
-    resource = @building.resources.first
-    unless resource
-      return redirect_to building_path(@building), alert: "Este edifício não produz recursos."
-    end
-    collected_amount = resource.quantity
-    if collected_amount > 0
-      ActiveRecord::Base.transaction do
-        profile = current_user.profile
-        profile.increment!(resource.kind, collected_amount)
-        resource.update!(quantity: 0, last_collected_at: Time.now)
-      end
-      redirect_to root_path, notice: "Você coletou #{collected_amount} de #{resource.kind}."
-    else
-      redirect_to root_path, alert: "Nenhum recurso para coletar."
-    end
-  end
-
   private
 
   def set_building

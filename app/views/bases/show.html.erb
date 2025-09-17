@@ -12,8 +12,7 @@
                  data-action="click->building-menu#toggle"
                  data-building-show-url="<%= building_destination_path(building) %>"
                  data-building-upgrade-url="<%= upgrade_building_path(building) %>"
-                 data-building-upgrade-cost="<%= building.upgrade_cost.present? %>"
-                 data-building-collect-url="<%= collect_resources_building_path(building) if building.building_type.in?(Building::BUILDING_TO_RESOURCE_MAP.keys) %>">
+                 data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
 
               <%= image_tag building.image_asset_path,
                             alt: "#{building.building_type.capitalize} Level #{building.level}",
