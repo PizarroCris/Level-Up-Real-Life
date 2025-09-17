@@ -5,5 +5,3 @@ class MapsController < ApplicationController
     @available_plots = policy_scope(MapPlot).where.missing(:profile)
   end
 end
-
-
