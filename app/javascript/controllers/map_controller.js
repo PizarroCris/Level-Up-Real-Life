@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["world", "popup", "popupTitle", "popupButtons"]
+  static targets = ["world", "popup", "popupTitle", "popupButtons", "popupDetails"]
   static values = { myCastleX: Number, myCastleY: Number }
 
   connect() {
