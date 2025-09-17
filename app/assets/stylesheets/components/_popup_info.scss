@@ -1,0 +1,27 @@
+/* Position the popup under the building and keep it hidden by default */
+.plot-area { position: absolute; }
+
+.building-wrapper { position: relative; text-align: center; cursor: pointer; }
+
+.building-menu-inline {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  max-width: 280px;
+  z-index: 99999;
+}
+
+.building-menu-inline.is-visible { display: block; }
+
+/* (Optional) small style touches */
+.upgrade-cost { font-size: .9rem; color: #555; }
+.upgrade-btn { display: inline-flex; align-items: center; justify-content: center; }
