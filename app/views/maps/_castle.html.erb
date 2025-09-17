@@ -1,14 +1,8 @@
-<div class="map-item castle-plot" 
-     style="left: <%= castle.profile.map_plot.pos_x %>px; top: <%= castle.profile.map_plot.pos_y %>px;">
-
-  <%= link_to "#", 
-              class: "castle-link",
-              data: {
-                action: "click->map-panning#showPopup",
-                profile_name: castle.profile.username,
-                interaction_options: castle_interaction_options(castle.profile).to_json
-              } do %>
-
+<div class="map-item castle-plot" style="left: <%= castle.profile.map_plot.pos_x %>px; top: <%= castle.profile.map_plot.pos_y %>px;">
+  <a href="#" class="castle-link"
+     data-action="click->map#showPopup"
+     data-profile-name="<%= castle.profile.username %>"
+     data-interaction-options="<%= castle_interaction_options(castle.profile).to_json %>">
     <%= image_tag castle.image_asset_path, alt: "Castle of #{castle.profile.username}", draggable: false %>
-  <% end %>
+  </a>
 </div>

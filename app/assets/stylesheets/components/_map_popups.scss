@@ -1,5 +1,10 @@
 .map-popup {
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
   background-color: #E0D4B8;
   border: 1px solid #4A4A4A;
   border-radius: 8px;
@@ -9,6 +14,7 @@
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+
 
 .close-popup-btn {
   position: absolute;
