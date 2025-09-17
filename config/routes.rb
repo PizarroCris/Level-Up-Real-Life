@@ -51,6 +51,8 @@ Rails.application.routes.draw do
 
 
   resources :map
+  # Defines the root path route ("/")
+  # root "posts#index"
 
   get "about", to: "pages#about", as: :about
   get "contact", to: "pages#contact", as: :contact
