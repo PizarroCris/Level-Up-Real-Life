@@ -13,7 +13,7 @@ class Building < ApplicationRecord
   after_create :create_resource_if_needed
 
   CASTLE_MAX_LEVEL = 5
-  CASTLE_ATTACK_BY_LEVEL  = { 1=>200, 2=>400, 3=>600, 4=>800, 5=>1000 }.freeze
+  CASTLE_ATTACK_BY_LEVEL  = { 1=>100, 2=>200, 3=>300, 4=>400, 5=>500 }.freeze
   CASTLE_DEFENSE_BY_LEVEL = { 1=>100, 2=>200, 3=>300, 4=>400, 5=>500 }.freeze
 
   MAX_LEVEL = 5
