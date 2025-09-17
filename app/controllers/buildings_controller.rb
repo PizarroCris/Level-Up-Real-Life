@@ -1,7 +1,7 @@
 class BuildingsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_profile!
-  before_action :set_building, only: [:show, :upgrade]
+  before_action :set_building, only: [:show, :upgrade, :collect_resources]
 
   def new
     @plot = Plot.find(params[:plot_id])
@@ -16,7 +16,7 @@ class BuildingsController < ApplicationController
     authorize @building
 
     if @building.save
-      redirect_to user_base_path, notice: "#{@building.building_type.capitalize} foi construído com sucesso!"
+      redirect_to user_base_path, notice: "#{@building.building_type.capitalize} Success!"
     else
       @plot = @building.plot
       render :new, status: :unprocessable_entity
@@ -26,7 +26,7 @@ class BuildingsController < ApplicationController
   def show
     authorize @building
   end
-  
+
   def upgrade
     authorize @building
 
