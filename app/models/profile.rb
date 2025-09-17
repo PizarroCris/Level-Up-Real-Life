@@ -79,6 +79,24 @@ class Profile < ApplicationRecord
     end
   end
 
+  def update_resources_from_buildings
+    buildings.each do |building|
+      resource = building.resources.first
+      if resource
+        last_collection_time = resource.last_collected_at || Time.now
+        time_elapsed_in_hours = (Time.now - last_collection_time) / 3600.0
+        produced_amount = (resource.production_per_hour * time_elapsed_in_hours).floor
+
+        current_quantity = send(resource.kind)
+        max_storage = resource.storage_capacity
+
+        new_quantity = [current_quantity + produced_amount, max_storage].min
+        increment!(resource.kind, new_quantity - current_quantity)
+        resource.update!(last_collected_at: Time.now)
+      end
+    end
+  end
+
   private
 
   def base_attack

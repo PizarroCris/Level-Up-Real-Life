@@ -17,7 +17,7 @@ html, body {
 
 .base-container {
   position: absolute;
-  
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -155,7 +155,7 @@ html, body {
 }
 
 .upgrade-btn,
-.info-btn {
+.info-btn, .collect-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -171,6 +171,17 @@ html, body {
   padding-left: 16px !important;
   font-size: 20px;
   color: #228B22;
+
+  &:hover {
+    opacity: 75%;
+  }
+}
+
+.collect-btn {
+  text-decoration: none;
+  font-size: 20px;
+  color: #663c05;
+  padding: 0 !important;
 
   &:hover {
     opacity: 75%;
