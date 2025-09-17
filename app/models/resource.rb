@@ -5,7 +5,7 @@ class Resource < ApplicationRecord
   delegate :level, to: :building
 
   PRODUCTION_BY_LEVEL = {
-    1 => 40,   2 => 120,   3 => 250,   4 => 420,
+    1 => 40, 2 => 120, 3 => 250, 4 => 420,
     5 => 630
   }.freeze
 
