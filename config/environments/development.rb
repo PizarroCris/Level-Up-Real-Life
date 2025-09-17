@@ -19,7 +19,7 @@ Rails.application.configure do
   config.server_timing = true
 
   # Adicione esta linha com o domínio exato do seu ngrok
-  config.hosts << "6708ef29430f.ngrok-free.app"
+  config.hosts << "bdc0283accdb.ngrok-free.app"
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

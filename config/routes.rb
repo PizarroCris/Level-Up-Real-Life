@@ -49,7 +49,6 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :map
   # Defines the root path route ("/")
   # root "posts#index"
