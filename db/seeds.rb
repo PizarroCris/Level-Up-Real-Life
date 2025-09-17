@@ -111,7 +111,7 @@ NUMBER_OF_MONSTERS.times do
     # Gera coordenadas aleatórias dentro do mapa (com uma margem das bordas)
     random_x = rand(100..MAP_WIDTH - 100)
     random_y = rand(100..MAP_HEIGHT - 100)
-    
+
     # Se o local não estiver ocupado, sai do loop e usa estas coordenadas
     break unless occupied_spots.include?([random_x, random_y])
   end
@@ -146,7 +146,7 @@ if Rails.env.development?
     main_user = User.find_or_create_by!(email: 'player@example.com') do |user|
       user.password = 'password'
     end
-    
+
     # ✅ REFINEMENT: Let the User callback create the profile, then update it.
     main_user.profile.update!(
       username: 'PlayerOne',
@@ -160,7 +160,6 @@ if Rails.env.development?
   else
     puts "⚠️ Não há plots de mapa disponíveis para o utilizador principal."
   end
-  
   puts "----------------------------------------"
 
   puts "🏰 A criar 15 guildas adicionais com o Faker..."
