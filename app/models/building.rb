@@ -90,14 +90,12 @@ class Building < ApplicationRecord
   end
 
   def can_upgrade?
-    profile = self.profile # Acessa o perfil ao qual a construção pertence
+    profile = self.profile
     castle = profile.buildings.find_by(building_type: 'castle')
-    # Regra 1: Validação de dependência do Castelo
     if self.building_type != 'castle' && self.level >= castle.level
       self.errors.add(:base, "The building's level cannot be higher than the castle's level.")
       return false
     end
-    # Regra 2: Validação de dependência da Barrack
     if self.building_type == 'barrack'
       other_buildings = profile.buildings.where.not(building_type: ['barrack', 'castle'])
       unless other_buildings.all? { |b| b.level >= castle.level }
@@ -105,7 +103,7 @@ class Building < ApplicationRecord
         return false
       end
     end
-    return true # Se todas as validações passarem
+    return true
   end
 
   private
