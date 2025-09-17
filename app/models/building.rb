@@ -89,6 +89,23 @@ class Building < ApplicationRecord
     BUILDING_STATS.dig(building_type, :creation_cost)
   end
 
+  def can_upgrade?
+    profile = self.profile
+    castle = profile.buildings.find_by(building_type: 'castle')
+    if self.building_type != 'castle' && self.level >= castle.level
+      self.errors.add(:base, "The building's level cannot be higher than the castle's level.")
+      return false
+    end
+    if self.building_type == 'barrack'
+      other_buildings = profile.buildings.where.not(building_type: ['barrack', 'castle'])
+      unless other_buildings.all? { |b| b.level >= castle.level }
+        self.errors.add(:base, "All other buildings must be at the same level as the castle to upgrade the Barrack.")
+        return false
+      end
+    end
+    return true
+  end
+
   private
 
   def create_resource_if_needed

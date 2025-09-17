@@ -13,10 +13,10 @@
                  data-building-show-url="<%= building_destination_path(building) %>"
                  data-building-upgrade-url="<%= upgrade_building_path(building) %>"
                  data-building-upgrade-cost="<%= building.upgrade_cost.present? %>">
-              
+
               <%= image_tag building.image_asset_path,
                             alt: "#{building.building_type.capitalize} Level #{building.level}",
-                            draggable: false %>      
+                            draggable: false %>
               <div class="building-level-badge"><%= building.level %></div>
             </div>
           <% else %>

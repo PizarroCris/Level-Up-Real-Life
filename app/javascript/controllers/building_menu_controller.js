@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["menu", "detailsLink", "upgradeFormContainer"]
+  static targets = ["menu", "detailsLink", "upgradeFormContainer", "collectButton"]
 
   connect() {
     this.boundHideOnClick = this.hideOnClick.bind(this)
@@ -20,20 +20,19 @@ export default class extends Controller {
     const buildingWrapper = event.currentTarget
     const showUrl = buildingWrapper.dataset.buildingShowUrl
     const upgradeUrl = buildingWrapper.dataset.buildingUpgradeUrl
+    const collectUrl = buildingWrapper.dataset.buildingCollectUrl
     const canUpgrade = buildingWrapper.dataset.buildingUpgradeCost === "true"
 
     this.detailsLinkTarget.href = showUrl
 
     const upgradeForm = this.upgradeFormContainerTarget.querySelector("form")
-    console.log('before');
-    console.log(upgradeUrl)
     if (upgradeForm) {
-      console.log('after')
       upgradeForm.action = upgradeUrl
     }
 
     this.upgradeFormContainerTarget.style.display = canUpgrade ? 'block' : 'none'
 
+    // Posicionamento do menu
     const containerRect = this.element.getBoundingClientRect();
     const buildingRect = buildingWrapper.getBoundingClientRect();
     const relativeTop = buildingRect.bottom - containerRect.top - 65;
