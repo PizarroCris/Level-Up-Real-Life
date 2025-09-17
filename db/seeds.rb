@@ -160,6 +160,7 @@ if Rails.env.development?
   else
     puts "⚠️ Não há plots de mapa disponíveis para o utilizador principal."
   end
+
   puts "----------------------------------------"
 
   puts "🏰 A criar 15 guildas adicionais com o Faker..."
