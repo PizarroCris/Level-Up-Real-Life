@@ -1,5 +1,8 @@
 <div class="map-item castle-plot" style="left: <%= castle.profile.map_plot.pos_x %>px; top: <%= castle.profile.map_plot.pos_y %>px;">
-  <%= link_to profile_path(castle.profile), class: "monster-attack-button" do %>
+  <a href="#" class="castle-link"
+     data-action="click->map#showPopup"
+     data-profile-name="<%= castle.profile.username %>"
+     data-interaction-options="<%= castle_interaction_options(castle.profile).to_json %>">
     <%= image_tag castle.image_asset_path, alt: "Castle of #{castle.profile.username}", draggable: false %>
-  <% end %>
+  </a>
 </div>

@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       post :attack
     end
   end
-
+ 
   resources :map
 
   get "about", to: "pages#about", as: :about
