@@ -1,3 +1,39 @@
+<% content_for :body_class, "map-page" %>
+
+<h1 class="text-center my-4" style="color: white; text-shadow: 2px 2px 4px black;">World Map</h1>
+
+<div class="map-ui-wrapper" 
+     data-controller="map-panning"
+     data-map-panning-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
+     data-map-panning-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
+  
+  <% if current_user.profile.map_plot %>
+    <button class="btn btn-red center-on-castle-btn" data-action="click->map-panning#centerOnMyCastle">
+      <i class="fa-solid fa-crosshairs"></i> Go to My Castle
+    </button>
+  <% end %>
+
+  <div class="map-viewport" 
+       data-action="mousedown->map-panning#startDrag 
+                    mousemove->map-panning#drag 
+                    mouseup->map-panning#stopDrag 
+                    mouseleave->map-panning#stopDrag">
+
+    <div class="map-world" data-map-panning-target="world">
+      <%= render partial: 'maps/castle', collection: @castles %>
+      <%= render partial: 'maps/monster', collection: @monsters %>
+    </div>
+
+    <div class="map-popup" data-map-panning-target="popup" style="display: none;">
+      <h5 data-map-panning-target="popupTitle"></h5>
+      <div data-map-panning-target="popupButtons"></div>
+      <button class="close-popup-btn" data-action="click->map-panning#closePopup">×</button>
+    </div>
+  </div>
+</div>
+
+
+<!--
 <h1 class="text-center my-4" style="color: white; text-shadow: 2px 2px 4px black;">World Map</h1>
 <div class="map-ui-wrapper" 
      data-controller="map-panning"
@@ -19,3 +55,4 @@
     </div>
   </div>
 </div>
+-->
