@@ -15,26 +15,26 @@ export default class extends Controller {
   }
 
   showPopup(event) {
-    event.preventDefault()
-    event.stopPropagation()
-
-    const itemElement = event.currentTarget
-    const profileName = itemElement.dataset.profileName
-    const interactionOptions = JSON.parse(itemElement.dataset.interactionOptions)
+    event.preventDefault();
+    event.stopPropagation();
     
-    this.popupTitleTarget.textContent = profileName
-    this.popupButtonsTarget.innerHTML = ""
-
-    interactionOptions.forEach(option => {
-      const link = document.createElement('a')
-      link.href = option.path
-      link.className = `btn btn-sm ${option.class} mt-2 d-block`
-      link.textContent = option.text
-      this.popupButtonsTarget.appendChild(link)
-    })
+    const itemElement = event.currentTarget;
     
-    this.popupTarget.style.display = 'block'
-  }
+    const popupInfo = JSON.parse(itemElement.dataset.interactionOptions);
+
+    this.popupTitleTarget.textContent = popupInfo.title;
+    this.popupDetailsTarget.textContent = popupInfo.details;
+    this.popupButtonsTarget.innerHTML = "";
+
+    popupInfo.buttons.forEach(option => {
+      const link = document.createElement('a');
+      link.href = option.path;
+      link.className = `btn btn-sm ${option.class} mt-2 d-block`;
+      link.textContent = option.text;
+      this.popupButtonsTarget.appendChild(link);
+  });
+  this.popupTarget.style.display = 'block';
+}
 
   closePopup() {
     this.popupTarget.style.display = 'none'
