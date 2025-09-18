@@ -1,52 +1,20 @@
 <div class="game-screen">
   <%= render "bases/banner" %>
   <div class="spacer"></div>
-
-  <div class="base-container">
-    <div class="map-content">
+  <div class="base-container" data-controller="map-scaler building-menu">
+    <div class="map-content" data-map-scaler-target="content">
       <%= image_tag 'artwork.png', class: 'terrain-image', draggable: false %>
-
       <% @plots.each do |plot| %>
         <% building = @buildings_by_plot_id[plot.id] %>
-
-        <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>"
-             style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
-
+        <div class="plot-area <%= building ? 'building-plot building-type--' + building.building_type.downcase : 'empty-plot' %>" style="top: <%= plot.pos_y %>px; left: <%= plot.pos_x %>px;">
           <% if building %>
-            <!-- Controller wraps building + popup -->
-            <div class="building-item" data-controller="popup">
-              <!-- Clickable building -->
-              <div class="building-wrapper"
-                   data-action="click->popup#toggle"
-                   tabindex="0" aria-haspopup="true" aria-expanded="false">
-                <%= image_tag building.image_asset_path,
-                              alt: "#{building.building_type.capitalize} Level #{building.level}",
-                              draggable: false %>
-                <div class="building-level-badge"><%= building.level %></div>
-              </div>
-
-              <!-- Popup for THIS building -->
-              <div class="building-menu-inline" data-popup-target="menu" role="dialog" aria-modal="false">
-                <div class="d-flex align-items-center gap-3">
-                  <div>
-                    <% unless building.max_level? %>
-                      <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe,
-                            upgrade_building_path(building),
-                            method: :patch,
-                            class: "upgrade-btn" %>
-                    <% end %>
-                  </div>
-
-                  <span class="upgrade-cost text-muted">
-                    <%= next_upgrade_text(building) %>
-                  </span>
-
-                  <%= link_to building_destination_path(building), class: "info-btn" do %>
-                    <i class="fa-solid fa-circle-info"></i>
-                  <% end %>
-                </div>
-              </div>
-              <!-- /Popup -->
+            <div class="building-wrapper"
+                 data-action="click->building-menu#toggle"
+                 data-interaction-options="<%= building_interaction_options(building).to_json %>">
+              <%= image_tag building.image_asset_path,
+                            alt: "#{building.building_type.capitalize} Level #{building.level}",
+                            draggable: false %>
+              <div class="building-level-badge"><%= building.level %></div>
             </div>
           <% else %>
             <%= link_to new_building_path(plot_id: plot.id) do %>
@@ -57,10 +25,9 @@
       <% end %>
     </div>
   </div>
-
+  <%= render "bases/building_menu_popup" %>
   <div class="spacer"></div>
 </div>
-
 <% if @guild %>
   <%= render 'shared/guild_chat', guild: @guild %>
 <% end %>

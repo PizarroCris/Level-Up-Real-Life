@@ -1,4 +1,5 @@
 class BasesController < ApplicationController
+  helper BuildingsHelper
   before_action :authenticate_user!
   before_action :ensure_profile!
 
