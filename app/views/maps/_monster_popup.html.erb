@@ -1,0 +1,14 @@
+<div class="popup-overlay d-none" data-map-target="monsterPopup">
+  <div class="popup-card" data-action="click->(prevent)">
+    <button class="close-popup-btn" data-action="click->map#closeMonsterPopup">×</button>
+    <h4 class="text-center" data-map-target="monsterName"></h4>
+    <p>
+      <span data-map-target="monsterLevel"></span> | 
+      <span data-map-target="monsterHp"></span>
+    </p>
+    <form data-map-target="monsterAttackForm" action="#" method="post" data-turbo="true">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <button type="submit" class="btn btn-danger w-100">Attack</button>
+    </form>
+  </div>
+</div>

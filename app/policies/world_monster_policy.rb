@@ -4,4 +4,8 @@ class WorldMonsterPolicy < ApplicationPolicy
       scope.all
     end
   end
+
+  def attack?
+    true
+  end
 end

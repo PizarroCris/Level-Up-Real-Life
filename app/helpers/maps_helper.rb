@@ -7,13 +7,34 @@ module MapsHelper
     elsif current_user.profile.guild.present? && castle_owner_profile.guild == current_user.profile.guild
       buttons << { text: "Send Help", path: "#", class: "btn-red" }
     else
-      buttons << { text: "Attack", path: new_battle_path(defender_id: castle_owner_profile.id), class: "btn-red" }
+      buttons << { 
+        text: "Attack", 
+        path: battles_path,
+        class: "btn-red",
+        method: "post",
+        defender_id: castle_owner_profile.id
+      }
     end
 
     return {
       title: castle_owner_profile.username,
       details: "Guild: #{castle_owner_profile.guild&.name || 'None'}",
       buttons: buttons
+    }
+  end
+
+  def monster_interaction_options(monster)
+    {
+      title: "#{monster.name} (Lvl #{monster.level})",
+      details: "HP: #{monster.hp}",
+      buttons: [
+        {
+          text: "Attack (Cost: 10 Energy)",
+          path: attack_world_monster_path(monster),
+          class: "btn-red",
+          method: "post"
+        }
+      ]
     }
   end
 end

@@ -1,25 +1,30 @@
 <% content_for :body_class, "map-page" %>
+
 <div class="map-ui-wrapper" 
      data-controller="map"
      data-map-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
      data-map-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
+  
   <button class="btn btn-primary center-on-castle-btn" data-action="click->map#centerOnMyCastle">
-    <i class="fa-solid fa-crosshairs"></i> Go to My Castle
+    Go to My Castle
   </button>
+
   <div class="map-viewport" 
        data-action="mousedown->map#startDrag 
                     mousemove->map#drag 
                     mouseup->map#stopDrag 
                     mouseleave->map#stopDrag">
+
     <div class="map-world" data-map-target="world">
       <%= render partial: 'maps/castle', collection: @castles %>
       <%= render partial: 'maps/monster', collection: @monsters %>
     </div>
-    <div class="map-popup" data-map-target="popup" style="display: none;">
-      <h5 data-map-target="popupTitle"></h5>
-      <p data-map-target="popupDetails"></p>
-      <div data-map-target="popupButtons"></div>
-      <button class="close-popup-btn" data-action="click->map#closePopup"><i class='fa-solid fa-square-xmark'></i></button>
-    </div>
+  </div>
+
+  <div class="map-popup" data-map-target="popup" style="display: none;">
+    <h5 data-map-target="popupTitle"></h5>
+    <p data-map-target="popupDetails"></p>
+    <div data-map-target="popupButtons"></div>
+    <button class="close-popup-btn" data-action="click->map#closePopup">×</button>
   </div>
 </div>

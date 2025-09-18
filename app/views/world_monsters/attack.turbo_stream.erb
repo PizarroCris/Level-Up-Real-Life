@@ -1,0 +1,9 @@
+<% if @monster.destroyed? %>
+  <%= turbo_stream.remove dom_id(@monster) %>
+<% else %>
+  <%= turbo_stream.replace dom_id(@monster) do %>
+    <%= render 'maps/monster', monster: @monster %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.prepend "flashes", partial: "shared/flashes" %>
