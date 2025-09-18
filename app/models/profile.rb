@@ -1,6 +1,11 @@
 class Profile < ApplicationRecord
   DEFAULT_ATTACK = 100
   DEFAULT_DEFENSE = 100
+  XP_PER_LEVEL = 1000
+  BUILDING_UPGRADE_XP = 10
+  CASTLE_UPGRADE_XP = 50
+  PVP_BATTLE_XP = 300
+  MONSTER_XP = 100
 
   belongs_to :user
   belongs_to :map_plot, optional: true
@@ -97,6 +102,7 @@ class Profile < ApplicationRecord
     end
   end
 
+
   def gain_rewards_from_monster(monster)
     resources_gain = monster.level * 50
     experience_gain = monster.level * 20
@@ -109,8 +115,22 @@ class Profile < ApplicationRecord
     
     return { wood: resources_gain, stone: resources_gain, metal: resources_gain, experience: experience_gain }
   end
+  
+  def add_experience(points)
+    self.experience += points
+    check_for_level_up
+    save!
+
+  end
 
   private
+
+  def check_for_level_up
+    while self.experience >= XP_PER_LEVEL
+      self.level += 1
+      self.experience -= XP_PER_LEVEL
+    end
+  end
 
   def base_attack
     attack
