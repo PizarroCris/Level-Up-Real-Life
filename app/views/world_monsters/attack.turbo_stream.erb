@@ -5,8 +5,11 @@
     <%= render 'maps/monster', monster: @monster %>
   <% end %>
 <% end %>
+
 <%= turbo_stream.prepend "flashes", partial: "shared/flashes" %>
+
 <%= turbo_stream.append "popup-container" do %>
   <%= render 'shared/rewards_popup', rewards: @rewards, monster: @monster %>
 <% end %>
-<%= turbo_stream.prepend "flashes", partial: "shared/flashes" %>
+
+<%= turbo_stream.update "energy-bar-container", partial: "shared/energy_bar" %>

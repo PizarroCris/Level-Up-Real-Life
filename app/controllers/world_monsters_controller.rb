@@ -22,17 +22,11 @@ class WorldMonstersController < ApplicationController
       flash.now[:notice] = "You defeated the #{@monster.name}!"
     else
       @monster.save
-      flash.now[:notice] = "You attacked the #{@monster.name}! It has #{@monster.hp} left."
+      flash.now[:notice] = "You attacked the #{@monster.name}! It has #{@monster.hp} HP left."
     end
 
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.prepend("flashes", partial: "shared/flashes"),
-          turbo_stream.update("energy-bar-container", partial: "shared/energy_bar"),
-          turbo_stream.append("map-ui-wrapper", partial: "maps/rewards_popup", locals: { monster: @monster, rewards: @rewards })
-        ]
-      end
+      format.turbo_stream
     end
   end
 
