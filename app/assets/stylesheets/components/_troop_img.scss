@@ -16,3 +16,37 @@
   color: white;
   width: 100%;
 }
+
+
+.troop-training-container {
+  padding: 2rem;
+}
+
+.troop-level-row {
+  margin-bottom: 2.5rem;
+  
+  .level-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.troop-cards-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.card-troop {
+  width: 200px;
+  background-color: #E0D4B8;
+
+  &.disabled {
+    opacity: 0.5;
+    filter: grayscale(80%);
+    cursor: not-allowed;
+  }
+}
