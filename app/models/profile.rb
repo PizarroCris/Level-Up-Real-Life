@@ -97,6 +97,19 @@ class Profile < ApplicationRecord
     end
   end
 
+   def gain_rewards_from_monster(monster)
+    resources_gain = monster.level * 50
+    experience_gain = monster.level * 20
+
+    self.wood += resources_gain
+    self.stone += resources_gain
+    self.metal += resources_gain
+    self.experience += experience_gain
+    save!
+    
+    return { wood: resources_gain, stone: resources_gain, metal: resources_gain, experience: experience_gain }
+  end
+
   private
 
   def base_attack

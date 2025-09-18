@@ -4,6 +4,7 @@ class WorldMonstersController < ApplicationController
   def attack
     @monster = WorldMonster.find(params[:id])
     authorize @monster
+    @rewards = current_user.profile.gain_rewards_from_monster(@monster)
 
     @monster.hp -= 10
 
