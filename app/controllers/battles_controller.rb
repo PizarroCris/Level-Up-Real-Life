@@ -25,27 +25,41 @@ class BattlesController < ApplicationController
   def create
     @attacker = current_user.profile
     
-    safe_params = params.fetch(:battle, params)
+    permitted_params = battle_params
 
-    @defender = Profile.find(safe_params[:defender_id])
+    @defender = Profile.find(permitted_params[:defender_id])
     
-    selected_troop_ids = (safe_params[:troop_ids] || []).flatten.reject(&:blank?)
-    attacking_troops = @attacker.troops.where(id: selected_troop_ids)
+    attacking_troops = []
+    
+    if permitted_params[:troops].present?
+      permitted_params[:troops].each do |troop_key, quantity|
+        troop_type, level = troop_key.split('_')
 
-    @battle = Battle.new(attacker: @attacker, defender: @defender)
-    authorize @battle
+        troops_to_select = @attacker.troops.where(
+          troop_type: troop_type, 
+          level: level.to_i
+        ).limit(quantity.to_i)
+        
+        attacking_troops.concat(troops_to_select)
+      end
+    end
 
     if attacking_troops.empty?
       redirect_to new_battle_path(defender_id: @defender.id), alert: "You must select troops to attack."
       return
     end
-    
+
     simulator = BattleSimulatorService.new(attacking_troops, @defender)
     result = simulator.call
 
-    @battle.winner = result[:winner]
-    @battle.battle_log = result[:log]
-    
+    @battle = Battle.new(
+      attacker: @attacker, 
+      defender: @defender,
+      winner: result[:winner],
+      battle_log: result[:log]
+    )
+    authorize @battle
+
     if @battle.save
       redirect_to @battle, notice: "Battle complete!"
     else
@@ -60,8 +74,8 @@ class BattlesController < ApplicationController
   def set_battle
     @battle = Battle.find(params[:id])
   end
-  
+
   def battle_params
-    params.require(:battle).permit(:defender_id, troop_ids: [])
+    params.require(:battle).permit(:defender_id, troops: {})
   end
 end

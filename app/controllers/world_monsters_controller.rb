@@ -2,8 +2,17 @@ class WorldMonstersController < ApplicationController
   before_action :authenticate_user!
 
   def attack
-    @monster = WorldMonster.find(params[:id])
-    authorize @monster
+  @monster = WorldMonster.find(params[:id])
+  authorize @monster
+
+  attack_cost = 10 
+
+  if current_user.profile.energy < attack_cost
+    redirect_to world_map_path, alert: "Not enough energy to attack!"
+    return
+  end
+
+  current_user.profile.decrement!(:energy, attack_cost)
     @rewards = current_user.profile.gain_rewards_from_monster(@monster)
 
     @monster.hp -= 10

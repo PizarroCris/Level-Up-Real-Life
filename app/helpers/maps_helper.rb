@@ -24,15 +24,18 @@ module MapsHelper
   end
 
   def monster_interaction_options(monster)
+    attack_cost = 10
+    can_afford = current_user.profile.energy >= attack_cost
     {
       title: "#{monster.name} (Lvl #{monster.level})",
       details: "HP: #{monster.hp}",
       buttons: [
         {
-          text: "Attack (Cost: 10 Energy)",
+          text: "Attack (Cost: #{attack_cost} Energy)",
           path: attack_world_monster_path(monster),
           class: "btn-red",
-          method: "post"
+          method: "post",
+          disabled: !can_afford 
         }
       ]
     }

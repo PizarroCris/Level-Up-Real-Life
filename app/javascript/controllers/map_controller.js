@@ -33,7 +33,6 @@ export default class extends Controller {
         form.dataset.turbo = "true";
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
         const csrfInput = document.createElement('input');
         csrfInput.type = 'hidden';
         csrfInput.name = 'authenticity_token';
@@ -53,10 +52,13 @@ export default class extends Controller {
         button.type = 'submit';
         button.className = `btn btn-sm ${option.class} mt-2 d-block w-100`;
         button.textContent = option.text;
-        
+
+      if (option.disabled) {
+        button.disabled = true;
+        button.textContent = "Not Enough Energy";
+      } 
         form.appendChild(button);
         this.popupButtonsTarget.appendChild(form);
-
       } else {
         const link = document.createElement('a');
         link.href = option.path;
