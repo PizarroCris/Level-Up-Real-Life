@@ -18,16 +18,15 @@ class BattleSimulatorService
 
       perform_attack_round(@attacking_army, @defender_army, @attacker, @defender)
       sleep(0.01)
-      
       @defender_army = @defender_army.select(&:persisted?)
 
-      @battle_log << "**#{@attacker.username}'s** vanguard strikes with a combined power of **#{attack_power_attacker}**! **#{@defender.username}'s** defenses are overwhelmed, suffering **#{losses_defender} casualties**!"
+      @battle_log << "**#{@attacker.username}'s** vanguard strikes with a combined power of **#{@attack_power_attacker}**! **#{@defender.username}'s** defenses are overwhelmed, suffering **#{@losses_defender} casualties**!"
 
       break if @defender_army.empty?
 
       perform_attack_round(@defender_army, @attacking_army, @defender, @attacker)
 
-      @battle_log << "In response, **#{@defender.username}'s** troops counter-attack with cunning, inflicting **#{damage_to_attacker}** damage and eliminating **#{losses_attacker} soldiers** from the attacking army!"
+      @battle_log << "In response, **#{@defender.username}'s** troops counter-attack with cunning, inflicting **#{@damage_to_attacker}** damage and eliminating **#{@losses_attacker} soldiers** from the attacking army!"
       sleep(0.01)
 
       @attacking_army = @attacking_army.select(&:persisted?)
@@ -61,11 +60,11 @@ class BattleSimulatorService
 
   def calculate_losses(army, total_damage)
     return 0 if army.empty?
-    
+
     total_hp_of_army = army.sum(&:defense)
     average_hp_per_troop = total_hp_of_army.to_f / army.size
     return army.size if average_hp_per_troop.zero?
-    
+
     number_of_losses = (total_damage / average_hp_per_troop).floor
     return number_of_losses.clamp(0, army.size)
   end

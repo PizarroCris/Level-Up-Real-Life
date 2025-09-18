@@ -32,7 +32,6 @@ export default class extends Controller {
 
     this.upgradeFormContainerTarget.style.display = canUpgrade ? 'block' : 'none'
 
-    // Posicionamento do menu
     const containerRect = this.element.getBoundingClientRect();
     const buildingRect = buildingWrapper.getBoundingClientRect();
     const relativeTop = buildingRect.bottom - containerRect.top - 65;

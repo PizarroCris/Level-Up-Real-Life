@@ -8,8 +8,8 @@ class Resource < ApplicationRecord
     1 => 40, 2 => 120, 3 => 250, 4 => 420, 5 => 630 }.freeze
 
   STORAGE_BY_LEVEL = {
-    1 => 2_100, 2 => 6_300, 3 => 12_600, 4 => 20_900,
-    5 => 31_300
+    1 => 2100, 2 => 6300, 3 => 12600, 4 => 20900,
+    5 => 31300
   }.freeze
 
   def production_per_hour

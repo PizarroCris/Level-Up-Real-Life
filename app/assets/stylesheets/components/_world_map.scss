@@ -18,12 +18,20 @@
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 2;
+  cursor: pointer;
+}
 
-  img {
-    width: 300px;
-    height: auto;
-    user-select: none;
-  }
+.map-item a {
+  display: block;
+}
+
+.map-item a img {
+  pointer-events: none; 
+  user-select: none;
+}
+
+.map-item > img { 
+  user-select: none;
 }
 
 .castle-plot img {
@@ -32,11 +40,18 @@
 
 .monster-plot {
   cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: drop-shadow(0 0 8px red);
+  }
 }
 
 .monster-plot img {
   width: 150px;
   height: auto;
+  display: block;
 }
 
 .monster-hp {
@@ -50,22 +65,6 @@
   border-radius: 3px;
   font-size: 0.8em;
   white-space: nowrap;
-}
-
-.monster-attack-button {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.monster-attack-button img {
-  transition: transform 0.2s ease;
-}
-
-.monster-attack-button:hover img {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px white);
 }
 
 .center-on-castle-btn {

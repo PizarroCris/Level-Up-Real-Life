@@ -1,0 +1,16 @@
+<div class="popup-overlay" data-controller="popup">
+  <div class="popup-card">
+    <button class="close-popup-btn" data-action="click->popup#close"><i class='fa-solid fa-square-xmark'></i></button>
+    <h4 class="text-center">Victory!</h4>
+    <p class="text-center">You attacked the <%= monster.name %> and earned:</p>
+    <div class="rewards-list">
+      <% rewards.each do |resource_name, amount_gained| %>
+        <% next if amount_gained.zero? %>
+        <div class="reward-item">
+          <%= image_tag "resources/#{resource_name}.png", class: "reward-icon", alt: resource_name.to_s.titleize %>
+          <span class="reward-amount">+<%= amount_gained %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -13,13 +13,10 @@ class BattlesController < ApplicationController
 
   def new
     @attacker = current_user.profile
-    @attacker_troops_eager_loaded = @attacker.troops.includes(:building)
-
-    @defender = Profile.includes(:troops).find(params[:defender_id])
-    
+    @defender = Profile.find(params[:defender_id])
     @battle = Battle.new
-    @attacker_troops_grouped = @attacker_troops_eager_loaded.group_by { |troop| [troop.troop_type, troop.level] }
     
+    @attacker_troops_grouped = @attacker.troops.includes(:building).group_by { |troop| [troop.troop_type, troop.level] }
     @max_troops_per_attack = @attacker.max_troops_for_attack
 
     authorize @battle
@@ -27,42 +24,48 @@ class BattlesController < ApplicationController
 
   def create
     @attacker = current_user.profile
-    @defender = Profile.find(params[:battle][:defender_id])
-    @battle = Battle.new(attacker: @attacker, defender: @defender)
-    authorize @battle
+    
+    permitted_params = battle_params
 
-    attacking_army = []
-    troop_quantities = battle_params[:troops] || {}
+    @defender = Profile.find(permitted_params[:defender_id])
+    
+    attacking_troops = []
+    
+    if permitted_params[:troops].present?
+      permitted_params[:troops].each do |troop_key, quantity|
+        troop_type, level = troop_key.split('_')
 
-    troop_quantities.each do |type_and_level, quantity_str|
-      quantity = quantity_str.to_i
-      next if quantity.zero?
-
-      type, level = type_and_level.split('_')
-      troops_to_send = @attacker.troops.where(troop_type: type, level: level).limit(quantity)
-      attacking_army.concat(troops_to_send)
+        troops_to_select = @attacker.troops.where(
+          troop_type: troop_type, 
+          level: level.to_i
+        ).limit(quantity.to_i)
+        
+        attacking_troops.concat(troops_to_select)
+      end
     end
 
-    if attacking_army.empty?
+    if attacking_troops.empty?
       redirect_to new_battle_path(defender_id: @defender.id), alert: "You must select troops to attack."
       return
     end
 
-    simulator = BattleSimulatorService.new(attacking_army, @defender)
+    simulator = BattleSimulatorService.new(attacking_troops, @defender)
     result = simulator.call
 
-    @battle.winner = result[:winner]
-    @battle.battle_log = result[:log]
+    @battle = Battle.new(
+      attacker: @attacker, 
+      defender: @defender,
+      winner: result[:winner],
+      battle_log: result[:log]
+    )
+    authorize @battle
 
-    respond_to do |format|
-      if @battle.save
-        format.turbo_stream { redirect_to @battle }
-        format.html { redirect_to @battle, notice: "Battle complete!" }
-      else
-        @attacker_troops_grouped = @attacker.unlocked_troops.group_by { |troop| [troop.troop_type, troop.level] }
-        @max_troops_per_attack = @attacker.max_troops_for_attack
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @battle.save
+      redirect_to @battle, notice: "Battle complete!"
+    else
+      @attacker_troops_grouped = @attacker.troops.group_by { |troop| [troop.troop_type, troop.level] }
+      @max_troops_per_attack = @attacker.max_troops_for_attack
+      render :new, status: :unprocessable_entity
     end
   end
 
