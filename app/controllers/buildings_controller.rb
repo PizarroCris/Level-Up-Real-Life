@@ -41,6 +41,11 @@ class BuildingsController < ApplicationController
       ActiveRecord::Base.transaction do
         profile.deduct_resources!(cost)
         @building.update!(level: @building.level + 1)
+        if @building.building_type == 'castle'
+          profile.add_experience(Profile::CASTLE_UPGRADE_XP)
+        else
+          profile.add_experience(Profile::BUILDING_UPGRADE_XP)
+        end
       end
       flash[:notice] = "#{@building.building_type.capitalize} was updated to level #{@building.level}!"
     else

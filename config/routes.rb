@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   get '/world_map', to: 'maps#index', as: 'world_map'
 
-  resources :world_monsters, only: [:index] do
+  resources :world_monsters, only: [:index, :show] do
     member do
       post :attack
     end
