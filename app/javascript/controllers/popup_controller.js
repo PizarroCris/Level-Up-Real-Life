@@ -9,6 +9,7 @@ export default class extends Controller {
 
   close() {
     this.element.remove()
+  }
 
   static targets = ["menu"]
 
