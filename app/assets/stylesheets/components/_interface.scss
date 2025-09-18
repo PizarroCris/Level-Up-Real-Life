@@ -24,7 +24,6 @@ html, body {
 
 .base-container {
   position: absolute;
-
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -45,7 +44,6 @@ html, body {
   width: 1280px;
   height: 720px;
   transform-origin: top left;
-
   transition: transform 0.2s ease-in-out;
 }
 
@@ -66,16 +64,13 @@ html, body {
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 2;
-
   transition: transform 0.2s ease-in-out;
-
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
   }
 }
 
 .empty-plot {
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,13 +88,13 @@ html, body {
 }
 
 .building-plot img {
-  width: 180%;
+  width: 190%;
   height: 100%;
   object-fit: cover;
 }
 
 .building-type--castle img {
-  width: 300%;
+  width: 500%;
 }
 
 .building-level-badge {
