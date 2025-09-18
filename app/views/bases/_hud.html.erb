@@ -3,11 +3,25 @@
 
   <div class="hud-buttons-wrapper d-flex">
     
+    <% if controller_name == 'bases' %>
     <%= link_to(
       image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
           world_map_path,
           class: "hud-button", draggable: false
         ) %>
+    <% elsif controller_name == 'maps' %>
+      <%= button_to "#",
+          class: "hud-button",
+          data: { action: "click->map#centerOnMyCastle" } do %>
+        <%= image_tag "hud/yourcastle.png", class: "hud-button-icon" %>
+      <% end %>
+
+      <%= link_to(
+        image_tag("hud/castle-btn.png", alt: "Castle", class: "hud-button-icon", draggable: false),
+            root_path,
+            class: "hud-button", draggable: false
+          ) %>
+    <% end %>
 
     <%= link_to(
           image_tag("hud/reports.png", alt: "Reports", class: "hud-button-icon", draggable: false),
@@ -34,19 +48,20 @@
           user_inventory_path,
           class: "hud-button", draggable: false
         ) %>
+    <% if controller_name == 'bases' %>
+      <%= link_to(
+            image_tag("hud/menu.png", alt: "Menu", class: "hud-button-icon", draggable: false),
+            "#",
+            class: "hud-button",
+            data: { action: "click->inventory#showMenu" }, draggable: false
+          ) %>
 
-    <%= link_to(
-          image_tag("hud/menu.png", alt: "Menu", class: "hud-button-icon", draggable: false),
-          "#",
-          class: "hud-button",
-          data: { action: "click->inventory#showMenu" }, draggable: false
-        ) %>
-
-    <%= link_to(
-          image_tag("hud/shop.png", alt: "Shop", class: "hud-button-icon", draggable: false),
-          "#",
-          class: "hud-button",
-          data: { action: "click->inventory#showShop" }, draggable: false
-        ) %>
+      <%= link_to(
+            image_tag("hud/shop.png", alt: "Shop", class: "hud-button-icon", draggable: false),
+            "#",
+            class: "hud-button",
+            data: { action: "click->inventory#showShop" }, draggable: false
+          ) %>
+    <% end %>
   </div>
 </div>

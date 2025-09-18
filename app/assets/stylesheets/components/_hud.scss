@@ -26,6 +26,10 @@
   display: block;
   height: 50px;
   width: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .hud-button-icon {
@@ -36,4 +40,18 @@
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.small-icon {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.center-on-castle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
 }
