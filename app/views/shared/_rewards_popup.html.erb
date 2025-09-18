@@ -1,6 +1,6 @@
-<div class="popup-overlay" data-controller="popup" data-action="click->popup#close">
-  <div class="popup-card" data-action="click->popup#stop">
-    <button class="close-popup-btn"><i class='fa-solid fa-square-xmark'></i></button>
+<div class="popup-overlay" data-controller="popup">
+  <div class="popup-card">
+    <button class="close-popup-btn" data-action="click->popup#close"><i class='fa-solid fa-square-xmark'></i></button>
     <h4 class="text-center">Victory!</h4>
     <p class="text-center">You attacked the <%= monster.name %> and earned:</p>
     <div class="rewards-list">

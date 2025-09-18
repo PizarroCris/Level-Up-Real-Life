@@ -5,11 +5,8 @@
     <%= render 'maps/monster', monster: @monster %>
   <% end %>
 <% end %>
-
 <%= turbo_stream.prepend "flashes", partial: "shared/flashes" %>
-
 <%= turbo_stream.append "popup-container" do %>
-  <%= render 'maps/rewards_popup', rewards: @rewards, monster: @monster %>
+  <%= render 'shared/rewards_popup', rewards: @rewards, monster: @monster %>
 <% end %>
-
 <%= turbo_stream.prepend "flashes", partial: "shared/flashes" %>
