@@ -71,14 +71,14 @@ puts "----------------------------------------"
 puts "🗺️ A criar os plots do mapa em grelha..."
 map_width = 1920
 map_height = 1080
-plot_spacing_x = 150
-plot_spacing_y = 150
+plot_spacing_x = 450
+plot_spacing_y = 450
 (plot_spacing_y..(map_height - plot_spacing_y)).step(plot_spacing_y).each do |y|
   (plot_spacing_x..(map_width - plot_spacing_x)).step(plot_spacing_x).each do |x|
     MapPlot.find_or_create_by!(pos_x: x, pos_y: y)
   end
 end
-puts "✅ #{MapPlot.count} plots no mapa criados."
+puts "✅ #{MapPlot.count} map plots was created."
 
 puts "----------------------------------------"
 

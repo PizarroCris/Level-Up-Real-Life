@@ -3,24 +3,12 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["popup", "upgradeButton", "infoButton", "upgradeForm", "image", "upgradeCost"]
 
-  connect() {
-    this.boundHideOnClick = this.hideOnClick.bind(this)
-    document.addEventListener("click", this.boundHideOnClick)
-    window.addEventListener("resize", this.boundHideOnClick)
-  }
-
-  disconnect() {
-    document.removeEventListener("click", this.boundHideOnClick)
-    window.removeEventListener("resize", this.boundHideOnClick)
-  }
-
-  show(event) {
+  toggle(event) {
     event.stopPropagation()
 
     const buildingWrapper = event.currentTarget
     const showUrl = buildingWrapper.dataset.buildingShowUrl
     const upgradeUrl = buildingWrapper.dataset.buildingUpgradeUrl
-    const collectUrl = buildingWrapper.dataset.buildingCollectUrl
     const canUpgrade = buildingWrapper.dataset.buildingUpgradeCost === "true"
 
     this.detailsLinkTarget.href = showUrl
@@ -39,17 +27,7 @@ export default class extends Controller {
 
     this.menuTarget.style.top = `${relativeTop}px`;
     this.menuTarget.style.left = `${relativeLeft}px`;
-  }
 
-  toggle(event) {
-    this.show(event)
     this.menuTarget.classList.toggle("is-visible")
-  }
-
-  hideOnClick(event) {
-    if (event.type === 'click' && this.element.contains(event.target)) {
-      return
-    }
-    this.menuTarget.classList.remove("is-visible")
   }
 }

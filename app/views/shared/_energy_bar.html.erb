@@ -1,0 +1,6 @@
+<% energy = current_user.profile.energy %>
+<% energy_level_for_image = (energy / 10).floor %>
+
+<% energy_level_for_image = [10, [0, energy_level_for_image].max].min %>
+
+<%= image_tag "energy_bars/energy_#{energy_level_for_image}.png", alt: "Energy Bar" %>

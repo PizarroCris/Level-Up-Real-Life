@@ -55,3 +55,17 @@
   justify-content: center;
   padding: 8px 12px;
 }
+
+
+.hud-energy-bar {
+  position: fixed;
+  top: 7px;
+  left: 90px;
+  z-index: 1000;
+  
+  img {
+    width: 200px;
+    height: 30px;
+    object-fit: contain;
+  }
+}
