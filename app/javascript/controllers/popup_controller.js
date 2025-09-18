@@ -7,8 +7,18 @@ export default class extends Controller {
     setTimeout(() => { this.element.style.opacity = 1 }, 10);
   }
 
-  close(event) {
-    this.element.remove();
+  close() {
+    this.element.remove()
+  }
+
+  static targets = ["menu"]
+
+  toggle(event) {
+    event.stopPropagation()
+    const open = this.menuTarget.classList.toggle("is-visible")
+
+    const wrapper = this.element.querySelector(".building-wrapper")
+    if (wrapper) wrapper.setAttribute("aria-expanded", open ? "true" : "false")
   }
   stop(event) {
     event.stopPropagation();

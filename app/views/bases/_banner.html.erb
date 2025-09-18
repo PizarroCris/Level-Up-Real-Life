@@ -4,8 +4,9 @@
      data-stone-rate="<%= @profile.buildings.find_by(building_type: 'quarry')&.resources&.first&.production_per_hour || 0 %>"
      data-metal-rate="<%= @profile.buildings.find_by(building_type: 'mine')&.resources&.first&.production_per_hour || 0 %>">
 
-  <div class="container d-flex align-items-center justify-content-center">
-    <h1 class="text-center border-end pe-3"><%= @profile.username %>'s Base (Level <%= @profile.level %>)</h1>
+  <div class="container d-flex flex-column align-items-center justify-content-center">
+    <h3 class="text-center border-end pe-3"><%= @profile.username %>'s Base</h3> 
+    <p>(LVL <%= @profile.level %>)</p>
     <div class="resources ps-3">
       <span> <%= image_tag "resources/wood.png", class: "resources-img"%> <span data-real-time-resources-target="wood"><%= @profile.wood %></span></span>
       <span> <%= image_tag "resources/stone.png", class: "resources-img"%> <span data-real-time-resources-target="stone"><%= @profile.stone %></span></span>
