@@ -15,6 +15,8 @@
                             alt: "#{building.building_type.capitalize} Level #{building.level}",
                             draggable: false %>
               <div class="building-level-badge"><%= building.level %></div>
+            <%= link_to "Settings", building_troops_path(building), class: "btn btn-link text-decoration-none" %>
+
             </div>
           <% else %>
             <%= link_to new_building_path(plot_id: plot.id) do %>
