@@ -3,7 +3,7 @@
   <h3 class="text-center">Shop</h3>
 
   <div class="shop-pages-container" data-shop-target="pagesContainer">
-    <% @equipments.each_slice(3).with_index do |page_items, index| %>
+    <% @equipments.each_slice(4).with_index do |page_items, index| %>
       <div class="shop-page <%= 'active' if index == 0 %>" data-shop-target="page">
         <div class="equipment-grid">
           <% page_items.each do |equipment| %>
@@ -29,8 +29,8 @@
 
   </div>
   <div class="navigation-buttons mt-3">
-    <button class="btn btn-red rounded-3" data-action="click->shop#previousPage" data-shop-target="previousButton">Voltar</button>
-    <button class="btn btn-red rounded-3" data-action="click->shop#nextPage" data-shop-target="nextButton">Próximo</button>
+    <button class="btn btn-red rounded-3" data-action="click->shop#previousPage" data-shop-target="previousButton">Previous</button>
+    <button class="btn btn-red rounded-3" data-action="click->shop#nextPage" data-shop-target="nextButton">Next</button>
   </div>
 
   <div class="shop-pages-container" data-shop-target="pagesContainer">
