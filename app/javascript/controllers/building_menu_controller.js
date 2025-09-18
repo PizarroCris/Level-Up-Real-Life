@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["menu", "detailsLink", "upgradeFormContainer", "collectButton"]
+  static targets = ["popup", "upgradeButton", "infoButton", "upgradeForm", "image", "upgradeCost"]
 
   connect() {
     this.boundHideOnClick = this.hideOnClick.bind(this)

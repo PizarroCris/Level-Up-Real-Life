@@ -1,17 +1,14 @@
-<div class="building-menu" data-building-menu-target="menu">
-  <div class="d-flex align-items-center gap-3">
-    <div data-building-menu-target="upgradeFormContainer">
-      <%= button_to "<i class='fa-solid fa-circle-up'></i>".html_safe,
-            "#", method: :patch, class: "upgrade-btn" %>
+<div class="building-popup building-menu-popup" style="display: none;" data-building-menu-target="popup">
+  <div class="popup-content">
+    <button class="close-btn" data-action="click->building-menu#hide">&times;</button>
+    <div class="building-info-container">
+      <%= image_tag "", data: { "building-menu-target": "image" } %>
+      <div data-building-menu-target="upgradeCost"></div>
     </div>
-
-    <!-- 🔹 show upgrade cost directly -->
-    <span class="upgrade-cost text-muted">
-      <%= next_upgrade_text(@building || building) %>
-    </span>
-
-    <a href="#" data-building-menu-target="detailsLink" class="info-btn">
-      <i class="fa-solid fa-circle-info"></i>
-    </a>
+    <hr>
+    <a href="#" class="btn btn-secondary" data-building-menu-target="infoButton">Info</a>
+    <form action="#" method="patch" data-building-menu-target="upgradeForm">
+      <button type="submit" class="btn btn-primary" data-building-menu-target="upgradeButton">Upgrade</button>
+    </form>
   </div>
 </div>
