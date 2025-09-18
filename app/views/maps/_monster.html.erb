@@ -1,5 +1,11 @@
-<div class="map-item monster-plot" style="left: <%= monster.pos_x %>px; top: <%= monster.pos_y %>px;">
-  <%= button_to attack_world_monster_path(monster), method: :post, class: "monster-attack-button" do %>
-    <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name, draggable: false %>
-  <% end %>
-</div>
+<%= turbo_frame_tag dom_id(monster) do %>
+  <div class="map-item monster-plot" style="left: <%= monster.pos_x %>px; top: <%= monster.pos_y %>px;">
+    <a href="#" class="monster-link"
+       data-action="click->map#showPopup"
+       data-interaction-options="<%= monster_interaction_options(monster).to_json %>">
+      
+      <%= image_tag "map/#{monster.name.downcase}.png", alt: monster.name, draggable: false %>
+      <span class="monster-hp">HP: <%= monster.hp %></span>
+    </a>
+  </div>
+<% end %>
