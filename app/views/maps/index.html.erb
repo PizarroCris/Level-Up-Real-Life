@@ -1,13 +1,9 @@
 <% content_for :body_class, "map-page" %>
-
+<%= render 'bases/hud' %>
 <div class="map-ui-wrapper" 
      data-controller="map"
      data-map-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
      data-map-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
-  
-  <button class="btn btn-primary center-on-castle-btn" data-action="click->map#centerOnMyCastle">
-    Go to My Castle
-  </button>
 
   <div class="map-viewport" 
        data-action="mousedown->map#startDrag 
