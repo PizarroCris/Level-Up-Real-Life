@@ -9,6 +9,7 @@ export default class extends Controller {
 
   close() {
     this.element.remove()
+  }
 
   static targets = ["menu"]
 
@@ -16,7 +17,6 @@ export default class extends Controller {
     event.stopPropagation()
     const open = this.menuTarget.classList.toggle("is-visible")
 
-    // Update aria-expanded on wrapper
     const wrapper = this.element.querySelector(".building-wrapper")
     if (wrapper) wrapper.setAttribute("aria-expanded", open ? "true" : "false")
   }
