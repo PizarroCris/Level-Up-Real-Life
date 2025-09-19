@@ -69,8 +69,8 @@ puts "----------------------------------------"
 
 # --- 3. PLOTS DO MAPA-MÚNDI ---
 puts "🗺️ A criar os plots do mapa em grelha..."
-map_width = 1920
-map_height = 1080
+map_width = 5000
+map_height = 5000
 plot_spacing_x = 400 # ✅ NOVO ESPAÇAMENTO
 plot_spacing_y = 400 # ✅ NOVO ESPAÇAMENTO
 (plot_spacing_y..(map_height - plot_spacing_y)).step(plot_spacing_y).each do |y|
@@ -79,6 +79,8 @@ plot_spacing_y = 400 # ✅ NOVO ESPAÇAMENTO
   end
 end
 puts "✅ #{MapPlot.count} map plots was created."
+
+puts "----------------------------------------"
 
 puts "----------------------------------------"
 
@@ -94,45 +96,55 @@ monster_blueprints = [
   { name: 'Barbarian', base_hp: 250, base_level: 3 },
 ]
 
-# 2. Define os limites do mapa (com base no teu CSS) e quantos monstros queremos
+# 2. Define as regras do mapa
 MAP_WIDTH = 5000
 MAP_HEIGHT = 5000
 NUMBER_OF_MONSTERS = 30
+MIN_SPACING = 300      # ✅ NOVO: A distância mínima entre o centro de quaisquer dois itens
+MARGIN = 200           # Uma margem das bordas do mapa
 
-# 3. Guarda todos os locais já ocupados (por castelos de jogadores) para não
-#    colocar um monstro em cima de um jogador.
+# 3. Guarda todos os locais já ocupados (por castelos de jogadores)
 occupied_spots = Profile.joins(:map_plot).pluck('map_plots.pos_x', 'map_plots.pos_y')
 
 # 4. O loop de criação
 NUMBER_OF_MONSTERS.times do
-  # Encontra um local vazio no mapa
   random_x, random_y = 0, 0
+  
+  # ✅ O loop agora é mais inteligente e verifica a distância
   loop do
-    # Gera coordenadas aleatórias dentro do mapa (com uma margem das bordas)
-    random_x = rand(100..MAP_WIDTH - 100)
-    random_y = rand(100..MAP_HEIGHT - 100)
+    valid_spot = true
+    random_x = rand(MARGIN..MAP_WIDTH - MARGIN)
+    random_y = rand(MARGIN..MAP_HEIGHT - MARGIN)
 
-    # Se o local não estiver ocupado, sai do loop e usa estas coordenadas
-    break unless occupied_spots.include?([random_x, random_y])
+    # Verifica a distância a todos os outros pontos já ocupados
+    occupied_spots.each do |spot_x, spot_y|
+      # Se a nova coordenada estiver demasiado perto de um ponto existente...
+      if (spot_x - random_x).abs < MIN_SPACING && (spot_y - random_y).abs < MIN_SPACING
+        valid_spot = false # ...marca como inválida e tenta novamente.
+        break
+      end
+    end
+    
+    break if valid_spot # Se o loop terminou e o 'valid_spot' continua 'true', encontrámos um bom local.
   end
 
   # Adiciona o novo local à lista de locais ocupados para a próxima iteração
   occupied_spots << [random_x, random_y]
 
-  # Escolhe um tipo de monstro aleatório da nossa lista de modelos
+  # Escolhe um tipo de monstro aleatório
   blueprint = monster_blueprints.sample
 
-  # Cria o monstro com os dados aleatórios e do modelo
+  # Cria o monstro
   WorldMonster.create!(
     name: blueprint[:name],
-    level: blueprint[:base_level] + rand(-1..1), # Nível base com pequena variação
-    hp: blueprint[:base_hp] * (blueprint[:base_level] + rand(0..2)), # HP com variação
+    level: blueprint[:base_level] + rand(-1..1),
+    hp: blueprint[:base_hp] * (blueprint[:base_level] + rand(0..2)),
     pos_x: random_x,
     pos_y: random_y
   )
 end
 
-puts "✅ #{WorldMonster.count} monstros criados em locais aleatórios."
+puts "✅ #{WorldMonster.count} monstros criados com espaçamento mínimo."
 
 # --- 5. DADOS DE DESENVOLVIMENTO (UTILIZADORES E GUILDAS) ---
 if Rails.env.development?
