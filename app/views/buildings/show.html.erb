@@ -1,5 +1,4 @@
 <% if @building.building_type == "castle" %>
-  <!-- Castle layout -->
   <div class="header-card d-flex justify-content-center">
     <p class="card-border mt-5">
       <strong>Castle</strong> <em>(Level <%= @building.level %>)</em>
@@ -8,7 +7,6 @@
 
   <div class="container">
     <div class="card card-box mt-5 rounded-5">
-      <!-- Close button -->
       <div class="container-close">
         <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
                     user_base_path,
@@ -29,11 +27,6 @@
                             class: "btn btn-red btn-sm" %>
             </div>
           <% end %>
-        </div>
-
-        <div class="production-info">
-          <strong>Attack:</strong> <%= Building::CASTLE_ATTACK_BY_LEVEL[@building.level] %><br>
-          <strong>Defense:</strong> <%= Building::CASTLE_DEFENSE_BY_LEVEL[@building.level] %>
         </div>
       </div>
 

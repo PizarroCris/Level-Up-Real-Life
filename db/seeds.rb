@@ -67,156 +67,89 @@ puts "✅ #{Plot.count} plots da base interna criados."
 
 puts "----------------------------------------"
 
-# --- 3. PLOTS DO MAPA-MÚNDI ---
-puts "🗺️ A criar os plots do mapa em grelha..."
-map_width = 5000
-map_height = 5000
-plot_spacing_x = 400
-plot_spacing_y = 400
-(plot_spacing_y..(map_height - plot_spacing_y)).step(plot_spacing_y).each do |y|
-  (plot_spacing_x..(map_width - plot_spacing_x)).step(plot_spacing_x).each do |x|
+# ============================================================================
+# --- CRIAÇÃO DO MUNDO (PLOTS, JOGADORES, GUILDAS, MONSTROS) ---
+# ============================================================================
+puts "🗺️  Creating the World..."
+
+# 1. GERAR A GRELHA DE PLOTS DO MAPA
+puts "   -> Generating map plot grid..."
+MapPlot.destroy_all
+MAP_SIZE = 5000
+PLOT_SPACING = 400
+MARGIN = 200
+(MARGIN..(MAP_SIZE - MARGIN)).step(PLOT_SPACING).each do |y|
+  (MARGIN..(MAP_SIZE - MARGIN)).step(PLOT_SPACING).each do |x|
     MapPlot.find_or_create_by!(pos_x: x, pos_y: y)
   end
 end
-puts "✅ #{MapPlot.count} map plots was created."
+puts "      #{MapPlot.count} map plots created."
 
-puts "----------------------------------------"
+# 2. SELECIONAR PLOTS DISPONÍVEIS E EMBARALHÁ-LOS
+available_plots = MapPlot.all.to_a.shuffle
 
-puts "----------------------------------------"
-
-puts "👹 Cleaning up old monsters..."
-WorldMonster.destroy_all
-
-puts "👹 Creating a variety of monsters across the map..."
-
-# 1. Define os "modelos" dos nossos tipos de monstros
-monster_blueprints = [
-  { name: 'Dragon',    base_hp: 500, base_level: 5 },
-  { name: 'Orc',       base_hp: 150, base_level: 2 },
-  { name: 'Barbarian', base_hp: 250, base_level: 3 },
-]
-
-# 2. Define as regras do mapa
-MAP_WIDTH = 5000
-MAP_HEIGHT = 5000
-NUMBER_OF_MONSTERS = 30
-MIN_SPACING = 300      # ✅ NOVO: A distância mínima entre o centro de quaisquer dois itens
-MARGIN = 200           # Uma margem das bordas do mapa
-
-# 3. Guarda todos os locais já ocupados (por castelos de jogadores)
-occupied_spots = Profile.joins(:map_plot).pluck('map_plots.pos_x', 'map_plots.pos_y')
-
-# 4. O loop de criação
-NUMBER_OF_MONSTERS.times do
-  random_x, random_y = 0, 0
-  
-  # ✅ O loop agora é mais inteligente e verifica a distância
-  loop do
-    valid_spot = true
-    random_x = rand(MARGIN..MAP_WIDTH - MARGIN)
-    random_y = rand(MARGIN..MAP_HEIGHT - MARGIN)
-
-    # Verifica a distância a todos os outros pontos já ocupados
-    occupied_spots.each do |spot_x, spot_y|
-      # Se a nova coordenada estiver demasiado perto de um ponto existente...
-      if (spot_x - random_x).abs < MIN_SPACING && (spot_y - random_y).abs < MIN_SPACING
-        valid_spot = false # ...marca como inválida e tenta novamente.
-        break
-      end
-    end
-    
-    break if valid_spot # Se o loop terminou e o 'valid_spot' continua 'true', encontrámos um bom local.
-  end
-
-  # Adiciona o novo local à lista de locais ocupados para a próxima iteração
-  occupied_spots << [random_x, random_y]
-
-  # Escolhe um tipo de monstro aleatório
-  blueprint = monster_blueprints.sample
-
-  # Cria o monstro
-  WorldMonster.create!(
-    name: blueprint[:name],
-    level: blueprint[:base_level] + rand(-1..1),
-    hp: blueprint[:base_hp] * (blueprint[:base_level] + rand(0..2)),
-    pos_x: random_x,
-    pos_y: random_y
-  )
-end
-
-puts "✅ #{WorldMonster.count} monstros criados com espaçamento mínimo."
-
-puts "🌱 A criar dados de exemplo para o ambiente de desenvolvimento..."
-
-# ✅ REFINEMENT: Get all available plot IDs ONCE before the loop.
-available_plot_ids = MapPlot.pluck(:id) - Profile.pluck(:map_plot_id)
-
-puts "👤 A criar utilizador principal de teste..."
-if available_plot_ids.any?
-  main_user = User.find_or_create_by!(email: 'player@example.com') do |user|
-    user.password = 'password'
-  end
-
-  main_user.profile.update!(
-    username: 'PlayerOne',
-    level: 1,
-    wood: 50000,
-    stone: 50000,
-    metal: 50000,
-    map_plot_id: available_plot_ids.shift
-  )
-  puts "   Login de Teste: player@example.com | password"
-else
-  puts "⚠️ Não há plots de mapa disponíveis para o utilizador principal."
-end
-
-# --- CONTAS DE UTILIZADOR PRINCIPAIS ---
-puts "👤 Creating main user accounts..."
+# 3. CRIAR AS TUAS CONTAS ESPECÍFICAS
+puts "   -> Creating specific user accounts..."
 users_to_create = [
   { username: 'Pizarro', email: 'cristianopizarro@lewagon.com', password: 'Password1!' },
   { username: 'Yan',     email: 'yanbuxes@lewagon.com',     password: '123456' },
   { username: 'Caio',    email: 'caiofigueiredo@lewagon.com', password: '123456' }
 ]
-
 users_to_create.each do |user_data|
-  user = User.find_or_create_by!(email: user_data[:email]) do |u|
-    u.password = user_data[:password]
-  end
+  # Pega num plot aleatório da lista e remove-o para não ser reutilizado
+  plot_for_user = available_plots.pop
+  break unless plot_for_user # Para se os plots acabarem
+
+  user = User.find_or_create_by!(email: user_data[:email]) { |u| u.password = user_data[:password] }
   user.profile.update!(
     username: user_data[:username],
-    wood: 37456,
-    stone: 37456,
-    metal: 37456,
-    steps: 12327
+    wood: 37456, stone: 37456, metal: 37456, steps: 12327,
+    map_plot: plot_for_user # Atribui o plot
   )
-  puts "   - User '#{user_data[:username]}' created. Login: #{user_data[:email]}"
+  puts "      - User '#{user_data[:username]}' created."
 end
-puts "✅ Main user accounts created."
 
-puts "----------------------------------------"
+# 4. CRIAR GUILDAS ADICIONAIS COM FAKER
+puts "   -> Creating 10 additional Faker guilds..."
+10.times do
+  plot_for_guild = available_plots.pop
+  break unless plot_for_guild
 
-puts "🏰 A criar 10 guildas adicionais com o Faker..."
-10.times do |i|
-  break if available_plot_ids.empty?
-
-  guild_leader_user = User.create!(
-    email: Faker::Internet.unique.email,
-    password: "password"
-  )
-  leader_profile = guild_leader_user.profile
-  leader_profile.update!(map_plot_id: available_plot_ids.shift)
+  leader_user = User.create!(email: Faker::Internet.unique.email, password: "password")
+  leader_user.profile.update!(map_plot: plot_for_guild)
 
   guild = Guild.create!(
     name: Faker::Company.name.truncate(12, omission: ''),
     tag: Faker::Alphanumeric.unique.alpha(number: 4).upcase,
-    description: Faker::Lorem.sentence(word_count: 5),
-    leader: leader_profile
+    leader: leader_user.profile
   )
-  GuildMembership.create!(
-    guild: guild,
-    profile: leader_profile,
-    role: :leader
-  )
+  GuildMembership.create!(guild: guild, profile: leader_user.profile, role: :leader)
 end
 
-puts "✅ #{Guild.count} guildas criadas!"
+# 5. ESPALHAR MONSTROS NOS PLOTS RESTANTES
+puts "   -> Spawning monsters on remaining plots..."
+WorldMonster.destroy_all
+monster_blueprints = [
+  { name: 'Dragon',    base_hp: 500, base_level: 5 },
+  { name: 'Orc',       base_hp: 150, base_level: 2 },
+  { name: 'Barbarian', base_hp: 250, base_level: 3 }
+]
+NUMBER_OF_MONSTERS = 30
+
+# Pega numa amostra aleatória dos plots que AINDA estão disponíveis
+plots_for_monsters = available_plots.sample(NUMBER_OF_MONSTERS)
+
+plots_for_monsters.each do |plot|
+  blueprint = monster_blueprints.sample
+  WorldMonster.create!(
+    name: blueprint[:name],
+    level: blueprint[:base_level],
+    hp: blueprint[:base_hp],
+    pos_x: plot.pos_x,
+    pos_y: plot.pos_y
+  )
+end
+puts "      #{WorldMonster.count} monsters spawned."
+puts "✅ World creation complete."
+puts "----------------------------------------"
+puts "Seeding finished!"
