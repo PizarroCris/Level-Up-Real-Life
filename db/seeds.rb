@@ -103,7 +103,7 @@ users_to_create.each do |user_data|
   user = User.find_or_create_by!(email: user_data[:email]) { |u| u.password = user_data[:password] }
   user.profile.update!(
     username: user_data[:username],
-    wood: 37456, stone: 37456, metal: 37456, steps: 12327,
+    wood: 57456, stone: 57456, metal: 57456, steps: 28327,
     map_plot: plot_for_user # Atribui o plot
   )
   puts "      - User '#{user_data[:username]}' created."
