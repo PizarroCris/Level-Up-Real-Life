@@ -60,7 +60,6 @@ html, body {
 .plot-area {
   position: absolute;
   width: 77px;
-  height: 77px;
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 2;
@@ -93,8 +92,8 @@ html, body {
   object-fit: cover;
 }
 
-.building-type--castle img {
-  width: 500%;
+.building-plot.building-type--castle img {
+  width: 350%;
 }
 
 .building-level-badge {

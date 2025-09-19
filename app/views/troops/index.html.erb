@@ -1,44 +1,58 @@
-<div class="header-card d-flex justify-content-center">
-  <p class="card-border mt-5">My Troops</p>
-</div>
-
-<div class="text-center mt-4">
-  <%= link_to "Back", root_path, class: "btn btn-red rounded-3" %>
-</div>
-
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <% Troop::TROOP_STATS.each do |troop_type, levels| %>
-      <% levels.each do |level, stats| %>
-        <% disabled = level > @barrack_level %>
-        <div class="col-sm-6 col-md-4 col-lg-2 col-5-in-row mb-4">
-          <div class="card-troop rounded-5"
-               data-controller="troop-card"
-               data-troop-card-level-value="<%= level %>"
-               data-troop-card-barrack-level-value="<%= @barrack_level %>">
-            <div class="card-body text-center">
-              <% troop_folder = troop_type.to_s %>
-              <% image_path = "troops/#{troop_folder}/#{troop_type}#{level}.png" %>
-              <div class="img-troop">
-                <%= image_tag image_path, class: "w-100", data: { "troop-card-target": "image" } %>
-                <div class="overlay">
-                  <p><%= "#{troop_type.to_s.capitalize} (Level #{level})" %></p>
+<div class="container my-5">
+  <div class="card card-box card-troopx mx-auto rounded-5" style="max-width: 900px; position: relative;">
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe, user_base_path, class: "close-btn" %>
+    </div>
+    <div class="card-body">
+      <div class="header-card d-flex justify-content-center align-items-center mb-4">
+        <h3 class="mb-0">Train Troops</h3>
+        <% unless @building.max_level? %>
+          <div class="d-flex">
+            <div class="upgrade-button-container ms-3">
+              <p>(Barrack Lvl <%= @barrack_level %>)</p>
+                <%= button_to upgrade_building_path(@building), method: :patch, class: "btn btn-red" do %>
+                <i class='fa-solid fa-circle-up'></i> Upgrade
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% @troops_by_level.sort.to_h.each do |level, troops_in_level| %>
+        <div class="troop-level-row">
+          <h5 class="level-title">Level <%= level %></h5>
+          <div class="troop-cards-wrapper">
+            <% troops_in_level.each do |troop_data| %>
+              <% troop_type = troop_data[:type] %>
+              <% stats = troop_data[:stats] %>
+              <% disabled = level > @barrack_level %>
+              <div class="card-troop rounded-5 <%= 'disabled' if disabled %>">
+                <div class="card-body text-center p-2">
+                  <%= simple_form_for [@building, Troop.new] do |f| %>
+                    <%= f.hidden_field :troop_type, value: troop_type %>
+                    <%= f.hidden_field :level, value: level %>
+                    <div class="img-troop mb-2">
+                      <% image_path = "troops/#{troop_type}/#{troop_type}#{level}.png" %>
+                      <%= image_tag image_path, class: "w-100" %>
+                      <div class="overlay"><p><%= troop_type.to_s.capitalize %></p></div>
+                    </div>
+                    <div class="d-flex justify-content-around mb-2 small">
+                      <span><i class="fa-solid fa-hand-fist"></i> <%= stats[:attack] %></span>
+                      <span><i class="fa-solid fa-shield-halved"></i> <%= stats[:defense] %></span>
+                      <span><i class="fa-solid fa-users"></i> <%= @troop_counts["#{troop_type}-#{level}"] || 0 %></span>
+                    </div>
+                    <% unless disabled %>
+                      <div class="slider-component mb-2">
+                        <%= range_field_tag "troop[quantity]", 0, in: 0..100, step: 1, class: "form-range" %>
+                      </div>
+                    <% end %>
+                    <%= f.button :submit, "Train", class: "btn btn-red btn-sm w-100", disabled: disabled %>
+                  <% end %>
                 </div>
               </div>
-              <div class="d-flex justify-content-between m-3 gap-2">
-                <span><i class="fa-solid fa-hand-fist"></i> <%= stats[:attack] %></span>
-                <span><i class="fa-solid fa-shield-halved"></i> <%= stats[:defense] %></span>
-                <span><i class="fa-solid fa-gauge-high"></i> <%= stats[:speed] %></span>
-                <span><i class="fa-solid fa-users"></i> <%= @troop_counts["#{troop_type}-#{level}"] || 0 %></span>
-              </div>
-              <%= button_to "Create #{troop_type.to_s.capitalize}", building_troops_path(@building),
-                params: { troop: { troop_type: troop_type, level: level } },
-                method: :post,
-                class: "btn btn-red rounded-3 mb-3", data: { "troop-card-target": "button" } %>
-            </div>
+            <% end %>
           </div>
         </div>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </div>

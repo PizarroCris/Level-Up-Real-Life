@@ -35,7 +35,17 @@
 }
 
 .castle-plot img {
-  width: 300px;
+  width: 200px;
+}
+
+.castle-plot a {
+  display: inline-block;
+  transition: transform 0.2s ease-in-out;
+}
+
+.castle-plot a:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px white);
 }
 
 .monster-plot {
@@ -49,7 +59,7 @@
 }
 
 .monster-plot img {
-  width: 150px;
+  width: 100px;
   height: auto;
   display: block;
 }

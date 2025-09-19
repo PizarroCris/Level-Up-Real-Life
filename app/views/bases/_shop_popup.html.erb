@@ -1,7 +1,6 @@
 <div class="d-none shop-popup" data-inventory-target="shopPopup" data-controller="shop">
   <span class="close" data-action="click->inventory#hidePopup">&times;</span>
-  <h3 class="text-center">Shop</h3>
-
+  <h3 class="text-center text-dark">Shop</h3>
   <div class="shop-pages-container" data-shop-target="pagesContainer">
     <% @equipments.each_slice(4).with_index do |page_items, index| %>
       <div class="shop-page <%= 'active' if index == 0 %>" data-shop-target="page">
@@ -26,19 +25,17 @@
         </div>
       </div>
     <% end %>
-
   </div>
   <div class="navigation-buttons mt-3">
     <button class="btn btn-red rounded-3" data-action="click->shop#previousPage" data-shop-target="previousButton">Previous</button>
     <button class="btn btn-red rounded-3" data-action="click->shop#nextPage" data-shop-target="nextButton">Next</button>
   </div>
-
   <div class="shop-pages-container" data-shop-target="pagesContainer">
     </div>
   <hr>
   <div class="buy-steps-section text-center mt-4">
-    <h4>Steps</h4>
-    <p>1.000 steps US$5.00</p>
+    <h4 class="text-dark">Steps</h4>
+    <p class="text-dark">1.000 steps US$5.00</p>
     <%= button_to "Buy", create_checkout_session_shop_index_path, class: "btn btn-red", data: { turbo: false } %>
   </div>
 
