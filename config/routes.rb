@@ -58,7 +58,6 @@ Rails.application.routes.draw do
   get "leaderboard", to: "leaderboards#index"
   get "leaderboard/guilds", to: "leaderboards#guilds", as: :guild_leaderboard
   get "/base", to: "bases#show", as: :user_base
-
   post '/webhooks', to: 'webhooks#receive'
   get "inventory", to: "pages#inventory", as: :user_inventory
 end
