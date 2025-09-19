@@ -71,8 +71,8 @@ puts "----------------------------------------"
 puts "🗺️ A criar os plots do mapa em grelha..."
 map_width = 5000
 map_height = 5000
-plot_spacing_x = 400 # ✅ NOVO ESPAÇAMENTO
-plot_spacing_y = 400 # ✅ NOVO ESPAÇAMENTO
+plot_spacing_x = 400
+plot_spacing_y = 400
 (plot_spacing_y..(map_height - plot_spacing_y)).step(plot_spacing_y).each do |y|
   (plot_spacing_x..(map_width - plot_spacing_x)).step(plot_spacing_x).each do |x|
     MapPlot.find_or_create_by!(pos_x: x, pos_y: y)
@@ -146,61 +146,77 @@ end
 
 puts "✅ #{WorldMonster.count} monstros criados com espaçamento mínimo."
 
-# --- 5. DADOS DE DESENVOLVIMENTO (UTILIZADORES E GUILDAS) ---
-if Rails.env.development?
-  puts "🌱 A criar dados de exemplo para o ambiente de desenvolvimento..."
+puts "🌱 A criar dados de exemplo para o ambiente de desenvolvimento..."
 
-  # ✅ REFINEMENT: Get all available plot IDs ONCE before the loop.
-  available_plot_ids = MapPlot.pluck(:id) - Profile.pluck(:map_plot_id)
+# ✅ REFINEMENT: Get all available plot IDs ONCE before the loop.
+available_plot_ids = MapPlot.pluck(:id) - Profile.pluck(:map_plot_id)
 
-  puts "👤 A criar utilizador principal de teste..."
-  if available_plot_ids.any?
-    main_user = User.find_or_create_by!(email: 'player@example.com') do |user|
-      user.password = 'password'
-    end
-
-    # ✅ REFINEMENT: Let the User callback create the profile, then update it.
-    main_user.profile.update!(
-      username: 'PlayerOne',
-      level: 1,
-      wood: 50000,
-      stone: 50000,
-      metal: 50000,
-      map_plot_id: available_plot_ids.shift # Use and remove the first available ID
-    )
-    puts "   Login de Teste: player@example.com | password"
-  else
-    puts "⚠️ Não há plots de mapa disponíveis para o utilizador principal."
+puts "👤 A criar utilizador principal de teste..."
+if available_plot_ids.any?
+  main_user = User.find_or_create_by!(email: 'player@example.com') do |user|
+    user.password = 'password'
   end
 
-  puts "----------------------------------------"
-
-  puts "🏰 A criar 5 guildas adicionais com o Faker..." # ✅ NOVO VALOR (era 15)
-  5.times do |i|
-    break if available_plot_ids.empty? # Stop if we run out of plots
-
-    # ✅ REFINEMENT: Let the User callback create the profile.
-    guild_leader_user = User.create!(
-      email: Faker::Internet.unique.email,
-      password: "password"
-    )
-    leader_profile = guild_leader_user.profile
-    leader_profile.update!(map_plot_id: available_plot_ids.shift) # Assign a plot
-
-    guild = Guild.create!(
-      name: Faker::Company.name.truncate(12, omission: ''),
-      tag: Faker::Alphanumeric.unique.alpha(number: 4).upcase,
-      description: Faker::Lorem.sentence(word_count: 5),
-      leader: leader_profile
-    )
-    GuildMembership.create!(
-      guild: guild,
-      profile: leader_profile,
-      role: :leader
-    )
-  end
-  puts "✅ #{Guild.count} guildas criadas!"
-
+  main_user.profile.update!(
+    username: 'PlayerOne',
+    level: 1,
+    wood: 50000,
+    stone: 50000,
+    metal: 50000,
+    map_plot_id: available_plot_ids.shift
+  )
+  puts "   Login de Teste: player@example.com | password"
 else
-  puts "⏩ A ignorar a criação de dados de teste (não em ambiente de desenvolvimento)."
+  puts "⚠️ Não há plots de mapa disponíveis para o utilizador principal."
 end
+
+# --- CONTAS DE UTILIZADOR PRINCIPAIS ---
+puts "👤 Creating main user accounts..."
+users_to_create = [
+  { username: 'Pizarro', email: 'cristianopizarro@lewagon.com', password: 'Password1!' },
+  { username: 'Yan',     email: 'yanbuxes@lewagon.com',     password: '123456' },
+  { username: 'Caio',    email: 'caiofigueiredo@lewagon.com', password: '123456' }
+]
+
+users_to_create.each do |user_data|
+  user = User.find_or_create_by!(email: user_data[:email]) do |u|
+    u.password = user_data[:password]
+  end
+  user.profile.update!(
+    username: user_data[:username],
+    wood: 37456,
+    stone: 37456,
+    metal: 37456,
+    steps: 12327
+  )
+  puts "   - User '#{user_data[:username]}' created. Login: #{user_data[:email]}"
+end
+puts "✅ Main user accounts created."
+
+puts "----------------------------------------"
+
+puts "🏰 A criar 10 guildas adicionais com o Faker..."
+10.times do |i|
+  break if available_plot_ids.empty?
+
+  guild_leader_user = User.create!(
+    email: Faker::Internet.unique.email,
+    password: "password"
+  )
+  leader_profile = guild_leader_user.profile
+  leader_profile.update!(map_plot_id: available_plot_ids.shift)
+
+  guild = Guild.create!(
+    name: Faker::Company.name.truncate(12, omission: ''),
+    tag: Faker::Alphanumeric.unique.alpha(number: 4).upcase,
+    description: Faker::Lorem.sentence(word_count: 5),
+    leader: leader_profile
+  )
+  GuildMembership.create!(
+    guild: guild,
+    profile: leader_profile,
+    role: :leader
+  )
+end
+
+puts "✅ #{Guild.count} guildas criadas!"
