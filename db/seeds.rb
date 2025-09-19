@@ -71,8 +71,8 @@ puts "----------------------------------------"
 puts "🗺️ A criar os plots do mapa em grelha..."
 map_width = 1920
 map_height = 1080
-plot_spacing_x = 150 # ✅ NOVO ESPAÇAMENTO
-plot_spacing_y = 150 # ✅ NOVO ESPAÇAMENTO
+plot_spacing_x = 400 # ✅ NOVO ESPAÇAMENTO
+plot_spacing_y = 400 # ✅ NOVO ESPAÇAMENTO
 (plot_spacing_y..(map_height - plot_spacing_y)).step(plot_spacing_y).each do |y|
   (plot_spacing_x..(map_width - plot_spacing_x)).step(plot_spacing_x).each do |x|
     MapPlot.find_or_create_by!(pos_x: x, pos_y: y)
@@ -97,7 +97,7 @@ monster_blueprints = [
 # 2. Define os limites do mapa (com base no teu CSS) e quantos monstros queremos
 MAP_WIDTH = 5000
 MAP_HEIGHT = 5000
-NUMBER_OF_MONSTERS = 10 # ✅ NOVO VALOR (era 50)
+NUMBER_OF_MONSTERS = 30
 
 # 3. Guarda todos os locais já ocupados (por castelos de jogadores) para não
 #    colocar um monstro em cima de um jogador.

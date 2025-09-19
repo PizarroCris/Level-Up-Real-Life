@@ -10,14 +10,21 @@ class User < ApplicationRecord
 
   def create_user_profile
     empty_spot = MapPlot.where.missing(:profile).first
-    
-    if empty_spot
-      self.create_profile!(
-        username: self.email.split('@').first,
-        map_plot: empty_spot
+
+    new_profile = self.create_profile!(
+      username: self.email.split('@').first,
+      map_plot: empty_spot
+    )
+
+    central_plot = Plot.find_by(name: "Plot 1") || Plot.first
+
+    if central_plot && new_profile
+      Building.create!(
+        profile: new_profile,
+        plot: central_plot,
+        building_type: 'castle',
+        level: 1
       )
-    else
-      raise "No available map plots to create a user profile."
     end
   end
 end

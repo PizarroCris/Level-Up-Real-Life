@@ -1,14 +1,12 @@
-/* --- Shop container sizing --- */
 .shop-popup {
-  display: inline-block;       /* shrink-wrap to content */
-  width: auto !important;      /* override previous width */
+  display: inline-block;
+  width: auto !important;
   max-width: 100%;
   padding-top: 8px;
 }
 
 .shop-pages-container { display: contents; }
 
-/* --- Pages --- */
 .shop-page {
   display: none;
   width: 100%;
@@ -16,7 +14,6 @@
   &.active { display: block; }
 }
 
-/* --- Grid --- */
 .equipment-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(140px, 1fr));
@@ -27,10 +24,8 @@
 @media (max-width: 992px)  { .equipment-grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); } }
 @media (max-width: 480px)  { .equipment-grid { grid-template-columns: repeat(1, minmax(140px, 1fr)); } }
 
-/* --- Equipment Card --- */
 .equipment-card {
   background: #fff;
-  color: #000;
   text-align: center;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -99,13 +94,10 @@
   padding: 4px 10px;
 }
 
-/* Utility */
 .font-shop { font-size: 13px; }
 
-/* --- Buy Steps Section --- */
 .buy-steps-section {
   background: #fff;
-  color: #000;
   text-align: center;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -114,7 +106,6 @@
   box-shadow: 0 4px 10px rgba(0,0,0,.08);
 
   h4, p, * {
-    color: #000;
     margin: 4px 0;
   }
 
