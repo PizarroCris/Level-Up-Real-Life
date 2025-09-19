@@ -50,3 +50,15 @@
     cursor: not-allowed;
   }
 }
+
+.cost-item {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 5px;
+}
+
+.cost-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
