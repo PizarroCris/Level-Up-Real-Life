@@ -12,7 +12,6 @@
         <%= image_tag @resource.image_asset_path, 
                       class: "resource-image", 
                       alt: "#{@resource.building.building_type.titleize} Level #{@resource.level}" %>
-
         <% if @resource.level < Building::MAX_LEVEL%>
           <div class="upgrade-button-overlay">
             <%= button_to "<i class='fa-solid fa-circle-up'></i> Upgrade".html_safe, 
@@ -22,13 +21,7 @@
           </div>
         <% end %>
       </div>
-
-      <div class="production-info">
-        <strong>Production:</strong> <%= @resource.production_per_hour %> / hour<br>
-        <strong>Storage:</strong> <%= @resource.storage_capacity %>
-      </div>
     </div>
-
     <div class="resource-stats-table">
       <table class="table table-striped table-hover">
         <thead>

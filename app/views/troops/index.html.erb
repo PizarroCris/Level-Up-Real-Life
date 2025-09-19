@@ -1,5 +1,8 @@
 <%= render "bases/banner" %>
 
+<div class="header-card d-flex justify-content-center">
+  <p class="card-border mt-5">Barrack Lvl <%= @barrack_level %></p>
+</div>
 <div class="container my-5">
   <div class="card card-box card-troopx mx-auto rounded-5" style="max-width: 900px; position: relative;">
     <div class="container-close">
@@ -7,7 +10,7 @@
     </div>
     <div class="card-body">
       <div class="header-card d-flex justify-content-center align-items-center mb-4">
-        <h3 class="mb-0">Train Troops</h3> (Barrack Lvl <%= @barrack_level %>)
+        <h3 class="mb-0">Train Troops</h3>
         <% unless @building.max_level? %>
           <div class="upgrade-button-container ms-3">
             <%= button_to upgrade_building_path(@building), method: :patch, class: "btn btn-red" do %>
