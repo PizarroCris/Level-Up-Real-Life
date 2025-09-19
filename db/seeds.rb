@@ -50,10 +50,10 @@ puts "----------------------------------------"
 # --- 2. PLOTS DA BASE INTERNA ---
 puts "🏞️ A criar os plots da base interna..."
 plots_data = [
-  { name: "Plot 1", pos_x: 595, pos_y: 253 },
-  { name: "Plot 2", pos_x: 886, pos_y: 332 },
-  { name: "Plot 3", pos_x: 457, pos_y: 404 },
-  { name: "Plot 4", pos_x: 500, pos_y: 240 },
+  { name: "Plot 1", pos_x: 627, pos_y: 316 },
+  { name: "Plot 2", pos_x: 882, pos_y: 350 },
+  { name: "Plot 3", pos_x: 431, pos_y: 443 },
+  { name: "Plot 4", pos_x: 499, pos_y: 247 },
   { name: "Plot 5", pos_x: 661, pos_y: 460 }
 ]
 
