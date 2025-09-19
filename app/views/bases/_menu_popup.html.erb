@@ -1,9 +1,9 @@
 <div class="d-none menu-popup" data-inventory-target="menuPopup">
-  <span class="close" data-action="click->inventory#hidePopup">&times;</span>
-  <h2 class="text-center">Menu</h2>
+  <span class="close text-danger" data-action="click->inventory#hidePopup">&times;</span>
+  <h2 class="text-center text-dark">Menu</h2>
   <div class="d-flex flex-column pt-5">
-    <%= link_to "Leaderboard", leaderboard_path, class: "btn btn-link text-decoration-none" %>
-    <%= link_to "Guilds Leaderboard", guild_leaderboard_path, class: "btn btn-link text-decoration-none" %>
+    <%= link_to "Leaderboard", leaderboard_path, class: "btn btn-link text-decoration-none text-dark" %>
+    <%= link_to "Guilds Leaderboard", guild_leaderboard_path, class: "btn btn-link text-decoration-none text-dark" %>
     <%#= link_to "Settings", building_troops_path(@building), class: "btn btn-link text-decoration-none" %>
 
   </div>
