@@ -22,4 +22,7 @@
       <% end %>
     </div>
   </div>
+<% if @guild %>
+  <%= render 'shared/guild_chat', guild: @guild %>
+<% end %>
 </div>
