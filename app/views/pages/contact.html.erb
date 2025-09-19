@@ -1,9 +1,18 @@
 <div class="header-card d-flex justify-content-center">
   <p class="card-border mt-5">Contact Us</p>
 </div>
+
 <div class="container">
   <div class="card card-box mx-auto mt-5 rounded-5"
-     style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666;">
+       style="max-width: 600px; padding: 20px; box-shadow: 0 4px 12px #666; position: relative;">
+
+    <!-- Close button inside the card -->
+    <div class="container-close">
+      <%= link_to "<i class='fa-solid fa-square-xmark'></i>".html_safe,
+                  user_base_path,
+                  class: "close-btn" %>
+    </div>
+
     <p class="my-4">
       Have a question or feedback? Send us a message!
     </p>
