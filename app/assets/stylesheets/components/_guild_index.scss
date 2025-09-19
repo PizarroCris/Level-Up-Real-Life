@@ -30,7 +30,7 @@
       td {
         padding: .6rem;
       }
-      
+
       &:hover {
         background: #b0a791;
         cursor: pointer;
@@ -55,6 +55,14 @@
   border-radius: 10px;
   padding: 16px;
   background-color: #E0D4B8;
+  position: relative;   /* 👈 make this the positioning context */
+}
+
+.container-close {
+  position: absolute;   /* 👈 place it inside the card */
+  top: 8px;
+  right: 8px;
+  z-index: 10;
 }
 
 .guilds-table-wrapper {
@@ -76,7 +84,7 @@
     background-color: #8B0000;
     color: white;
     cursor: pointer;
-  
+
     &:hover {
       background-color: #c82333;
     }
