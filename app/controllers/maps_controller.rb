@@ -1,5 +1,6 @@
 class MapsController < ApplicationController
   def index
+    @profile = current_user.profile
     @castles = policy_scope(Building).where(building_type: 'castle').includes(profile: :map_plot)
     @monsters = policy_scope(WorldMonster)
     @equipments = EquipmentItem.all

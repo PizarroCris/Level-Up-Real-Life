@@ -4,19 +4,16 @@
      data-controller="map"
      data-map-my-castle-x-value="<%= current_user.profile.map_plot&.pos_x %>"
      data-map-my-castle-y-value="<%= current_user.profile.map_plot&.pos_y %>">
-
   <div class="map-viewport" 
        data-action="mousedown->map#startDrag 
                     mousemove->map#drag 
                     mouseup->map#stopDrag 
                     mouseleave->map#stopDrag">
-
     <div class="map-world" data-map-target="world">
       <%= render partial: 'maps/castle', collection: @castles %>
       <%= render partial: 'maps/monster', collection: @monsters %>
     </div>
   </div>
-
   <div class="map-popup" data-map-target="popup" style="display: none;">
     <h5 data-map-target="popupTitle"></h5>
     <p data-map-target="popupDetails"></p>

@@ -15,6 +15,11 @@
 
    <body>
     <%= render "shared/navbar" %>
+
+    <% if (controller_name == 'bases' && action_name == 'show') || (controller_name == 'maps' && action_name == 'index') || (controller_name == 'troops' && action_name == 'index') %>
+      <%= render "shared/banner" %>
+    <% end %>
+
     <%= render "shared/flashes" %>
 
     <%= yield %>
