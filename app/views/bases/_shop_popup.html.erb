@@ -1,5 +1,5 @@
 <div class="d-none shop-popup" data-inventory-target="shopPopup" data-controller="shop">
-  <span class="close" data-action="click->inventory#hidePopup">&times;</span>
+  <span class="close text-danger" data-action="click->inventory#hidePopup">&times;</span>
   <h3 class="text-center text-dark">Shop</h3>
   <div class="shop-pages-container" data-shop-target="pagesContainer">
     <% @equipments.each_slice(4).with_index do |page_items, index| %>
