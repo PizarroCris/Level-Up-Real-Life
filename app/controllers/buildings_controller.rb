@@ -7,6 +7,10 @@ class BuildingsController < ApplicationController
     @plot = Plot.find(params[:plot_id])
     @building = Building.new(plot: @plot)
     authorize @building
+
+    built_types = current_user.profile.buildings.pluck(:building_type)
+  
+    @available_building_types = Building::BUILDING_TYPES - built_types
   end
 
   def create
