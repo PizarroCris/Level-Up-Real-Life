@@ -102,7 +102,6 @@ class Profile < ApplicationRecord
     end
   end
 
-
   def gain_rewards_from_monster(monster)
     resources_gain = monster.level * 50
     experience_gain = monster.level * 20
@@ -120,7 +119,30 @@ class Profile < ApplicationRecord
     self.experience += points
     check_for_level_up
     save!
+  end
 
+  def regenerate_energy
+    return if current_energy >= max_energy
+
+    self.energy_last_updated_at ||= Time.current
+
+    seconds_passed = Time.current - self.energy_last_updated_at
+    energy_gained = (seconds_passed / 72).floor
+
+    return if energy_gained < 1
+
+    self.current_energy = [self.current_energy + energy_gained, self.max_energy].min
+    self.energy_last_updated_at = Time.current
+    save!
+  end
+
+  def spend_energy(amount)
+    return false if current_energy < amount
+
+    self.current_energy -= amount
+    save!
+
+    return true
   end
 
   private
