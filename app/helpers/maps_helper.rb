@@ -25,7 +25,7 @@ module MapsHelper
 
   def monster_interaction_options(monster)
     attack_cost = 10
-    can_afford = current_user.profile.energy >= attack_cost
+    can_afford = current_user.profile.current_energy >= attack_cost
     {
       title: "#{monster.name} (Lvl #{monster.level})",
       details: "HP: #{monster.hp}",

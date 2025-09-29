@@ -1,6 +1,19 @@
-<% energy = current_user.profile.energy %>
-<% energy_level_for_image = (energy / 10).floor %>
+<div id="energy-bar-container" class="hud-energy-bar">
 
-<% energy_level_for_image = [10, [0, energy_level_for_image].max].min %>
+  <div class="energy-bar-content" 
+       data-controller="energy-regen"
+       data-energy-regen-current-value="<%= current_user.profile.current_energy %>"
+       data-energy-regen-max-value="<%= current_user.profile.max_energy %>"
+       data-energy-regen-seconds-until-next-value="<%= seconds_until_next_energy(current_user.profile) %>"
+       data-energy-regen-rate-in-seconds-value="72">
 
-<%= image_tag "energy_bars/energy_#{energy_level_for_image}.png", alt: "Energy Bar" %>
+    <% energy_level = (current_user.profile.current_energy / 10).floor.clamp(0, 10) %>
+    <%= image_tag "energy_bars/energy_#{energy_level}.png",
+                  alt: "Energy Bar",
+                  data: { energy_regen_target: "bar" } %>
+
+    <span data-energy-regen-target="display">
+      <%= current_user.profile.current_energy %> / <%= current_user.profile.max_energy %>
+    </span>
+  </div>
+</div>

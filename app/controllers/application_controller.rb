@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   include Pundit::Authorization
+  before_action :regenerate_user_energy
 
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
@@ -34,5 +35,9 @@ class ApplicationController < ActionController::Base
       flash[:alert] = "No available plots. Please try again later."
       redirect_to root_path
     end
+  end
+
+  def regenerate_user_energy
+    current_user&.profile&.regenerate_energy
   end
 end

@@ -2,35 +2,38 @@ class WorldMonstersController < ApplicationController
   before_action :authenticate_user!
 
   def attack
-  @monster = WorldMonster.find(params[:id])
-  authorize @monster
+    @monster = WorldMonster.find(params[:id])
+    authorize @monster
 
-  attack_cost = 10 
+    attack_cost = 10
 
-  if current_user.profile.energy < attack_cost
-    redirect_to world_map_path, alert: "Not enough energy to attack!"
-    return
-  end
+    if current_user.profile.spend_energy(attack_cost)
+      @rewards = current_user.profile.gain_rewards_from_monster(@monster)
+      @monster.hp -= 10
 
-  current_user.profile.decrement!(:energy, attack_cost)
-    @rewards = current_user.profile.gain_rewards_from_monster(@monster)
+      if @monster.hp <= 0
+        @monster.destroy
+        flash.now[:notice] = "You defeated the #{@monster.name}!"
+      else
+        @monster.save
+        flash.now[:notice] = "You attacked the #{@monster.name}! It has #{@monster.hp} HP left."
+      end
 
-    @monster.hp -= 10
+      respond_to do |format|
+        format.turbo_stream
+      end
 
-    if @monster.hp <= 0
-      @monster.destroy
-      flash.now[:notice] = "You defeated the #{@monster.name}!"
     else
-      @monster.save
-      flash.now[:notice] = "You attacked the #{@monster.name}! It has #{@monster.hp} HP left."
-    end
-
-    respond_to do |format|
-      format.turbo_stream
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("notifications", partial: "shared/alert", locals: { alert: "Not enough energy!" })
+        end
+        format.html { redirect_to world_map_path, alert: "Not enough energy!" }
+      end
     end
   end
 
-   def show
+  def show
     @monster = WorldMonster.find(params[:id])
     authorize @monster
 
