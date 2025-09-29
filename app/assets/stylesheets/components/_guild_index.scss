@@ -55,11 +55,11 @@
   border-radius: 10px;
   padding: 16px;
   background-color: #E0D4B8;
-  position: relative;   /* 👈 make this the positioning context */
+  position: relative;
 }
 
 .container-close {
-  position: absolute;   /* 👈 place it inside the card */
+  position: absolute;
   top: 8px;
   right: 8px;
   z-index: 10;
