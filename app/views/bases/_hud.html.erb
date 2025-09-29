@@ -1,70 +1,75 @@
-<div class="hud-container">
-  <div id="energy-bar-container" class="hud-energy-bar">
-    <%= render 'shared/energy_bar' %>
-  </div>
-  <%= image_tag "hud/hud-bar.png", class: "hud-bar" %>
+<div class="hud-master-container">
 
-  <div class="hud-buttons-wrapper d-flex">
-    
-    <% if controller_name == 'bases' %>
-    <%= link_to(
-      image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
-          world_map_path,
-          class: "hud-button", draggable: false
-        ) %>
-    <% elsif controller_name == 'maps' %>
-      <%= button_to "#",
-          class: "hud-button",
-          data: { action: "click->map#centerOnMyCastle" } do %>
-        <%= image_tag "hud/yourcastle.png", class: "hud-button-icon" %>
+  <div class="hud-top-left-area">
+    <div id="energy-bar-container">
+      <%= render 'shared/energy_bar' %>
+    </div>
+  </div>
+
+  <div class="hud-bottom-right-area">
+    <%= image_tag "hud/hud-bar.png", class: "hud-bar-image" %>
+
+    <div class="hud-buttons-wrapper">
+      <% if controller_name == 'bases' %>
+        <%= link_to(
+          image_tag("hud/map.png", alt: "Map", class: "hud-button-icon", draggable: false),
+              world_map_path,
+              class: "hud-button", draggable: false
+            ) %>
+      <% elsif controller_name == 'maps' %>
+        <%= button_to "#",
+              class: "hud-button",
+              data: { action: "click->map#centerOnMyCastle" } do %>
+          <%= image_tag "hud/yourcastle.png", class: "hud-button-icon" %>
+        <% end %>
+
+        <%= link_to(
+          image_tag("hud/castle-btn.png", alt: "Castle", class: "hud-button-icon", draggable: false),
+              root_path,
+              class: "hud-button", draggable: false
+            ) %>
       <% end %>
 
       <%= link_to(
-        image_tag("hud/castle-btn.png", alt: "Castle", class: "hud-button-icon", draggable: false),
-            root_path,
+            image_tag("hud/reports.png", alt: "Reports", class: "hud-button-icon", draggable: false),
+            battles_path(current_user.profile),
             class: "hud-button", draggable: false
           ) %>
-    <% end %>
 
-    <%= link_to(
-          image_tag("hud/reports.png", alt: "Reports", class: "hud-button-icon", draggable: false),
-          battles_path(current_user.profile),
-          class: "hud-button", draggable: false
-        ) %>
+      <% if current_user.profile.guild.nil? %>
+        <%= link_to(
+              image_tag("hud/guild.png", alt: "Guilds", class: "hud-button-icon", draggable: false),
+              guilds_path,
+              class: "hud-button", draggable: false
+            ) %>
+      <% else %>
+        <%= link_to(
+              image_tag("hud/guild.png", alt: "My Guild", class: "hud-button-icon", draggable: false),
+              guild_path(current_user.profile.guild),
+              class: "hud-button", draggable: false
+            ) %>
+      <% end %>
 
-    <% if current_user.profile.guild.nil? %>
       <%= link_to(
-            image_tag("hud/guild.png", alt: "Guilds", class: "hud-button-icon", draggable: false),
-            guilds_path,
+            image_tag("hud/inventory.png", alt: "Inventory", class: "hud-button-icon", draggable: false),
+            user_inventory_path,
             class: "hud-button", draggable: false
           ) %>
-    <% else %>
-      <%= link_to(
-            image_tag("hud/guild.png", alt: "My Guild", class: "hud-button-icon", draggable: false),
-            guild_path(current_user.profile.guild),
-            class: "hud-button", draggable: false
-          ) %>
-    <% end %>
+      <% if controller_name == 'bases' %>
+        <%= link_to(
+              image_tag("hud/menu.png", alt: "Menu", class: "hud-button-icon", draggable: false),
+              "#",
+              class: "hud-button",
+              data: { action: "click->inventory#showMenu" }, draggable: false
+            ) %>
 
-    <%= link_to(
-          image_tag("hud/inventory.png", alt: "Inventory", class: "hud-button-icon", draggable: false),
-          user_inventory_path,
-          class: "hud-button", draggable: false
-        ) %>
-    <% if controller_name == 'bases' %>
-      <%= link_to(
-            image_tag("hud/menu.png", alt: "Menu", class: "hud-button-icon", draggable: false),
-            "#",
-            class: "hud-button",
-            data: { action: "click->inventory#showMenu" }, draggable: false
-          ) %>
-
-      <%= link_to(
-            image_tag("hud/shop.png", alt: "Shop", class: "hud-button-icon", draggable: false),
-            "#",
-            class: "hud-button",
-            data: { action: "click->inventory#showShop" }, draggable: false
-          ) %>
-    <% end %>
+        <%= link_to(
+              image_tag("hud/shop.png", alt: "Shop", class: "hud-button-icon", draggable: false),
+              "#",
+              class: "hud-button",
+              data: { action: "click->inventory#showShop" }, draggable: false
+            ) %>
+      <% end %>
+    </div>
   </div>
 </div>
