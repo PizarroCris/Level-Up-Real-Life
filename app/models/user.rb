@@ -6,21 +6,21 @@ class User < ApplicationRecord
   
   after_create :create_user_profile
 
-  private
+private
 
   def create_user_profile
     empty_spot = MapPlot.where.missing(:profile).first
+    central_plot = Plot.find_by(name: "Plot 1") || Plot.first
+    base_username = self.email.split('@').first.gsub(/[^a-zA-Z0-9]/, '')
+    unique_username = "#{base_username}-#{self.id}"
 
-    new_profile = self.create_profile!(
-      username: self.email.split('@').first,
+    profile = self.create_profile!(
+      username: unique_username,
       map_plot: empty_spot
     )
 
-    central_plot = Plot.find_by(name: "Plot 1") || Plot.first
-
-    if central_plot && new_profile
-      Building.create!(
-        profile: new_profile,
+    if profile && central_plot
+      profile.buildings.create!(
         plot: central_plot,
         building_type: 'castle',
         level: 1
