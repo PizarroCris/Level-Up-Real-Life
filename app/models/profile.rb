@@ -22,6 +22,8 @@ class Profile < ApplicationRecord
   has_many :defending_battles, class_name: 'Battle', foreign_key: :defender_id, dependent: :nullify
   has_many :won_battles, class_name: 'Battle', foreign_key: :winner_id, dependent: :nullify
 
+  validates :username, presence: true, uniqueness: true
+
   def total_attack
     DEFAULT_ATTACK + troop_attack_bonus + equipment_attack_bonus
   end
