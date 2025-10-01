@@ -15,7 +15,8 @@ RSpec.describe User, type: :model do
       it 'creates a profile for the user' do
         user = create(:user)
         expect(user.profile).to be_present
-        expect(user.profile.username).to eq(user.email.split('@').first)
+        expected_username = "#{user.email.split('@').first.gsub(/[^a-zA-Z0-9]/, '')}-#{user.id}"
+        expect(user.profile.username).to eq(expected_username)
       end
 
       it 'assigns an empty MapPlot to the new profile' do

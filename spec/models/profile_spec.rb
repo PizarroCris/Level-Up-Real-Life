@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
+  before do
+    create(:map_plot) 
+    create(:plot, name: "Plot 1")
+  end
+
   describe 'associations' do
     it 'belongs to user' do
       expect(Profile.reflect_on_association(:user).macro).to eq(:belongs_to)
@@ -125,5 +130,9 @@ RSpec.describe Profile, type: :model do
       association = Profile.reflect_on_association(:won_battles)
       expect(association.options[:dependent]).to eq(:nullify)
     end
+  end
+
+  describe 'validations' do
+    
   end
 end
