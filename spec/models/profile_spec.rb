@@ -132,7 +132,95 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe 'validations' do
-    
+  describe '#total_attack' do
+    it 'return base attack' do
+      profile = create(:profile)
+      expect(profile.total_attack).to eq(Profile::DEFAULT_ATTACK)
+    end
+
+    it 'adds the equipment attack bonus to the default attack' do
+      profile = create(:profile)
+      sword = create(:equipment_item, attack: 20)
+      create(:equipment, profile: profile, equipment_item: sword)
+
+      expected_attack = Profile::DEFAULT_ATTACK + sword.attack
+      expect(profile.total_attack).to eq(expected_attack)
+    end
+
+    it 'adds troop attack bonus to the default attack' do
+      profile = create(:profile)
+      barracks = create(:building, :barrack, profile: profile)
+
+      troop1 = create(:troop, building: barracks, troop_type: 'swordsman', level: 3)
+      troop2 = create(:troop, building: barracks, troop_type: 'archer', level: 2)
+
+      troop1.reload
+      troop2.reload
+
+      expected_attack = Profile::DEFAULT_ATTACK + troop1.attack + troop2.attack
+      expect(profile.reload.total_attack).to eq(expected_attack)
+    end
+
+    it 'put base attack, equip attack and troop attack all together' do
+      profile = create(:profile)
+      sword = create(:equipment_item, attack: 20)
+      create(:equipment, profile: profile, equipment_item: sword)
+      barracks = create(:building, :barrack, profile: profile)
+
+      troop1 = create(:troop, building: barracks, troop_type: 'swordsman', level: 3)
+      troop2 = create(:troop, building: barracks, troop_type: 'archer', level: 2)
+
+      troop1.reload
+      troop2.reload
+
+      expected_attack = Profile::DEFAULT_ATTACK + sword.attack + troop1.attack + troop2.attack
+      expect(profile.reload.total_attack).to eq(expected_attack)
+    end
+  end
+
+  describe '#total_defense' do
+    it 'return base defense' do
+      profile = create(:profile)
+      expect(profile.total_defense).to eq(Profile::DEFAULT_DEFENSE)
+    end
+
+    it 'adds the equipment defense bonus to the default defense' do
+      profile = create(:profile)
+      sword = create(:equipment_item, defense: 20)
+      create(:equipment, profile: profile, equipment_item: sword)
+
+      expected_defense = Profile::DEFAULT_DEFENSE + sword.defense
+      expect(profile.total_defense).to eq(expected_defense)
+    end
+
+    it 'adds troop defense bonus to the default defense' do
+      profile = create(:profile)
+      barracks = create(:building, :barrack, profile: profile)
+
+      troop1 = create(:troop, building: barracks, troop_type: 'swordsman', level: 3)
+      troop2 = create(:troop, building: barracks, troop_type: 'archer', level: 2)
+
+      troop1.reload
+      troop2.reload
+
+      expected_defense = Profile::DEFAULT_DEFENSE + troop1.defense + troop2.defense
+      expect(profile.reload.total_defense).to eq(expected_defense)
+    end
+
+    it 'put base defense, equip defense and troop defense all together' do
+      profile = create(:profile)
+      sword = create(:equipment_item, defense: 20)
+      create(:equipment, profile: profile, equipment_item: sword)
+      barracks = create(:building, :barrack, profile: profile)
+
+      troop1 = create(:troop, building: barracks, troop_type: 'swordsman', level: 3)
+      troop2 = create(:troop, building: barracks, troop_type: 'archer', level: 2)
+
+      troop1.reload
+      troop2.reload
+
+      expected_defense = Profile::DEFAULT_DEFENSE + sword.defense + troop1.defense + troop2.defense
+      expect(profile.reload.total_defense).to eq(expected_defense)
+    end
   end
 end

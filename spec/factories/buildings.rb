@@ -4,5 +4,9 @@ FactoryBot.define do
     level { 1 }
     association :profile
     association :plot
+
+    trait :barrack do
+      building_type { "barrack" }
+    end
   end
 end

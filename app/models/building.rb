@@ -19,7 +19,7 @@ class Building < ApplicationRecord
   MAX_LEVEL = 5
 
   BUILDING_STATS = {
- 'castle' => {
+    'castle' => {
       1 => { cost: { wood: 100, stone: 80, metal: 50 }, max_troops_for_attack: 250 },
       2 => { cost: { wood: 250, stone: 200, metal: 120 }, max_troops_for_attack: 500 },
       3 => { cost: { wood: 600, stone: 550, metal: 300 }, max_troops_for_attack: 1000 },
