@@ -22,21 +22,6 @@ class ApplicationController < ActionController::Base
     user_base_path
   end
 
- def ensure_profile!
-    return if current_user.profile.present?
-    available_plot = MapPlot.find_by(profile: nil)
-    
-    if available_plot
-      current_user.create_profile!(
-        username: current_user.email.split("@").first,
-        map_plot: available_plot
-      )
-    else
-      flash[:alert] = "No available plots. Please try again later."
-      redirect_to root_path
-    end
-  end
-
   def regenerate_user_energy
     current_user&.profile&.regenerate_energy
   end

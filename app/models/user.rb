@@ -6,9 +6,6 @@ class User < ApplicationRecord
   
   after_create :create_user_profile
 
-  private
-
-# app/models/user.rb
 private
 
   def create_user_profile
@@ -21,7 +18,7 @@ private
     )
     self.reload
   end
-\
+
   if self.profile.buildings.where(building_type: 'castle').empty?
     central_plot = Plot.find_by(name: "Plot 1") || Plot.first
     if central_plot
