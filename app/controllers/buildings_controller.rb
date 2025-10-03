@@ -1,6 +1,5 @@
 class BuildingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_profile!
   before_action :set_building, only: [:show, :upgrade, :collect_resources]
 
   def new

@@ -1,6 +1,5 @@
 class ShopController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_profile!
   skip_after_action :verify_authorized, only: [:create_checkout_session]
 
   def show

@@ -1,6 +1,5 @@
 class GuildsController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_profile!
   before_action :set_guild, only: %i[show edit update join destroy]
 
   def index
