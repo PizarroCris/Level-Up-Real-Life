@@ -1,16 +1,18 @@
 puts "----------------------------------------"
 puts "🧹 Limpando a base de dados..."
-GuildMembership.destroy_all
-Guild.destroy_all
-Building.destroy_all
-Troop.destroy_all
-Equipment.destroy_all
-Profile.destroy_all
-User.destroy_all
-Plot.destroy_all
-MapPlot.destroy_all
-WorldMonster.destroy_all
-EquipmentItem.destroy_all
+# Usar `delete_all` é mais seguro e rápido para limpar a base de dados,
+# pois ignora callbacks e associações que poderiam causar erros de validação.
+GuildMembership.delete_all
+Guild.delete_all
+Building.delete_all
+Troop.delete_all
+Equipment.delete_all
+Profile.delete_all
+User.delete_all
+Plot.delete_all
+MapPlot.delete_all
+WorldMonster.delete_all
+EquipmentItem.delete_all
 puts "✅ Base de dados limpa."
 puts "----------------------------------------"
 
@@ -74,7 +76,7 @@ puts "🗺️  Creating the World..."
 
 # 1. GERAR A GRELHA DE PLOTS DO MAPA
 puts "   -> Generating map plot grid..."
-MapPlot.destroy_all
+MapPlot.delete_all
 MAP_SIZE = 5000
 PLOT_SPACING = 400
 MARGIN = 200
@@ -128,7 +130,7 @@ end
 
 # 5. ESPALHAR MONSTROS NOS PLOTS RESTANTES
 puts "   -> Spawning monsters on remaining plots..."
-WorldMonster.destroy_all
+WorldMonster.delete_all
 monster_blueprints = [
   { name: 'Dragon',    base_hp: 500, base_level: 5 },
   { name: 'Orc',       base_hp: 150, base_level: 2 },
