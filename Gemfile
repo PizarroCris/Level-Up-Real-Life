@@ -80,3 +80,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+group :production do
+  gem 'redis', '~> 5.0'
+end
