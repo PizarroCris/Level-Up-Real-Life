@@ -1,5 +1,7 @@
 module ApplicationHelper
   def seconds_until_next_energy(profile)
+    return 72 if profile.energy_last_updated_at.nil?
+
     return 0 if profile.current_energy >= profile.max_energy
 
     seconds_per_point = 72
