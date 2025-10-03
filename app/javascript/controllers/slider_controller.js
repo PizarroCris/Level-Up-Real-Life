@@ -1,21 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "output"]
+  static targets = ["input", "output", "troopQuantity", "woodOutput", "stoneOutput", "metalOutput"]
   static values = {
-    displayMode: { type: String, default: "quantity" }
+    displayMode: { type: String, default: "quantity" },
+    wood: Number,
+    stone: Number,
+    metal: Number,
+    cost: Object
   }
 
   connect() {
-    if (this.displayModeValue === "costs") {
-      this.cost = JSON.parse(this.element.dataset.costJson || "{}")
-      this.woodIconUrl = this.element.dataset.woodIconUrl
-      this.stoneIconUrl = this.element.dataset.stoneIconUrl
-      this.metalIconUrl = this.element.dataset.metalIconUrl
-      this.woodDisplay = document.getElementById("profile-wood")
-      this.stoneDisplay = document.getElementById("profile-stone")
-      this.metalDisplay = document.getElementById("profile-metal")
-    }
     this.update()
   }
 
@@ -23,48 +18,41 @@ export default class extends Controller {
     const quantity = parseInt(this.inputTarget.value, 10);
 
     if (this.displayModeValue === "costs") {
-      const totalWood = (this.cost.wood || 0) * quantity;
-      const totalStone = (this.cost.stone || 0) * quantity;
-      const totalMetal = (this.cost.metal || 0) * quantity;
+      const totalWood = (this.costValue.wood || 0) * quantity;
+      const totalStone = (this.costValue.stone || 0) * quantity;
+      const totalMetal = (this.costValue.metal || 0) * quantity;
+      
+      if (this.hasTroopQuantityTarget) {
+        this.troopQuantityTarget.textContent = quantity;
+      }
+      if (this.hasWoodOutputTarget) {
+        this.woodOutputTarget.textContent = totalWood;
+      }
+      if (this.hasStoneOutputTarget) {
+        this.stoneOutputTarget.textContent = totalStone;
+      }
+      if (this.hasMetalOutputTarget) {
+        this.metalOutputTarget.textContent = totalMetal;
+      }
 
-      const outputHtml = `
-        <span class="me-3">
-          Troops: <span class="badge btn-red">${quantity}</span>
-        </span>
-        <div class="d-flex justify-content-center">
-          <span> 
-            <span class="cost-item">
-              <img src="${this.woodIconUrl}" class="cost-icon"> ${totalWood}
-            </span>
-            <span class="cost-item">
-              <img src="${this.stoneIconUrl}" class="cost-icon"> ${totalStone}
-            </span>
-            <span class="cost-item">
-              <img src="${this.metalIconUrl}" class="cost-icon"> ${totalMetal}
-            </span>
-          </span>
-        </div>
-      `;
-      this.outputTarget.innerHTML = outputHtml;
-
-      const currentResources = {
-        wood: parseInt(this.woodDisplay.textContent, 10),
-        stone: parseInt(this.stoneDisplay.textContent, 10),
-        metal: parseInt(this.metalDisplay.textContent, 10),
-      };
-      this.checkResource(this.woodDisplay, currentResources.wood, totalWood);
-      this.checkResource(this.stoneDisplay, currentResources.stone, totalStone);
-      this.checkResource(this.metalDisplay, currentResources.metal, totalMetal);
-
+      if (this.hasWoodOutputTarget) {
+        this.checkResource(this.woodOutputTarget, this.woodValue, totalWood);
+      }
+      if (this.hasStoneOutputTarget) {
+        this.checkResource(this.stoneOutputTarget, this.stoneValue, totalStone);
+      }
+      if (this.hasMetalOutputTarget) {
+        this.checkResource(this.metalOutputTarget, this.metalValue, totalMetal);
+      }
     } else {
       this.outputTarget.textContent = quantity;
     }
   }
 
   checkResource(element, currentAmount, costAmount) {
-    if (element && costAmount > currentAmount) {
+    if (costAmount > currentAmount) {
       element.classList.add("resource-error")
-    } else if (element) {
+    } else {
       element.classList.remove("resource-error")
     }
   }

@@ -41,21 +41,37 @@
                       <span><i class="fa-solid fa-users"></i> <%= @troop_counts["#{troop_type}-#{level}"] || 0 %></span>
                     </div>
                     <div class="troop-cost text-muted mb-2 small">
-                      Cost: 
+                      Cost:
                       <span class="cost-item"><%= image_tag 'resources/wood.png', class: 'cost-icon' %> <%= stats[:cost][:wood] %></span>
                       <span class="cost-item"><%= image_tag 'resources/stone.png', class: 'cost-icon' %> <%= stats[:cost][:stone] %></span>
                       <span class="cost-item"><%= image_tag 'resources/metal.png', class: 'cost-icon' %> <%= stats[:cost][:metal] %></span>
                     </div>
                     <% unless disabled %>
-                      <div class="slider-component mb-2" 
-                           data-controller="slider"
-                           data-slider-display-mode-value="costs"
-                           data-cost-json="<%= stats[:cost].to_json %>"
-                           data-wood-icon-url="<%= image_path('resources/wood.png') %>"
-                           data-stone-icon-url="<%= image_path('resources/stone.png') %>"
-                           data-metal-icon-url="<%= image_path('resources/metal.png') %>">
+                      <div class="slider-component mb-2"
+                            data-controller="slider"
+                            data-slider-display-mode-value="costs"
+                            data-slider-wood-value="<%= current_user.profile.wood %>"
+                            data-slider-stone-value="<%= current_user.profile.stone %>"
+                            data-slider-metal-value="<%= current_user.profile.metal %>"
+                            data-slider-cost-value="<%= stats[:cost].to_json %>">
                         <%= range_field_tag "troop[quantity]", 0, in: 0..100, step: 1, class: "form-range", data: { action: "input->slider#update", slider_target: "input" } %>
                         <div class="text-center mt-2 troop-train-cost" data-slider-target="output">
+                          <span class="me-3">
+                            Troops: <span class="badge btn-red" data-slider-target="troopQuantity">0</span>
+                          </span>
+                          <div class="d-flex justify-content-center">
+                            <span>
+                              <span class="cost-item">
+                                <%= image_tag 'resources/wood.png', class: 'cost-icon' %> <span data-slider-target="woodOutput">0</span>
+                              </span>
+                              <span class="cost-item">
+                                <%= image_tag 'resources/stone.png', class: 'cost-icon' %> <span data-slider-target="stoneOutput">0</span>
+                              </span>
+                              <span class="cost-item">
+                                <%= image_tag 'resources/metal.png', class: 'cost-icon' %> <span data-slider-target="metalOutput">0</span>
+                              </span>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     <% end %>
