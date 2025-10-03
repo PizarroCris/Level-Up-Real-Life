@@ -5,7 +5,8 @@ export default class extends Controller {
     current: Number,
     max: Number,
     secondsUntilNext: Number,
-    rateInSeconds: Number
+    rateInSeconds: Number,
+    imagePaths: Object
   }
 
   static targets = ["bar", "display"]
@@ -32,6 +33,7 @@ export default class extends Controller {
     if (this.countdown <= 0) {
       this.currentEnergy++
       this.countdown = this.rateInSecondsValue
+      this.updateDisplay()
     }
 
     if (this.currentEnergy >= this.maxValue) {
@@ -42,10 +44,13 @@ export default class extends Controller {
   updateDisplay() {
     this.displayTarget.textContent = `${this.currentEnergy} / ${this.maxValue}`
     
-    const imageLevel = Math.floor(this.currentEnergy / 10)
-
-    const imagePath = `/assets/energy_bars/energy_${imageLevel}.png`
+    const imageLevel = Math.floor(this.currentEnergy / 10).clamp(0, 10)
+    const imagePath = this.imagePathsValue[String(imageLevel)];
 
     this.barTarget.src = imagePath
   }
 }
+
+Number.prototype.clamp = function(min, max) {
+  return Math.min(Math.max(this, min), max);
+};
