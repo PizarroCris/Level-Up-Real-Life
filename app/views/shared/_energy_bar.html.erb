@@ -1,14 +1,14 @@
 <div id="energy-bar-container" class="hud-energy-bar">
 
-  <div class="energy-bar-content" 
+  <div class="energy-bar-content"
        data-controller="energy-regen"
        data-energy-regen-current-value="<%= current_user.profile.current_energy %>"
        data-energy-regen-max-value="<%= current_user.profile.max_energy %>"
        data-energy-regen-seconds-until-next-value="<%= seconds_until_next_energy(current_user.profile) %>"
-       data-energy-regen-rate-in-seconds-value="72">
+       data-energy-regen-rate-in-seconds-value="72"
+       data-energy-regen-image-paths-value='<%= (0..10).map { |level| [level.to_s, image_path("energy_bars/energy_#{level}.png")] }.to_h.to_json %>'>
 
-    <% energy_level = (current_user.profile.current_energy / 10).floor.clamp(0, 10) %>
-    <%= image_tag "energy_bars/energy_#{energy_level}.png",
+    <%= image_tag "energy_bars/energy_#{[(current_user.profile.current_energy / 10).floor, 0].max}.png",
                   alt: "Energy Bar",
                   data: { energy_regen_target: "bar" } %>
 
