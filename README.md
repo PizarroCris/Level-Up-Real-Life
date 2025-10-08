@@ -50,7 +50,7 @@ The game allows players to build and manage their own base, train troops, gather
 ## 🔧 Installation & Setup
 
 1.  Clone the repository: `git clone ...`
-2.  Install dependencies: `bundle install` and `bundle install`
+2.  Install dependencies: `bundle install`
 3.  Set up the database: `rails db:create db:migrate db:seed`
 4.  Start the server: `bin/rails server`
 
