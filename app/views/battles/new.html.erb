@@ -30,7 +30,7 @@
             </div>
             
             <%= range_field_tag "battle[troops][#{type}_#{level}]", 0, min: 0, max: troops.count, step: 1, class: "form-range mx-3", data: { action: "input->slider#update", slider_target: "input" } %>
-            
+
             <span class="badge bg-secondary" style="width: 50px;" data-slider-target="output">0</span>
 
           </div>
@@ -41,7 +41,5 @@
         <%= f.button :submit, "Launch Attack!", class: "btn btn-red w-100" %>
       </div>
     <% end %>
-
-
   </div>
 </div>
